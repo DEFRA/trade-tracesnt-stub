@@ -20,7 +20,7 @@ services:
   trade-tracesnt-stub:
     build: ./
     ports:
-      - '8085:8085'
+      - '8085:8080'
     links:
       - 'mongodb:mongodb'
     depends_on:

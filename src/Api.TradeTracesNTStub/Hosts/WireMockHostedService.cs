@@ -15,11 +15,6 @@ public class WireMockHostedService : IHostedService
     {
         _server = WireMockServer.StartWithAdminInterface(1080);
         
-        // All requests with /api prefix will be proxied through to Api.TradeTraceNTStub Endpoints
-        _server
-            .Given(Request.Create().WithPath("/api/*"))
-            .RespondWith(Response.Create().WithProxy("http://localhost:8080"));
-        
         // All requests with /proxy prefix will be proxied though to a TraceNT instance
         _server
             .Given(Request.Create().WithPath("/proxy/*"))
@@ -33,6 +28,7 @@ public class WireMockHostedService : IHostedService
                     NewValue = ""
                 }
             }));
+        // TODO: record responses
         
         // Stub calls with SOAPAction Header
         _server

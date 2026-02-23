@@ -7,7 +7,9 @@ using System.Diagnostics.CodeAnalysis;
 using Api.TradeTracesNTStub.Config;
 using Api.TradeTracesNTStub.Endpoints.Api;
 using Api.TradeTracesNTStub.Extensions;
+using Api.TradeTracesNTStub.Hosts;
 using Api.TradeTracesNTStub.Utils.Logging;
+using Microsoft.AspNetCore.Rewrite;
 using MongoDB.Driver;
 using MongoDB.Driver.Authentication.AWS;
 using Serilog;
@@ -84,6 +86,7 @@ static WebApplication SetupApplication(WebApplication app)
     app.MapHealthChecks("/health");
     
     app.UseSampleEndpoints();
+    app.UseMiddleware<WireMockReverseProxyMiddleware>();
 
     return app;
 }
