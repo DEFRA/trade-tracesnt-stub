@@ -17,13 +17,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Test
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-            8.0
-      - run: dotnet test
+            10.0
+      - name: Run unit tests
+        run: |
+          dotnet test tests/TradeTracesNTStub.Test --filter "Category!=IntegrationTests"
+      - name: Docker Compose Logs
+        if: always()
+        run: |
+          docker compose logs
     ## SonarCloud
     ## Uncomment to unable SonarCloud scan
     ## Requires project to be set up in SonarCloud
