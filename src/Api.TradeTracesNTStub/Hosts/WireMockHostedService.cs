@@ -13,7 +13,7 @@ public class WireMockHostedService : IHostedService
     
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _server = WireMockServer.StartWithAdminInterface(8085);
+        _server = WireMockServer.StartWithAdminInterface(1080);
         
         // All requests with /api prefix will be proxied through to Api.TradeTraceNTStub Endpoints
         _server
