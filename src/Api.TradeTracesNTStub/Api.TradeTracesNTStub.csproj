@@ -31,7 +31,8 @@
     <None Remove="Samples\INTRA\INTRA.EU.NL.2021.0000001.xml" />
     <EmbeddedResource Include="Samples\INTRA\INTRA.EU.NL.2021.0000001.xml" />
     <None Remove="Samples\INTRA\MethodNotAllowed.html" />
-    <EmbeddedResource Include="Samples\INTRA\MethodNotAllowed.html" />
+    <None Remove="Samples\INTRA\UnauthenticatedException.xml" />
+    <EmbeddedResource Include="Samples\INTRA\UnauthenticatedException.xml" />
   </ItemGroup>
 
 

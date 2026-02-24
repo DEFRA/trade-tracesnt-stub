@@ -22,7 +22,7 @@ public class WireMockHostedService : IHostedService
             .AtPriority(1)
             .RespondWith(Response.Create().WithProxy(new ProxyAndRecordSettings 
                 {
-                    Url = "https://webgate.ec.europa.eu", // TODO: need the TracesNT URL
+                    Url = "https://webgate.ec.europa.eu/tracesnt/ws/EuIntraCertificateServiceV1", // TODO: need the TracesNT URL
                     ReplaceSettings = new ProxyUrlReplaceSettings
                     {
                         IgnoreCase = true,
@@ -51,7 +51,7 @@ public class WireMockHostedService : IHostedService
                     new XPathMatcher("//*[local-name() = 'WebServiceClientId' and not(text())]")
                 ]))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.MethodNotAllowed, "Api.TradeTracesNTStub.Samples.INTRA.MethodNotAllowed.html", false)));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Samples.INTRA.UnauthenticatedException.xml")));
         
         // TODO: don't know what the response is for a INTRA request with missing ID. Need credentials for TracesNT so we can record the request/response
         

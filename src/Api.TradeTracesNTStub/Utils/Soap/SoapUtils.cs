@@ -20,7 +20,7 @@ public static class SoapUtils
         return Task.FromResult<string?>(reader.ReadToEnd());
     }
 
-    public static async Task<WireMock.ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName, bool includeEnvelope = true)
+    public static async Task<WireMock.ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName, bool includeEnvelope = false)
     {
         var resourceContent = await GetEmbeddedResource(resourceName);
         var body = includeEnvelope ? $"""
