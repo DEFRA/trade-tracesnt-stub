@@ -1,14 +1,8 @@
 namespace Api.TradeTracesNTStub.Hosts;
 
-public class WireMockReverseProxyMiddleware
+public class WireMockReverseProxyMiddleware(RequestDelegate nextMiddleware)
 {
-    private static readonly HttpClient _httpClient = new HttpClient();
-    private readonly RequestDelegate _nextMiddleware;
-
-    public WireMockReverseProxyMiddleware(RequestDelegate nextMiddleware)
-    {
-        _nextMiddleware = nextMiddleware;
-    }
+    private static readonly HttpClient s_httpClient = new();
 
     public async Task Invoke(HttpContext context)
     {
@@ -18,15 +12,14 @@ public class WireMockReverseProxyMiddleware
         {
             var targetRequestMessage = CreateTargetMessage(context, targetUri);
 
-            using (var responseMessage = await _httpClient.SendAsync(targetRequestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted))
-            {
-                context.Response.StatusCode = (int)responseMessage.StatusCode;
-                CopyFromTargetResponseHeaders(context, responseMessage);
-                await responseMessage.Content.CopyToAsync(context.Response.Body);
-            }
+            using var responseMessage = await s_httpClient.SendAsync(targetRequestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted);
+            context.Response.StatusCode = (int)responseMessage.StatusCode;
+            CopyFromTargetResponseHeaders(context, responseMessage);
+            await responseMessage.Content.CopyToAsync(context.Response.Body);
+            
             return;
         }
-        await _nextMiddleware(context);
+        await nextMiddleware(context);
     }
 
     private HttpRequestMessage CreateTargetMessage(HttpContext context, Uri targetUri)
@@ -41,7 +34,7 @@ public class WireMockReverseProxyMiddleware
         return requestMessage;
     }
 
-    private void CopyFromOriginalRequestContentAndHeaders(HttpContext context, HttpRequestMessage requestMessage)
+    private static void CopyFromOriginalRequestContentAndHeaders(HttpContext context, HttpRequestMessage requestMessage)
     {
         var requestMethod = context.Request.Method;
 
@@ -60,7 +53,7 @@ public class WireMockReverseProxyMiddleware
         }
     }
 
-    private void CopyFromTargetResponseHeaders(HttpContext context, HttpResponseMessage responseMessage)
+    private static void CopyFromTargetResponseHeaders(HttpContext context, HttpResponseMessage responseMessage)
     {
         foreach (var header in responseMessage.Headers)
         {
@@ -82,19 +75,11 @@ public class WireMockReverseProxyMiddleware
         if (HttpMethods.IsOptions(method)) return HttpMethod.Options;
         if (HttpMethods.IsPost(method)) return HttpMethod.Post;
         if (HttpMethods.IsPut(method)) return HttpMethod.Put;
-        if (HttpMethods.IsTrace(method)) return HttpMethod.Trace;
-        return new HttpMethod(method);
+        return HttpMethods.IsTrace(method) ? HttpMethod.Trace : new HttpMethod(method);
     }
 
-    private Uri BuildTargetUri(HttpRequest request)
+    private static Uri? BuildTargetUri(HttpRequest request)
     {
-        Uri targetUri = null;
-
-        if (request.Path.StartsWithSegments("/mock", out var remainingPath))
-        {
-            targetUri = new Uri("http://localhost:1080" + request.Path.Value?.Replace("/mock", string.Empty, StringComparison.OrdinalIgnoreCase));
-        }
-
-        return targetUri;
+        return request.Path.StartsWithSegments("/mock", out var remainingPath) ? new Uri("http://localhost:1080" + remainingPath) : null;
     }
 }

@@ -9,7 +9,6 @@ using Api.TradeTracesNTStub.Endpoints.Api;
 using Api.TradeTracesNTStub.Extensions;
 using Api.TradeTracesNTStub.Hosts;
 using Api.TradeTracesNTStub.Utils.Logging;
-using Microsoft.AspNetCore.Rewrite;
 using MongoDB.Driver;
 using MongoDB.Driver.Authentication.AWS;
 using Serilog;

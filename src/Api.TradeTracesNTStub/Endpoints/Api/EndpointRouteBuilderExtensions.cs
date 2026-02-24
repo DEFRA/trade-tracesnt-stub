@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.TradeTracesNTStub.Endpoints.Api;
 
@@ -10,6 +11,7 @@ public static class EndpointRouteBuilderExtensions
         app.MapGet("do-something", GetSomething);
     }
 
+    [HttpGet]
     private static IResult GetSomething()
     {
         return Results.Ok("Foo");
