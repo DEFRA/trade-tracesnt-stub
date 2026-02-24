@@ -12,6 +12,7 @@ using Api.TradeTracesNTStub.Utils.Logging;
 using MongoDB.Driver;
 using MongoDB.Driver.Authentication.AWS;
 using Serilog;
+using WireMock.OpenTelemetry;
 
 var app = CreateWebApplication(args);
 await app.RunAsync();

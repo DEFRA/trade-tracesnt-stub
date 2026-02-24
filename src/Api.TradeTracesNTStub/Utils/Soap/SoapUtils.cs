@@ -1,3 +1,4 @@
+using System.Net;
 using System.Reflection;
 using WireMock.Types;
 using WireMock.Util;
@@ -19,26 +20,27 @@ public static class SoapUtils
         return Task.FromResult<string?>(reader.ReadToEnd());
     }
 
-    public static async Task<WireMock.ResponseMessage> CreateSuccessResponse(string resourceName)
+    public static async Task<WireMock.ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName, bool includeEnvelope = true)
     {
-        var body = await GetEmbeddedResource(resourceName);
+        var resourceContent = await GetEmbeddedResource(resourceName);
+        var body = includeEnvelope ? $"""
+                                      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+                                        <soap:Body>
+                                          {resourceContent}
+                                        </soap:Body>
+                                      </soap:Envelope>
+                                      """ : resourceContent;
         
         return new()
         {
-            StatusCode = 200,
+            StatusCode = statusCode,
             Headers = new Dictionary<string, WireMockList<string>>
             {
                 ["Content-Type"] = new("text/xml; charset=utf-8"),
             },
             BodyData = new BodyData
             {
-                BodyAsString = $"""
-                                <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-                                  <soap:Body>
-                                    {body}
-                                  </soap:Body>
-                                </soap:Envelope>
-                                """,
+                BodyAsString = body,
                 DetectedBodyType = BodyType.String,
             },
         };

@@ -80,6 +80,16 @@ public class WireMockReverseProxyMiddleware(RequestDelegate nextMiddleware)
 
     private static Uri? BuildTargetUri(HttpRequest request)
     {
-        return request.Path.StartsWithSegments("/mock", out var remainingPath) ? new Uri("http://localhost:1080" + remainingPath) : null;
+        if (request.Path.StartsWithSegments("/mock", out var remainingMockPath))
+        {
+            return new Uri("http://localhost:1080" + remainingMockPath);
+        }
+        
+        if (request.Path.StartsWithSegments("/proxy", out _))
+        {
+            return new Uri("http://localhost:1080" + request.Path);
+        }
+        
+        return null;
     }
 }
