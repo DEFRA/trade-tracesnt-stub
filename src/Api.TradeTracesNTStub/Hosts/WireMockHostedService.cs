@@ -22,7 +22,7 @@ public class WireMockHostedService : IHostedService
             .AtPriority(1)
             .RespondWith(Response.Create().WithProxy(new ProxyAndRecordSettings 
                 {
-                    Url = "https://webgate.ec.europa.eu/tracesnt/ws/EuIntraCertificateServiceV1", // TODO: need the TracesNT URL
+                    Url = "https://webgate.acceptance.ec.europa.eu", // TODO: need the TracesNT URL
                     ReplaceSettings = new ProxyUrlReplaceSettings
                     {
                         IgnoreCase = true,
@@ -41,7 +41,7 @@ public class WireMockHostedService : IHostedService
                     new XPathMatcher("//*[local-name() = 'WebServiceClientId' and text()]")
                 ], MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.INTRA.INTRA.EU.NL.2021.0000001.xml")));
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.INTRA.ITAHC.TEMPLATE.xml", request: request)));
         
         _server
             .Given(Request.Create()

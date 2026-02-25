@@ -1,5 +1,8 @@
 using System.Net;
 using System.Reflection;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using WireMock;
 using WireMock.Types;
 using WireMock.Util;
 
@@ -19,10 +22,22 @@ public static class SoapUtils
         using var reader = new StreamReader(stream);
         return Task.FromResult<string?>(reader.ReadToEnd());
     }
+    
+    private static string? GetRequestedId(IRequestMessage request)
+    {
+        var requestBody = XElement.Parse(request.Body!);
+        return requestBody.XPathSelectElement("//*[local-name()='ID']")?.Value;
+    }
 
-    public static async Task<WireMock.ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName, bool includeEnvelope = false)
+    public static async Task<ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName, bool includeEnvelope = false, IRequestMessage? request = null)
     {
         var resourceContent = await GetEmbeddedResource(resourceName);
+        if (request is not null)
+        {
+            var requestedId = GetRequestedId(request!);
+            resourceContent = resourceContent?.Replace("{{ID}}", requestedId); // TODO: implement a more generic way of transforming and refactor all this
+        }
+
         var body = includeEnvelope ? $"""
                                       <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
                                         <soap:Body>
@@ -31,7 +46,7 @@ public static class SoapUtils
                                       </soap:Envelope>
                                       """ : resourceContent;
         
-        return new()
+        return new ResponseMessage
         {
             StatusCode = statusCode,
             Headers = new Dictionary<string, WireMockList<string>>
