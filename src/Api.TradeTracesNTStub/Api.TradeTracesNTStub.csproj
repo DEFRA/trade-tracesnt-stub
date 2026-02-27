@@ -36,9 +36,5 @@
     <EmbeddedResource Include="Samples\INTRA\ITAHC.TEMPLATE.xml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Entities\" />
-  </ItemGroup>
-
 
 </Project>

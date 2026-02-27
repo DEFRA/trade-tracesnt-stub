@@ -1,0 +1,56 @@
+using System.Net;
+using Api.TradeTracesNTStub.Utils.Soap;
+using WireMock.Matchers;
+using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
+using WireMock.Server;
+using WireMock.Settings;
+
+namespace Api.TradeTracesNTStub.Extensions;
+
+public static class WireMockServerExtensions
+{
+    public static WireMockServer CreateStubMappings(this WireMockServer server)
+    {
+        // All requests with /proxy prefix will be proxied though to a TraceNT instance
+        server
+            .Given(Request.Create().WithPath(["/proxy", "/proxy/*"]))
+            .AtPriority(1)
+            .RespondWith(Response.Create().WithProxy(new ProxyAndRecordSettings 
+                {
+                    Url = "https://webgate.ec.europa.eu/tracesnt/ws/EuIntraCertificateServiceV1", // TODO: need the TracesNT URL
+                    ReplaceSettings = new ProxyUrlReplaceSettings
+                    {
+                        IgnoreCase = true,
+                        OldValue = "/proxy",
+                        NewValue = ""
+                    }
+                })
+            );
+        
+        // Stub calls with SOAPAction Header and SOAP Body containing Security & WebServiceClientId Headers
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"getEuIntraCertificate\""])
+                .WithBody([
+                    // new XPathMatcher("//*[local-name() = 'Security' and text()]"), // TODO: don't know what the SOAP Body Security Header looks like yet. Need credentials for TracesNT so we can record the request/response
+                    new XPathMatcher("//*[local-name() = 'WebServiceClientId' and text()]")
+                ], MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.INTRA.ITAHC.TEMPLATE.xml", request: request)));
+        
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"getEuIntraCertificate\""])
+                .WithBody([
+                    // new XPathMatcher("//*[local-name() = 'Security' and not(text())]"),
+                    new XPathMatcher("//*[local-name() = 'WebServiceClientId' and not(text())]")
+                ]))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Samples.INTRA.UnauthenticatedException.xml")));
+        
+        // TODO: don't know what the response is for a INTRA request with missing ID. Need credentials for TracesNT so we can record the request/response
+
+        return server;
+    }
+}
