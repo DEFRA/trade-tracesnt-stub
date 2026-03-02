@@ -25,7 +25,7 @@ jobs:
             10.0
       - name: Run unit tests
         run: |
-          dotnet test tests/TradeTracesNTStub.Test --filter "Category!=IntegrationTests"
+          dotnet test --project tests/TradeTracesNTStub.Test/TradeTracesNTStub.Test.csproj --filter-not-trait Category=IntegrationTests
       - name: Docker Compose Logs
         if: always()
         run: |

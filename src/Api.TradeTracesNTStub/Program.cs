@@ -1,4 +1,3 @@
-using Api.TradeTracesNTStub.Example.Services;
 using Api.TradeTracesNTStub.Utils;
 using Api.TradeTracesNTStub.Utils.Http;
 using Api.TradeTracesNTStub.Utils.Mongo;
@@ -12,7 +11,6 @@ using Api.TradeTracesNTStub.Utils.Logging;
 using MongoDB.Driver;
 using MongoDB.Driver.Authentication.AWS;
 using Serilog;
-using WireMock.OpenTelemetry;
 
 var app = CreateWebApplication(args);
 await app.RunAsync();
@@ -70,9 +68,6 @@ static void ConfigureBuilder(WebApplicationBuilder builder)
     // Add healthcheck, this is required for the platform to know your service is alive.
     builder.Services.AddHealthChecks();
     builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
-    // Set up the endpoints and their dependencies
-    builder.Services.AddSingleton<IExamplePersistence, ExamplePersistence>();
     
     // Set up WireMock Hosted Service
     builder.Services.AddWireMockHostedService();
