@@ -15,11 +15,8 @@ A Docker Compose template is in [compose.yml](compose.yml).
 
 A local environment with:
 
-- Localstack for AWS services (S3, SQS)
-- Redis
 - MongoDB
 - This service.
-- A commented out frontend example.
 
 ```bash
 docker compose up --build -d
@@ -73,11 +70,13 @@ Tests do not use mocking of any sort and read and write from the in-memory datab
 dotnet test
 ````
 
+Note - Integration Tests require the service to be running either in the Docker environment or locally.
+
 ### Running
 
 Run CDP-Deployments application:
 ```bash
-dotnet run --project TradeTracesntStub --launch-profile Development
+dotnet run --project src/Api.TradeTracesNTStub/Api.TradeTracesNTStub.csproj --launch-profile Api.TradeTracesNTStub
 ```
 
 ### SonarCloud

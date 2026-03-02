@@ -19,7 +19,7 @@ COPY . .
 WORKDIR "/src"
 
 # unit test and code coverage
-RUN dotnet test tests/TradeTracesNTStub.Test --filter "Category!=IntegrationTests"
+RUN dotnet test --project tests/TradeTracesNTStub.Test/TradeTracesNTStub.Test.csproj --filter-not-trait Category=IntegrationTests
 
 FROM build AS publish
 RUN dotnet publish src/Api.TradeTracesNTStub -c Release -o /app/publish /p:UseAppHost=false
