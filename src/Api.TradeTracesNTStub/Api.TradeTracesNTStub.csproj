@@ -34,6 +34,8 @@
     <EmbeddedResource Include="Samples\INTRA\UnauthenticatedException.xml" />
     <None Remove="Samples\INTRA\INTRA.EU.NL.2021.TEMPLATE.xml" />
     <EmbeddedResource Include="Samples\INTRA\ITAHC.TEMPLATE.xml" />
+    <None Remove="Samples\INTRA\GetEuIntraCertificateInvalidId.xml" />
+    <EmbeddedResource Include="Samples\INTRA\GetEuIntraCertificateInvalidId.xml" />
   </ItemGroup>
 
 

@@ -29,22 +29,9 @@ public static class SoapUtils
         return requestBody.XPathSelectElement("//*[local-name()='ID']")?.Value;
     }
 
-    public static async Task<ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName, bool includeEnvelope = false, IRequestMessage? request = null)
+    public static async Task<ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName)
     {
         var resourceContent = await GetEmbeddedResource(resourceName);
-        if (request is not null)
-        {
-            var requestedId = GetRequestedId(request!);
-            resourceContent = resourceContent?.Replace("{{ID}}", requestedId); // TODO: implement a more generic way of transforming and refactor all this
-        }
-
-        var body = includeEnvelope ? $"""
-                                      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-                                        <soap:Body>
-                                          {resourceContent}
-                                        </soap:Body>
-                                      </soap:Envelope>
-                                      """ : resourceContent;
         
         return new ResponseMessage
         {
@@ -55,7 +42,29 @@ public static class SoapUtils
             },
             BodyData = new BodyData
             {
-                BodyAsString = body,
+                BodyAsString = resourceContent,
+                DetectedBodyType = BodyType.String,
+            },
+        };
+    }
+
+    public static async Task<ResponseMessage> CreateItahcResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        var resourceContent = await GetEmbeddedResource("Api.TradeTracesNTStub.Samples.INTRA.ITAHC.TEMPLATE.xml");
+        
+        var requestedItahcId = GetRequestedId(request);
+        resourceContent = resourceContent?.Replace("{{ID}}", requestedItahcId);
+        
+        return new ResponseMessage
+        {
+            StatusCode = statusCode,
+            Headers = new Dictionary<string, WireMockList<string>>
+            {
+                ["Content-Type"] = new("text/xml; charset=utf-8"),
+            },
+            BodyData = new BodyData
+            {
+                BodyAsString = resourceContent,
                 DetectedBodyType = BodyType.String,
             },
         };
