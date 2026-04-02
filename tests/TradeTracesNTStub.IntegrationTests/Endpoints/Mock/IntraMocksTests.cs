@@ -82,7 +82,7 @@ public class IntraMocksTests
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        responseBody.Should().Contain("GetEuIntraCertificateResponse").And.Contain("INTRA.EU.NL.2021.0000001");
+        await VerifyXml(responseBody);
     }
 
     [Theory]
@@ -133,18 +133,7 @@ public class IntraMocksTests
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        responseBody.Should().Be("""
-                                <?xml version='1.0' encoding='UTF-8'?>
-                                <env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-                                  <env:Header/>
-                                  <env:Body>
-                                    <env:Fault>
-                                      <faultcode>env:Client</faultcode>
-                                      <faultstring>UnauthenticatedException</faultstring>
-                                    </env:Fault>
-                                  </env:Body>
-                                </env:Envelope>
-                                """);
+        await VerifyXml(responseBody);
     }
     
     [Fact]
@@ -183,18 +172,7 @@ public class IntraMocksTests
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        responseBody.Should().Be("""
-                                <?xml version='1.0' encoding='UTF-8'?>
-                                <env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-                                  <env:Header/>
-                                  <env:Body>
-                                    <env:Fault>
-                                      <faultcode>env:Client</faultcode>
-                                      <faultstring>UnauthenticatedException</faultstring>
-                                    </env:Fault>
-                                  </env:Body>
-                                </env:Envelope>
-                                """);
+        await VerifyXml(responseBody);
     }
     
     [Fact]
@@ -208,18 +186,7 @@ public class IntraMocksTests
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        responseBody.Should().Be("""
-                                <?xml version='1.0' encoding='UTF-8'?>
-                                <env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-                                  <env:Header/>
-                                  <env:Body>
-                                    <env:Fault>
-                                      <faultcode>env:Client</faultcode>
-                                      <faultstring>UnauthenticatedException</faultstring>
-                                    </env:Fault>
-                                  </env:Body>
-                                </env:Envelope>
-                                """);
+        await VerifyXml(responseBody);
     }
     
     [Fact]
@@ -233,18 +200,7 @@ public class IntraMocksTests
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        responseBody.Should().Be("""
-                                <?xml version='1.0' encoding='UTF-8'?>
-                                <env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-                                  <env:Header/>
-                                  <env:Body>
-                                    <env:Fault>
-                                      <faultcode>env:Client</faultcode>
-                                      <faultstring>UnauthenticatedException</faultstring>
-                                    </env:Fault>
-                                  </env:Body>
-                                </env:Envelope>
-                                """);
+        await VerifyXml(responseBody);
     }
     
     [Fact]
@@ -258,18 +214,7 @@ public class IntraMocksTests
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        responseBody.Should().Be("""
-                                <?xml version='1.0' encoding='UTF-8'?>
-                                <env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-                                  <env:Header/>
-                                  <env:Body>
-                                    <env:Fault>
-                                      <faultcode>env:Client</faultcode>
-                                      <faultstring>UnauthenticatedException</faultstring>
-                                    </env:Fault>
-                                  </env:Body>
-                                </env:Envelope>
-                                """);
+        await VerifyXml(responseBody);
     }
     
     [Fact]
@@ -283,18 +228,7 @@ public class IntraMocksTests
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        responseBody.Should().Be("""
-                                <?xml version='1.0' encoding='UTF-8'?>
-                                <env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-                                  <env:Header/>
-                                  <env:Body>
-                                    <env:Fault>
-                                      <faultcode>env:Client</faultcode>
-                                      <faultstring>UnauthenticatedException</faultstring>
-                                    </env:Fault>
-                                  </env:Body>
-                                </env:Envelope>
-                                """);
+        await VerifyXml(responseBody);
     }
     
     [Fact]
@@ -333,17 +267,6 @@ public class IntraMocksTests
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-        responseBody.Should().Be("""
-                                 <?xml version='1.0' encoding='UTF-8'?>
-                                 <S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
-                                   <S:Body>
-                                     <S:Fault xmlns:ns4="http://www.w3.org/2003/05/soap-envelope">
-                                       <faultcode>S:Client</faultcode>
-                                       <faultstring>com.sun.istack.SAXParseException2; org.xml.sax.SAXException: org.xml.sax.SAXParseException; cvc-minLength-valid: Value '' with length = '0' is not facet-valid with respect to minLength '17' for type 'CertificateIdentifierType'.
-                                         org.xml.sax.SAXParseException; cvc-minLength-valid: Value '' with length = '0' is not facet-valid with respect to minLength '17' for type 'CertificateIdentifierType'.</faultstring>
-                                     </S:Fault>
-                                   </S:Body>
-                                 </S:Envelope>
-                                 """);
+        await VerifyXml(responseBody);
     }
 }
