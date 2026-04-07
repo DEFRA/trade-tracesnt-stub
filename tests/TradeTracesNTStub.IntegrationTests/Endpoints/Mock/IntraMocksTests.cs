@@ -34,14 +34,11 @@ public class IntraMocksTests
                                                           """;
 
     private readonly HttpClient _client = new() { BaseAddress = new Uri("http://localhost:8080") };
-    
-    public IntraMocksTests()
-    {
-        _client.DefaultRequestHeaders.Add("SOAPAction", "\"getEuIntraCertificate\"");
-    }
 
-    private async Task<HttpResponseMessage> PostToEuIntraCertificateService(string soapRequestBody)
+    private async Task<HttpResponseMessage> PostToEuIntraCertificateService(string soapRequestBody, string soapAction = "\"getEuIntraCertificate\"")
     {
+        _client.DefaultRequestHeaders.Add("SOAPAction", soapAction);
+        
         var httpContent = new StringContent(soapRequestBody, Encoding.UTF8, "application/xml");
         return await _client.PostAsync("/mock/tracesnt/ws/EuIntraCertificateServiceV1", httpContent, TestContext.Current.CancellationToken);
     }
@@ -266,6 +263,45 @@ public class IntraMocksTests
         var response = await PostToEuIntraCertificateService(soapRequestBody);
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        await VerifyXml(responseBody);
+    }
+    
+    [Fact]
+    public async Task GetEuIntraPdfCertificate_WithValidRequest_ShouldBeOk_AndReturnITAHCPdf()
+    {
+        var soapRequestBody = """
+                              <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+                              	<s:Header>
+                              		<h:Attributes xmlns:h="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns="http://ec.europa.eu/sanco/tracesnt/base/v4"/>
+                              		<h:LanguageCode xmlns:h="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns="http://ec.europa.eu/sanco/tracesnt/base/v4">EN</h:LanguageCode>
+                              		<h:WebServiceClientId xmlns:h="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns="http://ec.europa.eu/sanco/tracesnt/base/v4">FOO</h:WebServiceClientId>
+                              		<Security xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                              			<wsse:UsernameToken wsu:Id="DD4769DABBF049E5A778D55B17083811" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+                              				<wsse:Username>FOO</wsse:Username>
+                              				<wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">FOO</wsse:Password>
+                              				<wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">FOO</wsse:Nonce>
+                              				<wsu:Created>{{CREATED}}</wsu:Created>
+                              			</wsse:UsernameToken>
+                              			<wsu:Timestamp wsu:Id="TS-DB41B4C7A5144529B653CAE9A072D1F7" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+                              				<wsu:Created>{{CREATED}}</wsu:Created>
+                              				<wsu:Expires>{{EXPIRED}}</wsu:Expires>
+                              			</wsu:Timestamp>
+                              		</Security>
+                              	</s:Header>
+                              	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                              		<GetEuIntraPdfCertificateRequest xmlns="http://ec.europa.eu/tracesnt/certificate/euintra/v1">
+                              			<ID>INTRA.EU.NL.2021.0000001</ID>
+                              		</GetEuIntraPdfCertificateRequest>
+                              	</s:Body>
+                              </s:Envelope>
+                              """;
+        soapRequestBody = soapRequestBody.Replace("{{CREATED}}", DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"))
+            .Replace("{{EXPIRED}}", DateTime.UtcNow.AddSeconds(60).ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+        
+        var response = await PostToEuIntraCertificateService(soapRequestBody, "\"getEuIntraPdfCertificate\"");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
         var responseBody = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         await VerifyXml(responseBody);
     }

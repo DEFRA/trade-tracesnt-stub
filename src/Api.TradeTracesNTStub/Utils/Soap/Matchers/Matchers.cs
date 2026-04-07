@@ -110,4 +110,15 @@ public static class Matchers
         [
             new XPathMatcher(BodyXPath + "/*[local-name() = 'GetEuIntraCertificateRequest']/*[local-name() = 'ID' and not(text())]")
         ]).ToArray();
+    
+    /// <summary>
+    /// GetEuIntraPdfCertificateRequest ID value is present and required headers are present and valid
+    /// </summary>
+    /// <remarks>Should be used with MatchOperator.And</remarks>
+    /// <returns></returns>
+    public static IMatcher[] ValidGetEuIntraPdfCertificateRequest() =>
+        ValidHeaders().Concat(
+        [
+            new XPathMatcher(BodyXPath + "/*[local-name() = 'GetEuIntraPdfCertificateRequest']/*[local-name() = 'ID' and text()]")
+        ]).ToArray();
 }

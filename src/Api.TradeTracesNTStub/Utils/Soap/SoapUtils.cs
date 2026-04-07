@@ -33,19 +33,7 @@ public static class SoapUtils
     {
         var resourceContent = await GetEmbeddedResource(resourceName);
         
-        return new ResponseMessage
-        {
-            StatusCode = statusCode,
-            Headers = new Dictionary<string, WireMockList<string>>
-            {
-                ["Content-Type"] = new("text/xml; charset=utf-8"),
-            },
-            BodyData = new BodyData
-            {
-                BodyAsString = resourceContent,
-                DetectedBodyType = BodyType.String,
-            },
-        };
+        return StubResponseMessage(statusCode, resourceContent);
     }
 
     public static async Task<ResponseMessage> CreateItahcResponse(HttpStatusCode statusCode, IRequestMessage request)
@@ -55,6 +43,21 @@ public static class SoapUtils
         var requestedItahcId = GetRequestedId(request);
         resourceContent = resourceContent?.Replace("{{ID}}", requestedItahcId);
         
+        return StubResponseMessage(statusCode, resourceContent);
+    }
+    
+    public static async Task<ResponseMessage> CreateItahcPdfResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        var resourceContent = await GetEmbeddedResource("Api.TradeTracesNTStub.Samples.INTRA.ITAHC.PDF.TEMPLATE.xml");
+        
+        var requestedItahcId = GetRequestedId(request);
+        resourceContent = resourceContent?.Replace("{{ID}}", requestedItahcId);
+
+        return StubResponseMessage(statusCode, resourceContent);
+    }
+
+    private static ResponseMessage StubResponseMessage(HttpStatusCode statusCode, string? resourceContent)
+    {
         return new ResponseMessage
         {
             StatusCode = statusCode,

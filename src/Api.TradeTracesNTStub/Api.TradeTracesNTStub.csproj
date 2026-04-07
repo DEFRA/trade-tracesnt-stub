@@ -36,6 +36,9 @@
     <EmbeddedResource Include="Samples\INTRA\ITAHC.TEMPLATE.xml" />
     <None Remove="Samples\INTRA\GetEuIntraCertificateInvalidId.xml" />
     <EmbeddedResource Include="Samples\INTRA\GetEuIntraCertificateInvalidId.xml" />
+    <None Remove="Samples\INTRA\INTRA.EU.FR.2026.0000041-en.pdf" />
+    <None Remove="Samples\INTRA\ITAHC.PDF.xml" />
+    <EmbeddedResource Include="Samples\INTRA\ITAHC.PDF.TEMPLATE.xml" />
   </ItemGroup>
 
 
