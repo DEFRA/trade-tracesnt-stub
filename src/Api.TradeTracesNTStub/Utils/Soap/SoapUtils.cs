@@ -55,6 +55,46 @@ public static class SoapUtils
 
         return StubResponseMessage(statusCode, resourceContent);
     }
+    
+    public static async Task<ResponseMessage> CreateChedAResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        var resourceContent = await GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.CHEDA.TEMPLATE.xml");
+        
+        var requestedChedId = GetRequestedId(request);
+        resourceContent = resourceContent?.Replace("{{CHED_ID}}", requestedChedId);
+
+        return StubResponseMessage(statusCode, resourceContent);
+    }
+    
+    public static async Task<ResponseMessage> CreateSubmitCertificateAttachmentResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        var resourceContent = await GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.SubmitCertificateAttachmentResponse.TEMPLATE.xml");
+        
+        var requestBody = XElement.Parse(request.Body!);
+        var filename = requestBody.XPathSelectElement("//*[local-name()='SubmitCertificateAttachmentRequest']")?.Attribute("fileName")?.Value;
+        resourceContent = resourceContent?.Replace("{{FILENAME}}", filename);
+
+        return StubResponseMessage(statusCode, resourceContent);
+    }
+    
+    public static async Task<ResponseMessage> CreateGetCertificateAttachmentResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        var resourceContent = await GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.GetCertificateAttachmentResponse.TEMPLATE.xml");
+        
+        var requestBody = XElement.Parse(request.Body!);
+        var filename = requestBody.XPathSelectElement("//*[local-name()='GetCertificateAttachmentRequest']/*[local-name()='FileName']")?.Value;
+        resourceContent = resourceContent?.Replace("{{FILENAME}}", filename);
+
+        return StubResponseMessage(statusCode, resourceContent);
+    }
+    
+    public static async Task<ResponseMessage> CreateChedSubmittedResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        // TODO: don't know what the Traces response is yet
+        var resourceContent = await GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.CHED.Submitted.TEMPLATE.xml");
+
+        return StubResponseMessage(statusCode, resourceContent);
+    }
 
     private static ResponseMessage StubResponseMessage(HttpStatusCode statusCode, string? resourceContent)
     {
