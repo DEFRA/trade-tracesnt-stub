@@ -29,7 +29,7 @@ public static class SoapUtils
         return requestBody.XPathSelectElement("//*[local-name()='ID']")?.Value;
     }
 
-    public static async Task<ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName, bool includeEnvelope = false, IRequestMessage? request = null)
+    public static async Task<ResponseMessage> CreateResponseFromResource(HttpStatusCode statusCode, string resourceName)
     {
         var resourceContent = await GetEmbeddedResource(resourceName);
         
