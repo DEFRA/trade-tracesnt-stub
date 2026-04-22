@@ -65,6 +65,12 @@ public static class Matchers
             new XPathMatcher(SecurityHeaderXPath + "/*[local-name() = 'UsernameToken']/*[local-name() = 'Created' and xs:dateTime(text()) < (xs:dateTime(" + SecurityHeaderXPath + "/*[local-name() = 'Timestamp']/*[local-name() = 'Expires']/text()))]"),
             new XPathMatcher(HeaderXPath + "/*[local-name() = 'WebServiceClientId' and text()]")
         ];
+
+    private static IMatcher[] ValidCompetentAuthorityHeaders() =>
+        [
+            new XPathMatcher(HeaderXPath + "/*[local-name() = 'BodyIdentity']"),
+            new XPathMatcher(HeaderXPath + "/*[local-name() = 'BodyIdentity']/*[local-name() = 'AuthorityActivityAccessIdentifier' and text()]")
+        ];
     
     /// <summary>
     /// Any of the required header values are missing or not valid
@@ -121,4 +127,56 @@ public static class Matchers
         [
             new XPathMatcher(BodyXPath + "/*[local-name() = 'GetEuIntraPdfCertificateRequest']/*[local-name() = 'ID' and text()]")
         ]).ToArray();
+    
+    public static IMatcher[] ValidGetChedCertificateRequestRequest() =>
+        ValidHeaders()
+            .Concat(
+                [
+                    new XPathMatcher(BodyXPath + "/*[local-name() = 'GetChedCertificateRequest']/*[local-name() = 'ID' and text()]")
+                ])
+            .ToArray();
+    
+    public static IMatcher[] ValidSubmitCertificateAttachmentRequest() =>
+        ValidHeaders()
+            .Concat(
+            [
+                new XPathMatcher(BodyXPath + "/*[local-name() = 'SubmitCertificateAttachmentRequest']/*[local-name() = 'Attachment' and text()]")
+            ])
+            .ToArray();
+    
+    public static IMatcher[] ValidGetCertificateAttachmentRequest() =>
+        ValidHeaders()
+            .Concat(
+            [
+                new XPathMatcher(BodyXPath + "/*[local-name() = 'GetCertificateAttachmentRequest']/*[local-name() = 'FileName' and text()]"),
+                new XPathMatcher(BodyXPath + "/*[local-name() = 'GetCertificateAttachmentRequest']/*[local-name() = 'DocumentId' and text()]"),
+            ])
+            .ToArray();
+    
+    public static IMatcher[] ValidCreateDraftChedRequest() =>
+        ValidHeaders()
+            .Concat(ValidCompetentAuthorityHeaders())
+            .Concat(
+                [
+                    new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateDraftChedRequest']")
+                ])
+            .ToArray();
+    
+    public static IMatcher[] ValidCreateAndSubmitChedForDecisionRequest() =>
+        ValidHeaders()
+            .Concat(ValidCompetentAuthorityHeaders())
+            .Concat(
+                [
+                    new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateAndSubmitChedForDecisionRequest']")
+                ])
+            .ToArray();
+    
+    public static IMatcher[] ValidCreateAndSubmitDecisionAsInProgressRequest() =>
+        ValidHeaders()
+            .Concat(ValidCompetentAuthorityHeaders())
+            .Concat(
+                [
+                    new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateAndSubmitChedDecisionAsInProgressRequest']")
+                ])
+            .ToArray();
 }

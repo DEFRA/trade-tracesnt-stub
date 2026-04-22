@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>00483c6d-b48d-4911-beb0-ce6ce68c148c</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-04-08T09:51:27.876+02:00</ns1:Created>
+        <ns1:Expires>2026-04-08T09:51:32.876+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+  </S:Header>
+  <S:Body>
+    <ns8:GetChedCertificateResponse xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns3="http://ec.europa.eu/tracesnt/certificate/ched/alert/noncompliance/v01" xmlns:ns4="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns6="http://ec.europa.eu/tracesnt/certificate/ched/followup/v01" xmlns:ns7="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:ns8="http://ec.europa.eu/tracesnt/certificate/ched/v2" xmlns:ns9="http://ec.europa.eu/tracesnt/certificate/laboratorytest/v1" xmlns:ns10="http://ec.europa.eu/tracesnt/referencedata/laboratorytest/v1" xmlns:ns11="http://ec.europa.eu/tracesnt/certificate/base/v01" xmlns:ns12="http://ec.europa.eu/sanco/tracesnt/error/v01" xmlns:ns13="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns14="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns15="http://www.w3.org/2000/09/xmldsig#" xmlns:ns16="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns26="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns27="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns28="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns29="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns30="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns31="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2">
+      <ns7:SPSCertificate>
+        <ns7:SPSExchangedDocument>
+          <ns4:Name languageID="en">CHED-A - Common Health Entry Document for Animal</ns4:Name>
+          <ns4:ID>{{CHED_ID}}</ns4:ID>
+          <ns4:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</ns4:TypeCode>
+          <ns4:StatusCode name="To be done (New)">1</ns4:StatusCode>
+          <ns4:IssueDateTime>
+            <ns5:DateTime>2026-03-31T10:24:49.000+02:00</ns5:DateTime>
+          </ns4:IssueDateTime>
+          <ns4:IssuerSPSParty>
+            <ns4:ID schemeID="authority_activity_id" schemeName="Authority activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">FR00000</ns4:ID>
+            <ns4:Name>Direction générale de l’alimentation</ns4:Name>
+            <ns4:RoleCode name="Officer (Identification of Applicant)">VJ</ns4:RoleCode>
+            <ns4:TypeCode listID="user_body_role" listName="User body role" name="Authority">AUTHORITY</ns4:TypeCode>
+            <ns4:SpecifiedSPSAddress>
+              <ns4:PostcodeCode>75732</ns4:PostcodeCode>
+              <ns4:LineOne>251 rue de Vaugirard</ns4:LineOne>
+              <ns4:CityName languageID="en">Paris Cedex 15</ns4:CityName>
+              <ns4:CountryID>FR</ns4:CountryID>
+              <ns4:CountryName languageID="en">France</ns4:CountryName>
+            </ns4:SpecifiedSPSAddress>
+            <ns4:SpecifiedSPSPerson>
+              <ns4:Name>CCA. FR TWO</ns4:Name>
+            </ns4:SpecifiedSPSPerson>
+          </ns4:IssuerSPSParty>
+          <ns4:IncludedSPSNote>
+            <ns4:ContentCode listID="ched_type" listName="CHED type" name="CHED-A - Common Health Entry Document for Animal">A</ns4:ContentCode>
+            <ns4:Content></ns4:Content>
+            <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Type of CHED">CHED_TYPE</ns4:SubjectCode>
+          </ns4:IncludedSPSNote>
+          <ns4:IncludedSPSNote>
+            <ns4:ContentCode listID="ched_alternative_place_of_destination_type" listName="CHED Alternative place of destination type" name="Border control post">SAME_AS_BORDER_CONTROL_POST</ns4:ContentCode>
+            <ns4:Content></ns4:Content>
+            <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Alternative place of destination">ALTERNATIVE_PLACE_OF_DESTINATION</ns4:SubjectCode>
+          </ns4:IncludedSPSNote>
+          <ns4:IncludedSPSNote>
+            <ns4:Content>2026-03-31T15:57:43.000+02:00</ns4:Content>
+            <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Last updated">LAST_UPDATE_DATETIME</ns4:SubjectCode>
+          </ns4:IncludedSPSNote>
+          <ns4:ReferenceSPSReferencedDocument>
+            <ns4:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</ns4:TypeCode>
+            <ns4:RelationshipTypeCode name="Document reference, internal (Document reference, internal)">CAW</ns4:RelationshipTypeCode>
+            <ns4:ID>{{CHED_ID}}</ns4:ID>
+            <ns4:AttachmentBinaryObject format="url" mimeCode="text/url" uri="https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/ched/{{CHED_ID}}"/>
+          </ns4:ReferenceSPSReferencedDocument>
+          <ns4:ReferenceSPSReferencedDocument>
+            <ns4:IssueDateTime>2026-03-01T01:00:00.000+01:00</ns4:IssueDateTime>
+            <ns4:TypeCode name="Health certificate (Health certificate)">636</ns4:TypeCode>
+            <ns4:RelationshipTypeCode name="Mutually defined reference number (Supporting document)">ZZZ</ns4:RelationshipTypeCode>
+            <ns4:ID schemeAgencyID="AF">123</ns4:ID>
+            <ns4:AttachmentBinaryObject uri="uri:documentid:771728" filename="Blank docx.docx"/>
+          </ns4:ReferenceSPSReferencedDocument>
+          <ns4:ReferenceSPSReferencedDocument>
+            <ns4:TypeCode name="Road consignment note (International transport document for Road Vehicle)">730</ns4:TypeCode>
+            <ns4:RelationshipTypeCode name="Bill of lading number (International transport document)">BM</ns4:RelationshipTypeCode>
+            <ns4:ID schemeID="BEFORE_BCP">123</ns4:ID>
+            <ns4:Information>123</ns4:Information>
+          </ns4:ReferenceSPSReferencedDocument>
+          <ns4:SignatorySPSAuthentication>
+            <ns4:TypeCode name="Inspection (Identification of Applicant)">4</ns4:TypeCode>
+            <ns4:ActualDateTime>
+              <ns5:DateTime>2026-03-31T15:57:43.000+02:00</ns5:DateTime>
+            </ns4:ActualDateTime>
+            <ns4:ProviderSPSParty>
+              <ns4:Name></ns4:Name>
+            </ns4:ProviderSPSParty>
+            <ns4:IncludedSPSClause>
+              <ns4:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">PURPOSE</ns4:ID>
+              <ns4:Content>FREE_CIRCULATION</ns4:Content>
+              <ns4:Content languageID="en">For free circulation</ns4:Content>
+            </ns4:IncludedSPSClause>
+            <ns4:IncludedSPSClause>
+              <ns4:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">GOODS_CERTIFIED_AS</ns4:ID>
+              <ns4:Content>REGISTERED_EQUIDAE</ns4:Content>
+              <ns4:Content languageID="en">Registered equine animal</ns4:Content>
+            </ns4:IncludedSPSClause>
+            <ns4:IncludedSPSClause>
+              <ns4:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">SIGNATORY_PERSON_EMAIL</ns4:ID>
+              <ns4:Content>CCA02.FR@ec-traces.eu</ns4:Content>
+            </ns4:IncludedSPSClause>
+          </ns4:SignatorySPSAuthentication>
+        </ns7:SPSExchangedDocument>
+        <ns7:SPSConsignment>
+          <ns4:AvailabilityDueDateTime>
+            <ns5:DateTime>2026-03-23T00:00:00.000Z</ns5:DateTime>
+          </ns4:AvailabilityDueDateTime>
+          <ns4:ConsignorSPSParty>
+            <ns4:ID schemeID="operator_internal_activity_id" schemeName="Operator internal activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">770198</ns4:ID>
+            <ns4:Name>COOPERATIVEcF95 WW</ns4:Name>
+            <ns4:RoleCode name="Exporter">EX</ns4:RoleCode>
+            <ns4:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Importer">IMPORTER</ns4:TypeCode>
+            <ns4:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Other operators">OTH-OPER</ns4:TypeCode>
+            <ns4:SpecifiedSPSAddress>
+              <ns4:PostcodeCode>BT51</ns4:PostcodeCode>
+              <ns4:LineOne>Avenue Pierre Saul 99</ns4:LineOne>
+              <ns4:CityName languageID="en">County Londonderry</ns4:CityName>
+              <ns4:CountryID>XI</ns4:CountryID>
+              <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+              <ns4:CountrySubDivisionName languageID="en">Northern Ireland</ns4:CountrySubDivisionName>
+            </ns4:SpecifiedSPSAddress>
+          </ns4:ConsignorSPSParty>
+          <ns4:ConsigneeSPSParty>
+            <ns4:ID schemeID="operator_internal_activity_id" schemeName="Operator internal activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">770198</ns4:ID>
+            <ns4:Name>COOPERATIVEcF95 WW</ns4:Name>
+            <ns4:RoleCode name="Consignee (Importer)">CN</ns4:RoleCode>
+            <ns4:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Importer">IMPORTER</ns4:TypeCode>
+            <ns4:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Other operators">OTH-OPER</ns4:TypeCode>
+            <ns4:SpecifiedSPSAddress>
+              <ns4:PostcodeCode>BT51</ns4:PostcodeCode>
+              <ns4:LineOne>Avenue Pierre Saul 99</ns4:LineOne>
+              <ns4:CityName languageID="en">County Londonderry</ns4:CityName>
+              <ns4:CountryID>XI</ns4:CountryID>
+              <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+              <ns4:CountrySubDivisionName languageID="en">Northern Ireland</ns4:CountrySubDivisionName>
+            </ns4:SpecifiedSPSAddress>
+          </ns4:ConsigneeSPSParty>
+          <ns4:ExportSPSCountry>
+            <ns4:ID></ns4:ID>
+            <ns4:Name></ns4:Name>
+          </ns4:ExportSPSCountry>
+          <ns4:ImportSPSCountry>
+            <ns4:ID></ns4:ID>
+            <ns4:Name></ns4:Name>
+          </ns4:ImportSPSCountry>
+          <ns4:UnloadingBaseportSPSLocation>
+            <ns4:ID schemeID="authority_activity_id" schemeName="Authority activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces" schemeDataURI="authority_activity">XILAR1-MEA-ORG</ns4:ID>
+            <ns4:Name>XI</ns4:Name>
+            <ns4:Name languageID="en">Larne</ns4:Name>
+            <ns4:Name>XILAR1-MEA-ORG</ns4:Name>
+            <ns4:Name>Larne P</ns4:Name>
+            <ns4:Name>Larne P</ns4:Name>
+            <ns4:Name></ns4:Name>
+          </ns4:UnloadingBaseportSPSLocation>
+          <ns4:ExaminationSPSEvent>
+            <ns4:OccurrenceSPSLocation>
+              <ns4:Name></ns4:Name>
+            </ns4:OccurrenceSPSLocation>
+          </ns4:ExaminationSPSEvent>
+          <ns4:DeliverySPSParty>
+            <ns4:Name></ns4:Name>
+            <ns4:SpecifiedSPSAddress>
+              <ns4:CountryID>XI</ns4:CountryID>
+            </ns4:SpecifiedSPSAddress>
+          </ns4:DeliverySPSParty>
+          <ns4:CustomsTransitAgentSPSParty>
+            <ns4:ID schemeID="operator_internal_activity_id" schemeName="Operator internal activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">354617</ns4:ID>
+            <ns4:Name>Dave Org</ns4:Name>
+            <ns4:RoleCode name="Customs broker (Responsible for consignment)">CB</ns4:RoleCode>
+            <ns4:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Responsible for the load">RESPONSIBLE_FOR_THE_LOAD</ns4:TypeCode>
+            <ns4:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Responsible For the Load (Freight Forwarder)">RFL</ns4:TypeCode>
+            <ns4:SpecifiedSPSAddress>
+              <ns4:PostcodeCode>BT10</ns4:PostcodeCode>
+              <ns4:LineOne>10 Dave Way</ns4:LineOne>
+              <ns4:CityName languageID="en">Belfast</ns4:CityName>
+              <ns4:CountryID>XI</ns4:CountryID>
+              <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+              <ns4:CountrySubDivisionName languageID="en">County Antrim</ns4:CountrySubDivisionName>
+            </ns4:SpecifiedSPSAddress>
+          </ns4:CustomsTransitAgentSPSParty>
+          <ns4:MainCarriageSPSTransportMovement>
+            <ns4:ID schemeID="road_vehicle_registration_before_bcp" schemeName="Road vehicle registration (before BCP)" schemeAgencyID="GB" schemeAgencyName="United Kingdom">123</ns4:ID>
+            <ns4:ModeCode name="Road transport">3</ns4:ModeCode>
+          </ns4:MainCarriageSPSTransportMovement>
+          <ns4:IncludedSPSConsignmentItem>
+            <ns4:NatureIdentificationSPSCargo>
+              <ns4:TypeCode name="General cargo (Commodities)">12</ns4:TypeCode>
+            </ns4:NatureIdentificationSPSCargo>
+            <ns4:IncludedSPSTradeLineItem>
+              <ns4:SequenceNumeric>0</ns4:SequenceNumeric>
+              <ns4:Description>Consignment totals and summary</ns4:Description>
+              <ns4:NetWeightMeasure>0</ns4:NetWeightMeasure>
+              <ns4:GrossWeightMeasure unitCode="TNE">1</ns4:GrossWeightMeasure>
+              <ns4:NetVolumeMeasure unitCode="H87">5</ns4:NetVolumeMeasure>
+              <ns4:GrossVolumeMeasure unitCode="MTQ">1</ns4:GrossVolumeMeasure>
+              <ns4:PhysicalSPSPackage>
+                <ns4:LevelCode name="No packaging hierarchy">4</ns4:LevelCode>
+                <ns4:TypeCode name="Box">BX</ns4:TypeCode>
+                <ns4:ItemQuantity>6.0</ns4:ItemQuantity>
+              </ns4:PhysicalSPSPackage>
+            </ns4:IncludedSPSTradeLineItem>
+            <ns4:IncludedSPSTradeLineItem>
+              <ns4:SequenceNumeric>1</ns4:SequenceNumeric>
+              <ns4:Description></ns4:Description>
+              <ns4:ScientificName languageID="la">Equus asinus</ns4:ScientificName>
+              <ns4:NetVolumeMeasure unitCode="H87">1</ns4:NetVolumeMeasure>
+              <ns4:AdditionalInformationSPSNote>
+                <ns4:Content>123</ns4:Content>
+                <ns4:SubjectCode listID="ched_commodity_note_subject_code" listName="CHED Commodity Note SubjectCode list" name="Individual identification number">INDIVIDUAL_IDENTIFICATION_NUMBER</ns4:SubjectCode>
+              </ns4:AdditionalInformationSPSNote>
+              <ns4:AdditionalInformationSPSNote>
+                <ns4:ContentCode listID="boolean" listName="Boolean (yes/no)">NO</ns4:ContentCode>
+                <ns4:Content></ns4:Content>
+                <ns4:SubjectCode listID="ched_commodity_note_subject_code" listName="CHED Commodity Note SubjectCode list" name="Includes unweaned animals">INCLUDES_UNWEANED_ANIMALS</ns4:SubjectCode>
+              </ns4:AdditionalInformationSPSNote>
+              <ns4:ApplicableSPSClassification>
+                <ns4:SystemID>CN</ns4:SystemID>
+                <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+                <ns4:ClassCode>0101</ns4:ClassCode>
+                <ns4:ClassName languageID="en">LIVE ANIMALS</ns4:ClassName>
+                <ns4:ClassName languageID="en">Live horses, asses, mules and hinnies</ns4:ClassName>
+              </ns4:ApplicableSPSClassification>
+              <ns4:ApplicableSPSClassification>
+                <ns4:SystemID>IDENTIFICATION_SYSTEM</ns4:SystemID>
+                <ns4:SystemName>Identification system</ns4:SystemName>
+                <ns4:ClassCode>UNIQUE_CODE</ns4:ClassCode>
+                <ns4:ClassName languageID="en">Unique code</ns4:ClassName>
+              </ns4:ApplicableSPSClassification>
+              <ns4:PhysicalSPSPackage>
+                <ns4:LevelCode name="No packaging hierarchy">4</ns4:LevelCode>
+                <ns4:TypeCode name="Box">BX</ns4:TypeCode>
+                <ns4:ItemQuantity>1.0</ns4:ItemQuantity>
+              </ns4:PhysicalSPSPackage>
+              <ns4:OriginSPSCountry>
+                <ns4:ID>AF</ns4:ID>
+                <ns4:Name languageID="en">Afghanistan</ns4:Name>
+              </ns4:OriginSPSCountry>
+            </ns4:IncludedSPSTradeLineItem>
+            <ns4:IncludedSPSTradeLineItem>
+              <ns4:SequenceNumeric>2</ns4:SequenceNumeric>
+              <ns4:Description></ns4:Description>
+              <ns4:ScientificName languageID="la">Equus cabalus</ns4:ScientificName>
+              <ns4:NetVolumeMeasure unitCode="H87">2</ns4:NetVolumeMeasure>
+              <ns4:AdditionalInformationSPSNote>
+                <ns4:Content>543</ns4:Content>
+                <ns4:SubjectCode listID="ched_commodity_note_subject_code" listName="CHED Commodity Note SubjectCode list" name="Individual identification number">INDIVIDUAL_IDENTIFICATION_NUMBER</ns4:SubjectCode>
+              </ns4:AdditionalInformationSPSNote>
+              <ns4:AdditionalInformationSPSNote>
+                <ns4:ContentCode listID="boolean" listName="Boolean (yes/no)">NO</ns4:ContentCode>
+                <ns4:Content></ns4:Content>
+                <ns4:SubjectCode listID="ched_commodity_note_subject_code" listName="CHED Commodity Note SubjectCode list" name="Includes unweaned animals">INCLUDES_UNWEANED_ANIMALS</ns4:SubjectCode>
+              </ns4:AdditionalInformationSPSNote>
+              <ns4:ApplicableSPSClassification>
+                <ns4:SystemID>CN</ns4:SystemID>
+                <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+                <ns4:ClassCode>0101</ns4:ClassCode>
+                <ns4:ClassName languageID="en">LIVE ANIMALS</ns4:ClassName>
+                <ns4:ClassName languageID="en">Live horses, asses, mules and hinnies</ns4:ClassName>
+              </ns4:ApplicableSPSClassification>
+              <ns4:ApplicableSPSClassification>
+                <ns4:SystemID>EPPT</ns4:SystemID>
+                <ns4:SystemName>EPPO Plant Protection Thesaurus</ns4:SystemName>
+                <ns4:ClassCode>1EQUCB</ns4:ClassCode>
+                <ns4:ClassName languageID="la">Equus cabalus</ns4:ClassName>
+              </ns4:ApplicableSPSClassification>
+              <ns4:ApplicableSPSClassification>
+                <ns4:SystemID>IDENTIFICATION_SYSTEM</ns4:SystemID>
+                <ns4:SystemName>Identification system</ns4:SystemName>
+                <ns4:ClassCode>LEG_RING</ns4:ClassCode>
+                <ns4:ClassName languageID="en">Leg-ring</ns4:ClassName>
+              </ns4:ApplicableSPSClassification>
+              <ns4:PhysicalSPSPackage>
+                <ns4:LevelCode name="No packaging hierarchy">4</ns4:LevelCode>
+                <ns4:TypeCode name="Bag">BG</ns4:TypeCode>
+                <ns4:ItemQuantity>2.0</ns4:ItemQuantity>
+              </ns4:PhysicalSPSPackage>
+              <ns4:OriginSPSCountry>
+                <ns4:ID>AF</ns4:ID>
+                <ns4:Name languageID="en">Afghanistan</ns4:Name>
+              </ns4:OriginSPSCountry>
+            </ns4:IncludedSPSTradeLineItem>
+            <ns4:IncludedSPSTradeLineItem>
+              <ns4:SequenceNumeric>3</ns4:SequenceNumeric>
+              <ns4:Description></ns4:Description>
+              <ns4:ScientificName languageID="la">Serpentes</ns4:ScientificName>
+              <ns4:NetVolumeMeasure unitCode="H87">2</ns4:NetVolumeMeasure>
+              <ns4:ApplicableSPSClassification>
+                <ns4:SystemID>CN</ns4:SystemID>
+                <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+                <ns4:ClassCode>01062000</ns4:ClassCode>
+                <ns4:ClassName languageID="en">LIVE ANIMALS</ns4:ClassName>
+                <ns4:ClassName languageID="en">Other live animals</ns4:ClassName>
+                <ns4:ClassName languageID="en">Reptiles (including snakes and turtles)</ns4:ClassName>
+                <ns4:ClassName languageID="en">Reptiles (including snakes and turtles)</ns4:ClassName>
+              </ns4:ApplicableSPSClassification>
+              <ns4:ApplicableSPSClassification>
+                <ns4:SystemID>INVASIVE_ALLOWED</ns4:SystemID>
+                <ns4:SystemName>Invasive species (allowed)</ns4:SystemName>
+                <ns4:ClassName languageID="la">Rhyncocephalia</ns4:ClassName>
+              </ns4:ApplicableSPSClassification>
+              <ns4:PhysicalSPSPackage>
+                <ns4:LevelCode name="No packaging hierarchy">4</ns4:LevelCode>
+                <ns4:TypeCode name="Carton">CT</ns4:TypeCode>
+                <ns4:ItemQuantity>3.0</ns4:ItemQuantity>
+              </ns4:PhysicalSPSPackage>
+              <ns4:OriginSPSCountry>
+                <ns4:ID>AF</ns4:ID>
+                <ns4:Name languageID="en">Afghanistan</ns4:Name>
+              </ns4:OriginSPSCountry>
+            </ns4:IncludedSPSTradeLineItem>
+          </ns4:IncludedSPSConsignmentItem>
+        </ns7:SPSConsignment>
+      </ns7:SPSCertificate>
+    </ns8:GetChedCertificateResponse>
+  </S:Body>
+</S:Envelope>

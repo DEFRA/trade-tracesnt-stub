@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://www.w3.org/2003/05/soap-envelope">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>f30ddd5a-2590-4dfd-9b4d-59eec195859f</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-04-15T09:41:13.005+02:00</ns1:Created>
+        <ns1:Expires>2026-04-15T09:41:18.005+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+  </S:Header>
+  <S:Body>
+    <ns2:SubmitCertificateAttachmentResponse xmlns="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns2="http://ec.europa.eu/tracesnt/certificate/attachments/v1" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:ns4="http://ec.europa.eu/sanco/tracesnt/error/v01" xmlns:ns5="http://ec.europa.eu/tracesnt/certificate/base/v01" xmlns:ns6="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns7="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns8="http://www.w3.org/2000/09/xmldsig#" xmlns:ns9="http://www.w3.org/2004/08/xop/include" xmlns:ns10="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27">
+      <ns2:FileName>{{FILENAME}}</ns2:FileName>
+      <ns2:DocumentId>773896</ns2:DocumentId>
+    </ns2:SubmitCertificateAttachmentResponse>
+  </S:Body>
+</S:Envelope>

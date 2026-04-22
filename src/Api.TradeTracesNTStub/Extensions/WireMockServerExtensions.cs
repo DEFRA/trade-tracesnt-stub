@@ -28,7 +28,15 @@ public static class WireMockServerExtensions
                     }
                 })
             );
+
+        server.CreateIntraStubs();
+        server.CreateChedStubs();
         
+        return server;
+    }
+
+    private static WireMockServer CreateIntraStubs(this WireMockServer server)
+    {
         // Stub calls with SOAPAction Header and valid getEuIntraCertificate request headers and body
         server
             .Given(Request.Create()
@@ -60,6 +68,53 @@ public static class WireMockServerExtensions
                 .WithBody(Matchers.ValidGetEuIntraPdfCertificateRequest(), MatchOperator.And))
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateItahcPdfResponse(HttpStatusCode.OK, request)));
+
+        return server;
+    }
+
+    private static WireMockServer CreateChedStubs(this WireMockServer server)
+    {
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"getChedCertificate\""])
+                .WithBody(Matchers.ValidGetChedCertificateRequestRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateChedAResponse(HttpStatusCode.OK, request)));
+        
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"submitCertificateAttachment\""])
+                .WithBody(Matchers.ValidSubmitCertificateAttachmentRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateSubmitCertificateAttachmentResponse(HttpStatusCode.OK, request)));
+        
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"getCertificateAttachment\""])
+                .WithBody(Matchers.ValidGetCertificateAttachmentRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateGetCertificateAttachmentResponse(HttpStatusCode.OK, request)));
+        
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"createDraft\""])
+                .WithBody(Matchers.ValidCreateDraftChedRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateChedSubmittedResponse(HttpStatusCode.OK, request)));
+        
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"createAndSubmitForDecision\""])
+                .WithBody(Matchers.ValidCreateAndSubmitChedForDecisionRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateChedSubmittedResponse(HttpStatusCode.OK, request)));
+        
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"createAndSubmitDecisionAsInProgress\""])
+                .WithBody(Matchers.ValidCreateAndSubmitDecisionAsInProgressRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateChedSubmittedResponse(HttpStatusCode.OK, request)));
         
         return server;
     }
