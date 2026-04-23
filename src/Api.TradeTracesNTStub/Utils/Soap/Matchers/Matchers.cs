@@ -138,7 +138,7 @@ public static class Matchers
         ValidHeaders()
             .Concat(
                 [
-                    new XPathMatcher(BodyXPath + "/*[local-name() = 'GetChedCertificateRequest']/*[local-name() = 'ID' and text()]")
+                    new XPathMatcher(BodyXPath + "/*[local-name() = 'FindEuIntraCertificate']/*[local-name() = 'ID' and text()]")
                 ])
             .ToArray();
     
