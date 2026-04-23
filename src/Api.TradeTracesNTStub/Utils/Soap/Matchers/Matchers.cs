@@ -128,11 +128,17 @@ public static class Matchers
             new XPathMatcher(BodyXPath + "/*[local-name() = 'GetEuIntraPdfCertificateRequest']/*[local-name() = 'ID' and text()]")
         ]).ToArray();
     
+    public static IMatcher[] ValidFindEuIntraCertificateRequest() =>
+        ValidHeaders().Concat(
+        [
+            new XPathMatcher(BodyXPath + "/*[local-name() = 'FindEuIntraCertificateRequest']")
+        ]).ToArray();
+    
     public static IMatcher[] ValidGetChedCertificateRequestRequest() =>
         ValidHeaders()
             .Concat(
                 [
-                    new XPathMatcher(BodyXPath + "/*[local-name() = 'GetChedCertificateRequest']/*[local-name() = 'ID' and text()]")
+                    new XPathMatcher(BodyXPath + "/*[local-name() = 'FindEuIntraCertificate']/*[local-name() = 'ID' and text()]")
                 ])
             .ToArray();
     

@@ -68,6 +68,14 @@ public static class WireMockServerExtensions
                 .WithBody(Matchers.ValidGetEuIntraPdfCertificateRequest(), MatchOperator.And))
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateItahcPdfResponse(HttpStatusCode.OK, request)));
+        
+        // Stub calls with SOAPAction Header and valid findEuIntraCertificate request headers and body
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"findEuIntraCertificate\""])
+                .WithBody(Matchers.ValidFindEuIntraCertificateRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.INTRA.FindEuIntraCertificateResponse.xml")));
 
         return server;
     }
