@@ -105,22 +105,8 @@ public static class WireMockServerExtensions
         
         server
             .Given(Request.Create()
-                .WithHeader("SOAPAction", ["\"createDraft\""])
-                .WithBody(Matchers.ValidCreateDraftChedRequest(), MatchOperator.And))
-            .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateChedSubmittedResponse(HttpStatusCode.OK, request)));
-        
-        server
-            .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"createAndSubmitForDecision\""])
                 .WithBody(Matchers.ValidCreateAndSubmitChedForDecisionRequest(), MatchOperator.And))
-            .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateChedSubmittedResponse(HttpStatusCode.OK, request)));
-        
-        server
-            .Given(Request.Create()
-                .WithHeader("SOAPAction", ["\"createAndSubmitDecisionAsInProgress\""])
-                .WithBody(Matchers.ValidCreateAndSubmitDecisionAsInProgressRequest(), MatchOperator.And))
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateChedSubmittedResponse(HttpStatusCode.OK, request)));
         

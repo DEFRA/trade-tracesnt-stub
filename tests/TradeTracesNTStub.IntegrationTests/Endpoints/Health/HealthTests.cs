@@ -3,14 +3,12 @@ using FluentAssertions;
 
 namespace TradeTracesNTStub.IntegrationTests.Endpoints.Health;
 
-public class HealthTests
+public class HealthTests : IntegrationTestBase
 {
     [Fact]
     public async Task Health_ShouldBeOk()
     {
-        var client = new HttpClient { BaseAddress = new Uri("http://localhost:8080") };
-
-        var response = await client.GetAsync("/health", TestContext.Current.CancellationToken);
+        var response = await Client.GetAsync("/health", TestContext.Current.CancellationToken);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }

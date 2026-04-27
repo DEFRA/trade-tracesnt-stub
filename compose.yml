@@ -1,4 +1,5 @@
-version: '3.4'
+name: trade-tracesnt-stub-localstack
+
 services:
   mongodb:
     image: mongo:6.0.13

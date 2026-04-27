@@ -4,7 +4,7 @@ using FluentAssertions;
 
 namespace TradeTracesNTStub.IntegrationTests.Endpoints.Mock;
 
-public class IntraMocksTests
+public class IntraMocksTests : IntegrationTestBase
 {
     private const string InvalidCreatedSoapRequestBody = """
                                                           <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
@@ -33,14 +33,12 @@ public class IntraMocksTests
                                                           </s:Envelope>
                                                           """;
 
-    private readonly HttpClient _client = new() { BaseAddress = new Uri("http://localhost:8080") };
-
     private async Task<HttpResponseMessage> PostToEuIntraCertificateService(string soapRequestBody, string soapAction = "\"getEuIntraCertificate\"")
     {
-        _client.DefaultRequestHeaders.Add("SOAPAction", soapAction);
+        Client.DefaultRequestHeaders.Add("SOAPAction", soapAction);
         
         var httpContent = new StringContent(soapRequestBody, Encoding.UTF8, "application/xml");
-        return await _client.PostAsync("/mock/tracesnt/ws/EuIntraCertificateServiceV1", httpContent, TestContext.Current.CancellationToken);
+        return await Client.PostAsync("/mock/tracesnt/ws/EuIntraCertificateServiceV1", httpContent, TestContext.Current.CancellationToken);
     }
     
     [Fact]

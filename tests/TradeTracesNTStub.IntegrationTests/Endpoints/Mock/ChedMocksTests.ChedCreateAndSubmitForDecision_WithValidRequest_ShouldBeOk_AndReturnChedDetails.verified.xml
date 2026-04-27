@@ -1,14 +1,13 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+﻿<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
   <S:Header>
     <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
       <ID>WS_REQUEST_ID</ID>
-      <Message>7a14bda7-d2d0-40e0-a41e-43334695676e</Message>
+      <Message>Guid_1</Message>
     </Message>
     <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <ns1:Timestamp>
-        <ns1:Created>2026-04-27T10:36:34.986+02:00</ns1:Created>
-        <ns1:Expires>2026-04-27T10:36:39.986+02:00</ns1:Expires>
+        <ns1:Created>DateTimeOffset_1</ns1:Created>
+        <ns1:Expires>DateTimeOffset_2</ns1:Expires>
       </ns1:Timestamp>
     </ns2:Security>
   </S:Header>
@@ -17,21 +16,21 @@
       <ns7:SPSAcknowledgement>
         <ns6:SPSAcknowledgementDocument>
           <ns4:IssueDateTime>
-            <ns5:DateTime>{{ISSUE_DATETIME}}</ns5:DateTime>
+            <ns5:DateTime>DateTimeOffset_3</ns5:DateTime>
           </ns4:IssueDateTime>
           <ns4:StatusCode name="To be done (New)">1</ns4:StatusCode>
           <ns4:ReasonInformation>Message has been successfully processed</ns4:ReasonInformation>
           <ns4:ReferenceSPSReferencedDocument>
             <ns4:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</ns4:TypeCode>
             <ns4:RelationshipTypeCode name="Document reference, internal (Document reference, internal)">CAW</ns4:RelationshipTypeCode>
-            <ns4:ID>{{CHED_ID}}</ns4:ID>
-            <ns4:AttachmentBinaryObject format="url" mimeCode="text/url" uri="https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/ched/{{CHED_ID}}"/>
+            <ns4:ID>CHEDA.XI.2026.XXXXXXX</ns4:ID>
+            <ns4:AttachmentBinaryObject format="url" mimeCode="text/url" uri="https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/ched/CHEDA.XI.2026.XXXXXXX" />
           </ns4:ReferenceSPSReferencedDocument>
           <ns4:ReferenceSPSReferencedDocument>
             <ns4:TypeCode name="Health certificate (Health certificate)">636</ns4:TypeCode>
             <ns4:RelationshipTypeCode name="Mutually defined reference number (Supporting document)">ZZZ</ns4:RelationshipTypeCode>
-            <ns4:ID schemeAgencyID="AL">{{SCHEME_AGENCY_ID}}</ns4:ID>
-            <ns4:AttachmentBinaryObject uri="uri:documentid:{{DOCUMENT_ID}}" filename="{{FILENAME}}"/>
+            <ns4:ID schemeAgencyID="AL">123456</ns4:ID>
+            <ns4:AttachmentBinaryObject uri="uri:documentid:775548" filename="document.pdf" />
           </ns4:ReferenceSPSReferencedDocument>
         </ns6:SPSAcknowledgementDocument>
       </ns7:SPSAcknowledgement>
