@@ -1,0 +1,198 @@
+﻿<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>Guid_1</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>DateTimeOffset_1</ns1:Created>
+        <ns1:Expires>DateTimeOffset_2</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+  </S:Header>
+  <S:Body>
+    <ns3:FindEuIntraCertificateResponse xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns3="http://ec.europa.eu/tracesnt/certificate/euintra/v1" xmlns:ns4="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns6="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:ns7="http://ec.europa.eu/tracesnt/certificate/laboratorytest/v1" xmlns:ns8="http://ec.europa.eu/tracesnt/referencedata/laboratorytest/v1" xmlns:ns9="http://ec.europa.eu/tracesnt/certificate/base/v01" xmlns:ns10="http://ec.europa.eu/sanco/tracesnt/error/v01" xmlns:ns11="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns12="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns13="http://www.w3.org/2000/09/xmldsig#" xmlns:ns14="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns15="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns26="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns27="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns28="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns29="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2" pageSize="100" offset="0">
+      <ns3:EuIntraCertificateResult>
+        <ns3:ID>INTRA.EU.XI.2026.0000002</ns3:ID>
+        <ns3:Status name="Issued (Valid)">70</ns3:Status>
+        <ns3:HasControls>false</ns3:HasControls>
+        <ns3:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>05051010</ns4:ClassCode>
+          <ns4:ClassName languageID="en">PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED</ns4:ClassName>
+          <ns4:ClassName languageID="en">Skins and other parts of birds, with their feathers or down, feathers and parts of feathers (whether or not with trimmed edges) and down, not further worked than cleaned, disinfected or treated for preservation; powder and waste of feathers or parts of feathers</ns4:ClassName>
+          <ns4:ClassName languageID="en">Feathers of a kind used for stuffing; down</ns4:ClassName>
+          <ns4:ClassName languageID="en">Raw</ns4:ClassName>
+        </ns3:CommodityApplicableSPSClassification>
+        <ns3:CreateDateTime>DateTimeOffset_3</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>DateTimeOffset_3</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>DateTimeOffset_4</ns3:StatusChangeDateTime>
+        <ns3:DeclarationDateTime>DateTimeOffset_5</ns3:DeclarationDateTime>
+        <ns3:CertificationDateTime>DateTimeOffset_6</ns3:CertificationDateTime>
+        <ns3:CentralCompetentAuthorityCode>XI0000</ns3:CentralCompetentAuthorityCode>
+        <ns3:LocalCompetentAuthorityCode>XI0000</ns3:LocalCompetentAuthorityCode>
+        <ns3:CountryOfIssuance>XI</ns3:CountryOfIssuance>
+        <ns3:CountryOfConsignor>XI</ns3:CountryOfConsignor>
+        <ns3:CountryOfConsignee>XI</ns3:CountryOfConsignee>
+        <ns3:CountryOfDispatch>XI</ns3:CountryOfDispatch>
+        <ns3:CountryOfPlaceOfLoading>XI</ns3:CountryOfPlaceOfLoading>
+        <ns3:ConsignorName>COOPERATIVEcF95 WW</ns3:ConsignorName>
+        <ns3:ConsigneeName>COOPERATIVEcF95 WW</ns3:ConsigneeName>
+      </ns3:EuIntraCertificateResult>
+      <ns3:EuIntraCertificateResult>
+        <ns3:ID>INTRA.EU.XI.2026.0000001</ns3:ID>
+        <ns3:Status name="To be done (New)">1</ns3:Status>
+        <ns3:HasControls>false</ns3:HasControls>
+        <ns3:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>05119939</ns4:ClassCode>
+          <ns4:ClassName languageID="en">PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED</ns4:ClassName>
+          <ns4:ClassName languageID="en">Animal products not elsewhere specified or included; dead animals of Chapter|1|or 3, unfit for human consumption</ns4:ClassName>
+          <ns4:ClassName languageID="en">Other</ns4:ClassName>
+          <ns4:ClassName languageID="en">Natural sponges of animal origin, not raw</ns4:ClassName>
+        </ns3:CommodityApplicableSPSClassification>
+        <ns3:CreateDateTime>DateTimeOffset_7</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>DateTimeOffset_7</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>DateTimeOffset_8</ns3:StatusChangeDateTime>
+        <ns3:DeclarationDateTime>DateTimeOffset_9</ns3:DeclarationDateTime>
+        <ns3:CountryOfConsignor>XI</ns3:CountryOfConsignor>
+        <ns3:CountryOfConsignee>XI</ns3:CountryOfConsignee>
+        <ns3:CountryOfDestination>XI</ns3:CountryOfDestination>
+        <ns3:CountryOfDispatch>XI</ns3:CountryOfDispatch>
+        <ns3:CountryOfPlaceOfLoading>XI</ns3:CountryOfPlaceOfLoading>
+        <ns3:ConsignorName>COOPERATIVEcF95 WW</ns3:ConsignorName>
+        <ns3:ConsigneeName>COOPERATIVEcF95 WW</ns3:ConsigneeName>
+      </ns3:EuIntraCertificateResult>
+      <ns3:EuIntraCertificateResult>
+        <ns3:ID>INTRA.EU.BE.2026.0000003</ns3:ID>
+        <ns3:Status name="To be done (New)">1</ns3:Status>
+        <ns3:HasControls>false</ns3:HasControls>
+        <ns3:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>05111000</ns4:ClassCode>
+          <ns4:ClassName languageID="en">PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED</ns4:ClassName>
+          <ns4:ClassName languageID="en">Animal products not elsewhere specified or included; dead animals of Chapter|1|or 3, unfit for human consumption</ns4:ClassName>
+          <ns4:ClassName languageID="en">Bovine semen</ns4:ClassName>
+          <ns4:ClassName languageID="en">Bovine semen</ns4:ClassName>
+        </ns3:CommodityApplicableSPSClassification>
+        <ns3:CreateDateTime>DateTimeOffset_10</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>DateTimeOffset_11</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>DateTimeOffset_10</ns3:StatusChangeDateTime>
+        <ns3:DeclarationDateTime>DateTimeOffset_12</ns3:DeclarationDateTime>
+        <ns3:CountryOfConsignor>XI</ns3:CountryOfConsignor>
+        <ns3:CountryOfConsignee>XI</ns3:CountryOfConsignee>
+        <ns3:CountryOfOrigin>BE</ns3:CountryOfOrigin>
+        <ns3:CountryOfOrigin>BE</ns3:CountryOfOrigin>
+        <ns3:CountryOfDestination>XI</ns3:CountryOfDestination>
+        <ns3:CountryOfDispatch>BE</ns3:CountryOfDispatch>
+        <ns3:CountryOfPlaceOfLoading>BE</ns3:CountryOfPlaceOfLoading>
+        <ns3:ConsignorName>COOPERATIVEcF95 WW</ns3:ConsignorName>
+        <ns3:ConsigneeName>COOPERATIVEcF95 WW</ns3:ConsigneeName>
+      </ns3:EuIntraCertificateResult>
+      <ns3:EuIntraCertificateResult>
+        <ns3:ID>INTRA.EU.BE.2026.0000004</ns3:ID>
+        <ns3:Status name="To be done (New)">1</ns3:Status>
+        <ns3:HasControls>false</ns3:HasControls>
+        <ns3:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>05111000</ns4:ClassCode>
+          <ns4:ClassName languageID="en">PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED</ns4:ClassName>
+          <ns4:ClassName languageID="en">Animal products not elsewhere specified or included; dead animals of Chapter|1|or 3, unfit for human consumption</ns4:ClassName>
+          <ns4:ClassName languageID="en">Bovine semen</ns4:ClassName>
+          <ns4:ClassName languageID="en">Bovine semen</ns4:ClassName>
+        </ns3:CommodityApplicableSPSClassification>
+        <ns3:CreateDateTime>DateTimeOffset_13</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>DateTimeOffset_14</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>DateTimeOffset_13</ns3:StatusChangeDateTime>
+        <ns3:DeclarationDateTime>DateTimeOffset_15</ns3:DeclarationDateTime>
+        <ns3:CountryOfConsignor>XI</ns3:CountryOfConsignor>
+        <ns3:CountryOfConsignee>XI</ns3:CountryOfConsignee>
+        <ns3:CountryOfOrigin>BE</ns3:CountryOfOrigin>
+        <ns3:CountryOfOrigin>BE</ns3:CountryOfOrigin>
+        <ns3:CountryOfDestination>XI</ns3:CountryOfDestination>
+        <ns3:CountryOfDispatch>BE</ns3:CountryOfDispatch>
+        <ns3:CountryOfPlaceOfLoading>BE</ns3:CountryOfPlaceOfLoading>
+        <ns3:ConsignorName>COOPERATIVEcF95 WW</ns3:ConsignorName>
+        <ns3:ConsigneeName>COOPERATIVEcF95 WW</ns3:ConsigneeName>
+      </ns3:EuIntraCertificateResult>
+      <ns3:EuIntraCertificateResult>
+        <ns3:ID>INTRA.EU.AT.2026.0000002</ns3:ID>
+        <ns3:Status name="To be done (New)">1</ns3:Status>
+        <ns3:HasControls>false</ns3:HasControls>
+        <ns3:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>010410</ns4:ClassCode>
+          <ns4:ClassName languageID="en">LIVE ANIMALS</ns4:ClassName>
+          <ns4:ClassName languageID="en">Live sheep and goats</ns4:ClassName>
+          <ns4:ClassName languageID="en">Sheep</ns4:ClassName>
+        </ns3:CommodityApplicableSPSClassification>
+        <ns3:CreateDateTime>DateTimeOffset_16</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>DateTimeOffset_16</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>DateTimeOffset_17</ns3:StatusChangeDateTime>
+        <ns3:DeclarationDateTime>DateTimeOffset_18</ns3:DeclarationDateTime>
+        <ns3:CountryOfConsignor>XI</ns3:CountryOfConsignor>
+        <ns3:CountryOfConsignee>XI</ns3:CountryOfConsignee>
+        <ns3:CountryOfDispatch>AT</ns3:CountryOfDispatch>
+        <ns3:CountryOfPlaceOfLoading>AT</ns3:CountryOfPlaceOfLoading>
+        <ns3:ConsignorName>COOPERATIVEcF95 WW</ns3:ConsignorName>
+        <ns3:ConsigneeName>COOPERATIVEcF95 WW</ns3:ConsigneeName>
+      </ns3:EuIntraCertificateResult>
+      <ns3:EuIntraCertificateResult>
+        <ns3:ID>INTRA.EU.AT.2026.0000001</ns3:ID>
+        <ns3:Status name="To be done (New)">1</ns3:Status>
+        <ns3:HasControls>false</ns3:HasControls>
+        <ns3:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>010410</ns4:ClassCode>
+          <ns4:ClassName languageID="en">LIVE ANIMALS</ns4:ClassName>
+          <ns4:ClassName languageID="en">Live sheep and goats</ns4:ClassName>
+          <ns4:ClassName languageID="en">Sheep</ns4:ClassName>
+        </ns3:CommodityApplicableSPSClassification>
+        <ns3:CreateDateTime>DateTimeOffset_19</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>DateTimeOffset_19</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>DateTimeOffset_20</ns3:StatusChangeDateTime>
+        <ns3:DeclarationDateTime>DateTimeOffset_21</ns3:DeclarationDateTime>
+        <ns3:CountryOfConsignor>XI</ns3:CountryOfConsignor>
+        <ns3:CountryOfConsignee>XI</ns3:CountryOfConsignee>
+        <ns3:CountryOfDispatch>AT</ns3:CountryOfDispatch>
+        <ns3:CountryOfPlaceOfLoading>AT</ns3:CountryOfPlaceOfLoading>
+        <ns3:ConsignorName>COOPERATIVEcF95 WW</ns3:ConsignorName>
+        <ns3:ConsigneeName>COOPERATIVEcF95 WW</ns3:ConsigneeName>
+      </ns3:EuIntraCertificateResult>
+      <ns3:EuIntraCertificateResult>
+        <ns3:ID>INTRA.EU.BE.2026.0000001</ns3:ID>
+        <ns3:Status name="To be done (New)">1</ns3:Status>
+        <ns3:HasControls>false</ns3:HasControls>
+        <ns3:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>05111000</ns4:ClassCode>
+          <ns4:ClassName languageID="en">PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED</ns4:ClassName>
+          <ns4:ClassName languageID="en">Animal products not elsewhere specified or included; dead animals of Chapter|1|or 3, unfit for human consumption</ns4:ClassName>
+          <ns4:ClassName languageID="en">Bovine semen</ns4:ClassName>
+          <ns4:ClassName languageID="en">Bovine semen</ns4:ClassName>
+        </ns3:CommodityApplicableSPSClassification>
+        <ns3:CreateDateTime>DateTimeOffset_22</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>DateTimeOffset_22</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>DateTimeOffset_23</ns3:StatusChangeDateTime>
+        <ns3:DeclarationDateTime>DateTimeOffset_24</ns3:DeclarationDateTime>
+        <ns3:CountryOfConsignor>XI</ns3:CountryOfConsignor>
+        <ns3:CountryOfConsignee>XI</ns3:CountryOfConsignee>
+        <ns3:CountryOfOrigin>BE</ns3:CountryOfOrigin>
+        <ns3:CountryOfOrigin>BE</ns3:CountryOfOrigin>
+        <ns3:CountryOfDestination>XI</ns3:CountryOfDestination>
+        <ns3:CountryOfDispatch>BE</ns3:CountryOfDispatch>
+        <ns3:CountryOfPlaceOfLoading>BE</ns3:CountryOfPlaceOfLoading>
+        <ns3:ConsignorName>COOPERATIVEcF95 WW</ns3:ConsignorName>
+        <ns3:ConsigneeName>COOPERATIVEcF95 WW</ns3:ConsigneeName>
+      </ns3:EuIntraCertificateResult>
+    </ns3:FindEuIntraCertificateResponse>
+  </S:Body>
+</S:Envelope>

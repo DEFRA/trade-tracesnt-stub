@@ -47,6 +47,8 @@
     <EmbeddedResource Include="Samples\CHED\SubmitCertificateAttachmentResponse.TEMPLATE.xml" />
     <None Remove="Samples\CHED\GetCertificateAttachmentResponse.TEMPLATE.xml" />
     <EmbeddedResource Include="Samples\CHED\GetCertificateAttachmentResponse.TEMPLATE.xml" />
+    <None Remove="Samples\INTRA\FindEuIntraCertificateResponse.xml" />
+    <EmbeddedResource Include="Samples\INTRA\FindEuIntraCertificateResponse.xml" />
   </ItemGroup>
 
 
