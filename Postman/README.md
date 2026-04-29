@@ -6,13 +6,14 @@ It also contains a suit of requests for interacting with various Traces NT endpo
 
 You will need to provide values for the environment variables:
 
-| Variable              | Descrption                                                                              | Example                                                                                              |
-|-----------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| Host                  | Your locally/CDP running instance                                                       | http://localhost:8080<br>https://ephemeral-protected.api.dev.cdp-int.defra.cloud/trade-tracesnt-stub |
-| API-KEY               | Your CDP generated API Key                                                              | See here: https://portal.cdp-int.defra.cloud/documentation/how-to/developer-api-key.md               |
-| WEB_SERVICE_CLIENT_ID | Traces Web Service Client ID assigned to the account you are using to connect to Traces |                                                                                                      |
-| USERNAME              | Your Traces username                                                                    |                                                                                                      |
-| AUTHENTICATION_KEY    | The authentication key assigned to your Traces webservice account                       |                                                                                                      |
+| Variable                             | Descrption                                                                                                                                                                   | Example                                                                                              |
+|--------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| Host                                 | Your locally/CDP running instance                                                                                                                                            | http://localhost:8080<br>https://ephemeral-protected.api.dev.cdp-int.defra.cloud/trade-tracesnt-stub |
+| API-KEY                              | Your CDP generated API Key                                                                                                                                                   | See here: https://portal.cdp-int.defra.cloud/documentation/how-to/developer-api-key.md               |
+| WEB_SERVICE_CLIENT_ID                | Traces Web Service Client ID assigned to the account you are using to connect to Traces                                                                                      |                                                                                                      |
+| USERNAME                             | Your Traces username                                                                                                                                                         |                                                                                                      |
+| AUTHENTICATION_KEY                   | The authentication key assigned to your Traces webservice account                                                                                                            |                                                                                                      |
+| AUTHORITY_ACTIVITY_ACCESS_IDENTIFIER | The WebService Identifier for Authority Activity. This can be found in the Traces UI by searching for the Operator and viewing the Activity Detail within the Authority Role |                                                                                                      |
 
 ## Proxy Requests
 The endpoints configured for all the requests are currently set to <code>/mock/</code> by default.  
