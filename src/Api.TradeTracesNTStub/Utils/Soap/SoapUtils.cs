@@ -110,10 +110,10 @@ public static class SoapUtils
         var requestBody = XElement.Parse(request.Body!);
         var issueDateTime = GenerateCentralEuropeanTime();
         var chedId = GenerateChedId(requestBody);
-        var referenceSPSReferencedDocument = requestBody.XPathSelectElement("//*[local-name()='ReferenceSPSReferencedDocument']");
-        var schemeAgencyId = referenceSPSReferencedDocument?.Elements().FirstOrDefault(e => e.Name.LocalName == "ID" && e.Attribute("schemeAgencyID") is not null)?.Value;
-        var documentId = referenceSPSReferencedDocument?.Elements().FirstOrDefault(e => e.Name.LocalName == "AttachmentBinaryObject" && e.Attribute("uri") is not null)?.Attribute("uri")!.Value.Split(':').Last();
-        var filename = referenceSPSReferencedDocument?.Elements().FirstOrDefault(e => e.Name.LocalName == "AttachmentBinaryObject" && e.Attribute("filename") is not null)?.Attribute("filename")!.Value;
+        var referenceSpsReferencedDocument = requestBody.XPathSelectElement("//*[local-name()='ReferenceSPSReferencedDocument']");
+        var schemeAgencyId = referenceSpsReferencedDocument?.Elements().Single(e => e.Name.LocalName == "ID" && e.Attribute("schemeAgencyID") is not null).Value;
+        var documentId = referenceSpsReferencedDocument?.Elements().Single(e => e.Name.LocalName == "AttachmentBinaryObject" && e.Attribute("uri") is not null).Attribute("uri")!.Value.Split(':').Last();
+        var filename = referenceSpsReferencedDocument?.Elements().Single(e => e.Name.LocalName == "AttachmentBinaryObject" && e.Attribute("filename") is not null).Attribute("filename")!.Value;
         
         resourceContent = resourceContent?.Replace("{{ISSUE_DATETIME}}", issueDateTime);
         resourceContent = resourceContent?.Replace("{{CHED_ID}}", chedId);
