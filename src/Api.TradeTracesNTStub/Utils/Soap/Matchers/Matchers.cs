@@ -159,30 +159,12 @@ public static class Matchers
             ])
             .ToArray();
     
-    public static IMatcher[] ValidCreateDraftChedRequest() =>
-        ValidHeaders()
-            .Concat(ValidCompetentAuthorityHeaders())
-            .Concat(
-                [
-                    new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateDraftChedRequest']")
-                ])
-            .ToArray();
-    
     public static IMatcher[] ValidCreateAndSubmitChedForDecisionRequest() =>
         ValidHeaders()
             .Concat(ValidCompetentAuthorityHeaders())
             .Concat(
                 [
                     new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateAndSubmitChedForDecisionRequest']")
-                ])
-            .ToArray();
-    
-    public static IMatcher[] ValidCreateAndSubmitDecisionAsInProgressRequest() =>
-        ValidHeaders()
-            .Concat(ValidCompetentAuthorityHeaders())
-            .Concat(
-                [
-                    new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateAndSubmitChedDecisionAsInProgressRequest']")
                 ])
             .ToArray();
 }
