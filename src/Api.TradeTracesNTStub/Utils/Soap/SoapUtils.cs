@@ -102,11 +102,11 @@ public static class SoapUtils
 
         return StubResponseMessage(statusCode, resourceContent);
     }
-    
+
     public static async Task<ResponseMessage> CreateChedSubmittedResponse(HttpStatusCode statusCode, IRequestMessage request)
     {
         var resourceContent = await GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.CHED.Submitted.TEMPLATE.xml");
-        
+
         var requestBody = XElement.Parse(request.Body!);
         var issueDateTime = GenerateCentralEuropeanTime();
         var chedId = GenerateChedId(requestBody);
@@ -114,12 +114,22 @@ public static class SoapUtils
         var schemeAgencyId = referenceSpsReferencedDocument?.Elements().Single(e => e.Name.LocalName == "ID" && e.Attribute("schemeAgencyID") is not null).Value;
         var documentId = referenceSpsReferencedDocument?.Elements().Single(e => e.Name.LocalName == "AttachmentBinaryObject" && e.Attribute("uri") is not null).Attribute("uri")!.Value.Split(':').Last();
         var filename = referenceSpsReferencedDocument?.Elements().Single(e => e.Name.LocalName == "AttachmentBinaryObject" && e.Attribute("filename") is not null).Attribute("filename")!.Value;
-        
+
         resourceContent = resourceContent?.Replace("{{ISSUE_DATETIME}}", issueDateTime);
         resourceContent = resourceContent?.Replace("{{CHED_ID}}", chedId);
         resourceContent = resourceContent?.Replace("{{SCHEME_AGENCY_ID}}", schemeAgencyId);
         resourceContent = resourceContent?.Replace("{{DOCUMENT_ID}}", documentId);
         resourceContent = resourceContent?.Replace("{{FILENAME}}", filename);
+
+        return StubResponseMessage(statusCode, resourceContent);
+    }
+
+    public static async Task<ResponseMessage> CreateOperatorCreatedResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        var resourceContent = await GetEmbeddedResource("Api.TradeTracesNTStub.Samples.OPERATOR.Operator.Created.TEMPLATE.xml");
+        var operatorId = new Random().Next(1, 9999999);  
+       
+        resourceContent = resourceContent?.Replace("{{OPERATOR_ID}}", operatorId.ToString());
         
         return StubResponseMessage(statusCode, resourceContent);
     }

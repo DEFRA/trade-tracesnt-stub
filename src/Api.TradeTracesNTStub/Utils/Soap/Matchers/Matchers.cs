@@ -167,4 +167,12 @@ public static class Matchers
                     new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateAndSubmitChedForDecisionRequest']")
                 ])
             .ToArray();
+
+    public static IMatcher[] ValidCreateOperatorRequest() =>
+        ValidHeaders()
+            .Concat(
+            [
+                new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateOperatorRequest']")
+            ])
+            .ToArray();
 }

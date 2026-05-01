@@ -31,7 +31,8 @@ public static class WireMockServerExtensions
 
         server.CreateIntraStubs();
         server.CreateChedStubs();
-        
+        server.CreateOperatorStubs();
+
         return server;
     }
 
@@ -110,6 +111,18 @@ public static class WireMockServerExtensions
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateChedSubmittedResponse(HttpStatusCode.OK, request)));
         
+        return server;
+    }
+
+    private static WireMockServer CreateOperatorStubs(this WireMockServer server)
+    {
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"createOperator\""])
+                .WithBody(Matchers.ValidCreateOperatorRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await SoapUtils.CreateOperatorCreatedResponse(HttpStatusCode.OK, request)));
+
         return server;
     }
 }
