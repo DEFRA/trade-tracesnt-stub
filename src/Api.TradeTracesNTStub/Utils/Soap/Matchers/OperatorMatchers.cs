@@ -19,4 +19,12 @@ internal static class OperatorMatchers
                 new XPathMatcher(MessageMatchers.BodyXPath + "/*[local-name() = 'FindOperatorRequest']")
             ])
             .ToArray();
+
+    public static IMatcher[] ValidGetOperatorByIdRequest() =>
+        MessageMatchers.ValidHeaders()
+            .Concat(
+            [
+                new XPathMatcher(MessageMatchers.BodyXPath + "/*[local-name() = 'GetOperatorRequest']/*[local-name() = 'ID' and text()]")
+            ])
+            .ToArray();
 }

@@ -51,6 +51,7 @@
     <None Remove="Samples\INTRA\FindEuIntraCertificateResponse.xml" />
     <EmbeddedResource Include="Samples\INTRA\FindEuIntraCertificateResponse.xml" />
     <EmbeddedResource Include="Samples\OPERATOR\FindOperatorResponse.xml" />
+    <EmbeddedResource Include="Samples\OPERATOR\GetOperatorByIdResponse.TEMPLATE.xml" />
     <EmbeddedResource Include="Samples\OPERATOR\Operator.Created.TEMPLATE.xml" />
     <EmbeddedResource Include="Samples\ORGANIC_OPERATOR\GetOrganicOperatorResponse.xml" />
     <EmbeddedResource Include="Samples\ORGANIC_OPERATOR\FindOrganicOperatorResponse.xml" />

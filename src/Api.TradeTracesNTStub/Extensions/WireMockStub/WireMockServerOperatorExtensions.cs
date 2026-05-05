@@ -26,6 +26,13 @@ public static class WireMockServerOperatorExtensions
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => await OperatorResponses.CreateFindOperatorResponse(HttpStatusCode.OK, request)));
 
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"getOperator\""])
+                .WithBody(OperatorMatchers.ValidGetOperatorByIdRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async request => await OperatorResponses.CreateGetOperatorByIdResponse(HttpStatusCode.OK, request)));
+
         return server;
     }
 }
