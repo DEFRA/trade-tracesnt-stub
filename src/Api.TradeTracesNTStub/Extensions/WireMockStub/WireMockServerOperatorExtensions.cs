@@ -1,4 +1,5 @@
 using System.Net;
+using Api.TradeTracesNTStub.Utils.Soap;
 using Api.TradeTracesNTStub.Utils.Soap.Matchers;
 using Api.TradeTracesNTStub.Utils.Soap.Responses;
 using WireMock.Matchers;
@@ -17,14 +18,14 @@ public static class WireMockServerOperatorExtensions
                 .WithHeader("SOAPAction", ["\"createOperator\""])
                 .WithBody(OperatorMatchers.ValidCreateOperatorRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await OperatorResponses.CreateOperatorCreatedResponse(HttpStatusCode.OK, request)));
+            .RespondWith(Response.Create().WithCallback(async request => await OperatorResponses.CreateOperatorCreatedResponse(HttpStatusCode.OK)));
 
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"findOperator\""])
                 .WithBody(OperatorMatchers.ValidFindOperatorRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await OperatorResponses.CreateFindOperatorResponse(HttpStatusCode.OK, request)));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.OPERATOR.FindOperatorResponse.xml")));
 
         server
             .Given(Request.Create()

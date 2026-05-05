@@ -1,6 +1,6 @@
-using System.Net;
+using Api.TradeTracesNTStub.Utils.Soap;
 using Api.TradeTracesNTStub.Utils.Soap.Matchers;
-using Api.TradeTracesNTStub.Utils.Soap.Responses;
+using System.Net;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
@@ -17,14 +17,14 @@ public static class WireMockServerOrganicOperatorExtensions
                 .WithHeader("SOAPAction", ["\"getOrganicOperatorCertificate\""])
                 .WithBody(OrganicOperatorMatchers.ValidGetOrganicOperatorCertificateRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await OrganicOperatorResponses.CreateGetOrganicOperatorResponse(HttpStatusCode.OK, request)));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.ORGANIC_OPERATOR.GetOrganicOperatorResponse.xml")));
 
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"organicOperator\""])
                 .WithBody(OrganicOperatorMatchers.ValidFindOrganicOperatorCertificateRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await OrganicOperatorResponses.CreateFindOrganicOperatorResponse(HttpStatusCode.OK, request)));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.ORGANIC_OPERATOR.FindOrganicOperatorResponse.xml")));
 
         return server;
     }

@@ -1,6 +1,6 @@
 using System.Net;
+using Api.TradeTracesNTStub.Utils.Soap;
 using Api.TradeTracesNTStub.Utils.Soap.Matchers;
-using Api.TradeTracesNTStub.Utils.Soap.Responses;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
@@ -17,28 +17,29 @@ public static class WireMockServerReferenceDataExtensions
                 .WithHeader("SOAPAction", ["\"getClassificationSections\""])
                 .WithBody(ReferenceDataMatchers.ValidGetClassificationSectionsRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await ReferenceDataResponses.CreateGetClassificationSectionsResponse(HttpStatusCode.OK, request)));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationSectionsResponse.xml")));
 
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"getClassificationTrees\""])
                 .WithBody(ReferenceDataMatchers.ValidGetClassificationTreesRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await ReferenceDataResponses.CreateGetClassificationTreesResponse(HttpStatusCode.OK, request)));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreesResponse.xml")));
+
 
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"getClassificationTree\""])
                 .WithBody(ReferenceDataMatchers.ValidGetClassificationTreeRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await ReferenceDataResponses.CreateGetClassificationTreeResponse(HttpStatusCode.OK, request)));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeResponse.xml")));
 
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"getClassificationTreeNodeDetail\""])
                 .WithBody(ReferenceDataMatchers.ValidGetClassificationTreeNodeDetailRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await ReferenceDataResponses.CreateGetClassificationTreeNodeDetailResponse(HttpStatusCode.OK, request)));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeNodeDetailResponse.xml")));
 
         return server;
     }
