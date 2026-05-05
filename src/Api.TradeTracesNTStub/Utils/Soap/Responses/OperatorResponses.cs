@@ -1,0 +1,23 @@
+using System.Net;
+using WireMock;
+
+namespace Api.TradeTracesNTStub.Utils.Soap.Responses;
+
+public static class OperatorResponses
+{
+    public static async Task<ResponseMessage> CreateOperatorCreatedResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.OPERATOR.Operator.Created.TEMPLATE.xml");
+        var operatorId = new Random().Next(1, 9999999);  
+       
+        resourceContent = resourceContent?.Replace("{{OPERATOR_ID}}", operatorId.ToString());
+        
+        return SoapUtils.StubResponseMessage(statusCode, resourceContent);
+    }
+
+    public static async Task<ResponseMessage> CreateFindOperatorResponse(HttpStatusCode statusCode, IRequestMessage request)
+    {
+        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.OPERATOR.FindOperatorResponse.xml");
+        return SoapUtils.StubResponseMessage(statusCode, resourceContent);
+    }
+}

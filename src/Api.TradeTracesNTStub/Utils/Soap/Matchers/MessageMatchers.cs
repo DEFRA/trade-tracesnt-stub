@@ -2,12 +2,12 @@ using WireMock.Matchers;
 
 namespace Api.TradeTracesNTStub.Utils.Soap.Matchers;
 
-public static class Matchers
+internal static class MessageMatchers
 {
     private const string HeaderXPath = "/*[local-name() = 'Envelope']/*[local-name() = 'Header']";
     private const string SecurityHeaderXPath = HeaderXPath + "/*[local-name() = 'Security']";
-    private const string BodyXPath = "/*[local-name() = 'Envelope']/*[local-name() = 'Body']";
-    
+    public const string BodyXPath = "/*[local-name() = 'Envelope']/*[local-name() = 'Body']";
+
     /// <summary>
     /// Required and valid header values:
     /// <list type="bullet">
@@ -48,7 +48,7 @@ public static class Matchers
     /// </summary>
     /// <remarks>Should be used with MatchOperator.And</remarks>
     /// <returns></returns>
-    private static IMatcher[] ValidHeaders() =>
+    public static IMatcher[] ValidHeaders() =>
         [
             new XPathMatcher(HeaderXPath + "/*[local-name() = 'Security']"),
             new XPathMatcher(SecurityHeaderXPath + "/*[local-name() = 'UsernameToken']"),
@@ -66,7 +66,7 @@ public static class Matchers
             new XPathMatcher(HeaderXPath + "/*[local-name() = 'WebServiceClientId' and text()]")
         ];
 
-    private static IMatcher[] ValidCompetentAuthorityHeaders() =>
+    public static IMatcher[] ValidCompetentAuthorityHeaders() =>
         [
             new XPathMatcher(HeaderXPath + "/*[local-name() = 'BodyIdentity']"),
             new XPathMatcher(HeaderXPath + "/*[local-name() = 'BodyIdentity']/*[local-name() = 'AuthorityActivityAccessIdentifier' and text()]")
@@ -94,85 +94,4 @@ public static class Matchers
             new XPathMatcher(SecurityHeaderXPath + "/*[local-name() = 'UsernameToken']/*[local-name() = 'Created' and xs:dateTime(text()) >= (xs:dateTime(" + SecurityHeaderXPath + "/*[local-name() = 'Timestamp']/*[local-name() = 'Expires']/text()))]"),
             new XPathMatcher(HeaderXPath + "/*[local-name() = 'WebServiceClientId' and not(text())]")
         ];
-
-    /// <summary>
-    /// GetEuIntraCertificateRequest ID value is present and required headers are present and valid
-    /// </summary>
-    /// <remarks>Should be used with MatchOperator.And</remarks>
-    /// <returns></returns>
-    public static IMatcher[] ValidGetEuIntraCertificateRequest() =>
-        ValidHeaders().Concat(
-            [
-                new XPathMatcher(BodyXPath + "/*[local-name() = 'GetEuIntraCertificateRequest']/*[local-name() = 'ID' and text()]")
-            ]).ToArray();
-    
-    /// <summary>
-    /// GetEuIntraCertificateRequest ID value is missing
-    /// </summary>
-    /// <remarks>Should be used with MatchOperator.And</remarks>
-    /// <returns></returns>
-    public static IMatcher[] InvalidGetEuIntraCertificateRequest() =>
-        ValidHeaders().Concat(
-        [
-            new XPathMatcher(BodyXPath + "/*[local-name() = 'GetEuIntraCertificateRequest']/*[local-name() = 'ID' and not(text())]")
-        ]).ToArray();
-    
-    /// <summary>
-    /// GetEuIntraPdfCertificateRequest ID value is present and required headers are present and valid
-    /// </summary>
-    /// <remarks>Should be used with MatchOperator.And</remarks>
-    /// <returns></returns>
-    public static IMatcher[] ValidGetEuIntraPdfCertificateRequest() =>
-        ValidHeaders().Concat(
-        [
-            new XPathMatcher(BodyXPath + "/*[local-name() = 'GetEuIntraPdfCertificateRequest']/*[local-name() = 'ID' and text()]")
-        ]).ToArray();
-    
-    public static IMatcher[] ValidFindEuIntraCertificateRequest() =>
-        ValidHeaders().Concat(
-        [
-            new XPathMatcher(BodyXPath + "/*[local-name() = 'FindEuIntraCertificateRequest']")
-        ]).ToArray();
-    
-    public static IMatcher[] ValidGetChedCertificateRequestRequest() =>
-        ValidHeaders()
-            .Concat(
-                [
-                    new XPathMatcher(BodyXPath + "/*[local-name() = 'GetChedCertificateRequest']/*[local-name() = 'ID' and text()]")
-                ])
-            .ToArray();
-    
-    public static IMatcher[] ValidSubmitCertificateAttachmentRequest() =>
-        ValidHeaders()
-            .Concat(
-            [
-                new XPathMatcher(BodyXPath + "/*[local-name() = 'SubmitCertificateAttachmentRequest']/*[local-name() = 'Attachment' and text()]")
-            ])
-            .ToArray();
-    
-    public static IMatcher[] ValidGetCertificateAttachmentRequest() =>
-        ValidHeaders()
-            .Concat(
-            [
-                new XPathMatcher(BodyXPath + "/*[local-name() = 'GetCertificateAttachmentRequest']/*[local-name() = 'FileName' and text()]"),
-                new XPathMatcher(BodyXPath + "/*[local-name() = 'GetCertificateAttachmentRequest']/*[local-name() = 'DocumentId' and text()]"),
-            ])
-            .ToArray();
-    
-    public static IMatcher[] ValidCreateAndSubmitChedForDecisionRequest() =>
-        ValidHeaders()
-            .Concat(ValidCompetentAuthorityHeaders())
-            .Concat(
-                [
-                    new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateAndSubmitChedForDecisionRequest']")
-                ])
-            .ToArray();
-
-    public static IMatcher[] ValidCreateOperatorRequest() =>
-        ValidHeaders()
-            .Concat(
-            [
-                new XPathMatcher(BodyXPath + "/*[local-name() = 'CreateOperatorRequest']")
-            ])
-            .ToArray();
 }

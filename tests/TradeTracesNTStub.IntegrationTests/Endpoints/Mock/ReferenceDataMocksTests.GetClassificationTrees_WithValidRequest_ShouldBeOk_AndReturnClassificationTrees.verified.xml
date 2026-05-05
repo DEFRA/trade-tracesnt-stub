@@ -1,0 +1,31 @@
+﻿<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>Guid_1</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>DateTimeOffset_1</ns1:Created>
+        <ns1:Expires>DateTimeOffset_2</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+  </S:Header>
+  <S:Body>
+    <ns13:GetClassificationTreesResponse xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns3="http://ec.europa.eu/sanco/tracesnt/error/v01" xmlns:ns4="http://ec.europa.eu/sanco/tracesnt/message/v1" xmlns:ns5="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns6="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns7="http://ec.europa.eu/tracesnt/referencedata/certificatemodel/v1" xmlns:ns8="http://ec.europa.eu/tracesnt/referencedata/classificationsection/v1" xmlns:ns9="http://ec.europa.eu/tracesnt/referencedata/classificationtree/v1" xmlns:ns10="http://ec.europa.eu/tracesnt/referencedata/nodeattribute/v1" xmlns:ns11="http://ec.europa.eu/tracesnt/referencedata/common/v1" xmlns:ns12="http://ec.europa.eu/tracesnt/referencedata/laboratorytest/v1" xmlns:ns13="http://ec.europa.eu/tracesnt/referencedata/v1" xmlns:ns14="http://www.w3.org/2000/09/xmldsig#" xmlns:ns15="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27">
+      <ns13:ClassificationTree treeID="cheda" languageID="en">CHED-A</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="chedp" languageID="en">CHED-P</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="chedd" languageID="en">CHED-D</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="chedpp" languageID="en">CHED-PP</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="noa" languageID="en">NOA</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="intra_trade" languageID="en">EU Intra-trade</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="eu_import" languageID="en">EU Import</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="eu_export" languageID="en">EU Export</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="docom" languageID="en">DOCOM</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="coi" languageID="en">COI</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="phyto" languageID="en">Phytosanitary</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="journey_log" languageID="en">Journey Log</ns13:ClassificationTree>
+      <ns13:ClassificationTree treeID="dispatch_authorisation" languageID="en">Dispatch authorisation</ns13:ClassificationTree>
+    </ns13:GetClassificationTreesResponse>
+  </S:Body>
+</S:Envelope>

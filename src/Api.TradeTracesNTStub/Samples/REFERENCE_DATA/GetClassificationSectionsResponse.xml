@@ -1,0 +1,1359 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>a558130c-c67e-4fa6-b13c-e73b39b2ccf4</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-05-05T09:26:38.624+02:00</ns1:Created>
+        <ns1:Expires>2026-05-05T09:26:43.624+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+  </S:Header>
+  <S:Body>
+    <ns13:GetClassificationSectionsResponse xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns3="http://ec.europa.eu/sanco/tracesnt/error/v01" xmlns:ns4="http://ec.europa.eu/sanco/tracesnt/message/v1" xmlns:ns5="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns6="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns7="http://ec.europa.eu/tracesnt/referencedata/certificatemodel/v1" xmlns:ns8="http://ec.europa.eu/tracesnt/referencedata/classificationsection/v1" xmlns:ns9="http://ec.europa.eu/tracesnt/referencedata/classificationtree/v1" xmlns:ns10="http://ec.europa.eu/tracesnt/referencedata/nodeattribute/v1" xmlns:ns11="http://ec.europa.eu/tracesnt/referencedata/common/v1" xmlns:ns12="http://ec.europa.eu/tracesnt/referencedata/laboratorytest/v1" xmlns:ns13="http://ec.europa.eu/tracesnt/referencedata/v1" xmlns:ns14="http://www.w3.org/2000/09/xmldsig#" xmlns:ns15="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27">
+      <ns13:ClassificationSection code="ACT" lms="true" active="true">
+        <ns8:Description languageID="en">Animal act</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Animal act" languageID="en">animal_act</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ADM-DEL-BODY" lms="true" active="true">
+        <ns8:Description languageID="en">Authorized Derogated Movement - Delegated Bodies</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exemption beneficiaries" languageID="en">authorised_entity</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ADM-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Authorized Derogated Movement - Establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Establishment" languageID="en">establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ADM-TRANS" lms="true" active="true">
+        <ns8:Description languageID="en">Authorized Derogated Movement - Transporters</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Transporter" languageID="en">transporter</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="AQUA-EST-AP" lms="true" active="true">
+        <ns8:Description languageID="en">Approved aquaculture establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Aquaculture establishment" languageID="en">aquaculture_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="AQUA-EST-AP-GR" lms="true" active="true">
+        <ns8:Description languageID="en">Group of approved aquaculture establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Aquaculture establishment" languageID="en">aquaculture_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="AQUA-EST-DISEASE" lms="true" active="true">
+        <ns8:Description languageID="en">Disease control aquatic food establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Aquaculture establishment" languageID="en">aquaculture_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="AQUA-EST-RE" lms="true" active="true">
+        <ns8:Description languageID="en">Registered aquaculture establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Aquaculture establishment" languageID="en">aquaculture_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="AQUA-EST-RE-GR" lms="true" active="true">
+        <ns8:Description languageID="en">Group of registered aquaculture establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Aquaculture establishment" languageID="en">aquaculture_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="AQUAHOLD" lms="false" active="true">
+        <ns8:Description languageID="en">Aquaculture Holdings</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Aquaculture holding" languageID="en">aquaculture_holding</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ASC" lms="false" active="true">
+        <ns8:Description languageID="en">Assembly Centres</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Assembly center" languageID="en">establish_ac</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ASC-DCF" lms="true" active="true">
+        <ns8:Description languageID="en">Assembly centres dogs, cats and ferrets</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Assembly center" languageID="en">establish_ac</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ASC-EQU" lms="true" active="true">
+        <ns8:Description languageID="en">Assembly centres certain equidae</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Assembly center" languageID="en">establish_ac</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ASC-POU" lms="true" active="true">
+        <ns8:Description languageID="en">Assembly centres poultry</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Assembly center" languageID="en">establish_ac</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ASC-UNG" lms="true" active="true">
+        <ns8:Description languageID="en">Assembly centres ungulates</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Assembly center" languageID="en">establish_ac</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ASOP-POU" lms="true" active="true">
+        <ns8:Description languageID="en">Assembly operations for poultry independently of an establishment</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Assembly operator" languageID="en">assembly_operator</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ASOP-UNG" lms="true" active="true">
+        <ns8:Description languageID="en">Assembly operations for ungulates independently of an establishment</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Assembly operator" languageID="en">assembly_operator</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="BBEE-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Bumble bees open establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="BBEEISO-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Bumble bees isolated establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="BIRD-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Captive birds establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="BIRD-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Captive birds establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="BIRDHATCH" lms="true" active="true">
+        <ns8:Description languageID="en">Captive birds hatcheries</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Hatchery" languageID="en">hatchery</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="BOV-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Bovine establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine establishment" languageID="en">bovine_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CAM-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Camelid establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CERV-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Cervid establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CIRCUS" lms="true" active="true">
+        <ns8:Description languageID="en">Travelling circus</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Travelling circus" languageID="en">travelling_circus</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CONF" lms="true" active="true">
+        <ns8:Description languageID="en">Confined establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Laboratory" languageID="en">laboratory</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Zoo" languageID="en">zoo</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="COP" lms="true" active="true">
+        <ns8:Description languageID="en">Control posts</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Control post" languageID="en">establish_s</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="DCF-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Dogs, cats and ferrets establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cats" languageID="en">cats</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Dogs" languageID="en">dogs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ferrets" languageID="en">ferrets</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="DCF-SHEL" lms="true" active="true">
+        <ns8:Description languageID="en">Animal shelters</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cats" languageID="en">cats</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Dogs" languageID="en">dogs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ferrets" languageID="en">ferrets</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="DEL" lms="false" active="true">
+        <ns8:Description languageID="en">Dealers</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Dealers" languageID="en">establish_d</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EMB" lms="false" active="true">
+        <ns8:Description languageID="en">Embryo collection and production teams</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine embryo collection team" languageID="en">bov_ect</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine embryo production team" languageID="en">bov_fiv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine embryo collection team" languageID="en">equ_ect</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine embryo production team" languageID="en">equ_fiv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Other species embryo collection team" languageID="en">other_ect</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Other species embryo production team" languageID="en">other_fiv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/Caprine embryo collection team" languageID="en">ov_ect</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/Caprine embryo production team" languageID="en">ov_fiv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine embryo collection team" languageID="en">porc_ect</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine embryo production team" languageID="en">porc_fiv</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EQU-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Equine establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine establishment" languageID="en">equine_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EXP" lms="false" active="true">
+        <ns8:Description languageID="en">Animal exporter</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Animal exporter" languageID="en">animal_exporter</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Port of loading" languageID="en">port_of_loading</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="HATCH-AP" lms="true" active="true">
+        <ns8:Description languageID="en">Approved Hatcheries</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Hatchery" languageID="en">hatchery</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="HATCH-RE" lms="true" active="true">
+        <ns8:Description languageID="en">Registered Hatcheries</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Hatchery" languageID="en">hatchery</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="HBEE-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Honeybees establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="IMP" lms="false" active="true">
+        <ns8:Description languageID="en">Importer</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Animal importer" languageID="en">animal_importer</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Establishment" languageID="en">establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exporter" languageID="en">exporter</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Importer" languageID="en">importer</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="MPA" lms="true" active="true">
+        <ns8:Description languageID="en">Multi-party agreement for registered race horses</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="OTH-OPER" lms="false" active="true">
+        <ns8:Description languageID="en">Other operators</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Animal establishment" languageID="en">animal_establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Establishment" languageID="en">establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exporter" languageID="en">exporter</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Food establishment" languageID="en">food_establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Habitat" languageID="en">habitat</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Importer" languageID="en">importer</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Port of loading" languageID="en">port_of_loading</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="OTHCARN-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Other carnivores establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="OTHERHOLD" lms="false" active="true">
+        <ns8:Description languageID="en">Other species locations</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Other species location" languageID="en">other_species_location</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="OTHUN-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Other ungulates establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Terrestrial animal establishment" languageID="en">terrestrial_animal_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="OV-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Ovine/caprine establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/Caprine establishment" languageID="en">ovine_caprine_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="PORC-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Porcine establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine establishment" languageID="en">porcine_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="POU-EST-AP" lms="true" active="true">
+        <ns8:Description languageID="en">Approved establishments keeping breeding or productive poultry</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Poultry establishment" languageID="en">establish_pf</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="POU-EST-RE" lms="true" active="true">
+        <ns8:Description languageID="en">Registered establishments keeping breeding or productive poultry</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Poultry establishment" languageID="en">establish_pf</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="POU-SLA-EST" lms="true" active="true">
+        <ns8:Description languageID="en">Establishments  of poultry for slaughter</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Poultry establishment" languageID="en">establish_pf</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="QUR" lms="true" active="true">
+        <ns8:Description languageID="en">Quarantine establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Quarantine establishment" languageID="en">establish_q</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="REG-TRANS" lms="true" active="true">
+        <ns8:Description languageID="en">Registered transporter</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Registered transporter" languageID="en">registered_transporter</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="REG-TRANS-AUTH-I" lms="true" active="true">
+        <ns8:Description languageID="en">Type I authorised transporters</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Type I authorised transporters" languageID="en">authorized_transporter_type_i</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="REG-TRANS-AUTH-II" lms="true" active="true">
+        <ns8:Description languageID="en">Type II authorised transporters</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Type II authorised transporters" languageID="en">authorized_transporter_type_ii</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="SEM" lms="false" active="true">
+        <ns8:Description languageID="en">Semen collection and storage centres</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine semen collection centre" languageID="en">bov_scc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine semen storage centre" languageID="en">bov_ssc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine semen collection centre" languageID="en">equ_scc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine semen storage centre" languageID="en">equ_ssc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Other species semen collection centre" languageID="en">other_scc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Other species semen storage centre" languageID="en">other_ssc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/Caprine semen collection centre" languageID="en">ov_scc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/Caprine semen storage centre" languageID="en">ov_ssc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine semen collection centre" languageID="en">porc_scc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine semen storage centre" languageID="en">porc_ssc</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="TPA" lms="false" active="true">
+        <ns8:Description languageID="en">TPA</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Establishment TPA" languageID="en">establish_tpa</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="TPA Exporter" languageID="en">exporter_tpa</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="VET-CLINIC" lms="true" active="true">
+        <ns8:Description languageID="en">Veterinary practices or clinics</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Veterinary practices or clinic" languageID="en">veterinary_practices_or_clinic</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ZOO" lms="false" active="true">
+        <ns8:Description languageID="en">Bodies, institutes and centers</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal">veterinary</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Approved body" languageID="en">establish_ab</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-BBL" lms="true" active="true">
+        <ns8:Description languageID="en">Blood and blood products, excluding of equidae, for technical purposes other than feed for animals</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 1" languageID="en">establish_cat_1</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-BIOGP" lms="true" active="true">
+        <ns8:Description languageID="en">Biogas plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Biogas plants" languageID="en">establish_biogp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-COL" lms="true" active="true">
+        <ns8:Description languageID="en">Collection centres</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="ABP Collection Centre" languageID="en">establish_colc</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-COL" lms="true" active="true">
+        <ns8:Description languageID="en">Other facility for the collection or handling of animal by-products (i.e. unprocessed/untreated materials)</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 1" languageID="en">establish_cat_1</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 2" languageID="en">establish_cat_2</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-COMP" lms="true" active="true">
+        <ns8:Description languageID="en">Composting plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Composting plants" languageID="en">establish_comp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-DP" lms="true" active="true">
+        <ns8:Description languageID="en">Storage of derived products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 1" languageID="en">establish_cat_1</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 2" languageID="en">establish_cat_2</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-FERT" lms="true" active="true">
+        <ns8:Description languageID="en">Establishments or plants manufacturing organic fertilisers or soil improvers</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Distributors of organic fertilisers or soil improvers in bulk" languageID="en">establish_ofsibu</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Distributors of packed organic fertilisers or soil improvers" languageID="en">establish_ofsipa</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Plant for the manufacturing organic fertilisers or soil improvers from derived products" languageID="en">establish_ofsipp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for organic fertilisers and soil improvers" languageID="en">establish_ufert</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-FSB" lms="true" active="true">
+        <ns8:Description languageID="en">Processing plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 1" languageID="en">establish_cat_1</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 2" languageID="en">establish_cat_2</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-GT" lms="true" active="true">
+        <ns8:Description languageID="en">Game trophies plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 2" languageID="en">establish_cat_2</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-INCP" lms="true" active="true">
+        <ns8:Description languageID="en">Incineration/ co-incineration/ combustion plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative processing method: combustion of animal fat in a thermal boiler process plant" languageID="en">establish_ocaftb</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Co-incineration plants" languageID="en">establish_coip</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Combustion plants" languageID="en">establish_combp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Incineration plants" languageID="en">establish_incp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-INTP" lms="true" active="true">
+        <ns8:Description languageID="en">Establishments or plants carrying out intermediate activities and plants storing animal by-products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="ABP Storage Plant" languageID="en">establish_storp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Intermediate Plant" languageID="en">establish_ip</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-IP" lms="true" active="true">
+        <ns8:Description languageID="en">Plants or establishments manufacturing intermediate products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 1" languageID="en">establish_cat_1</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 2" languageID="en">establish_cat_2</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-MP" lms="true" active="true">
+        <ns8:Description languageID="en">Dairy plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-OLCP" lms="true" active="true">
+        <ns8:Description languageID="en">Oleo-chemical plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative method: Multiple-step catalytic hydro-treatment for the production of renewable fuels" languageID="en">establish_omschy</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative processing method: Multi-step catalytic processes for the production of renewable fuels plant" languageID="en">establish_omscp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Biodiesel production plant" languageID="en">establish_obiodp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Oleo-chemical Plant" languageID="en">establish_olcp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-OTH" lms="true" active="true">
+        <ns8:Description languageID="en">Other registered operators</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="ABP Transport" languageID="en">establish_trans</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Biodiesel production plant" languageID="en">establish_obiodp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Collection Centre" languageID="en">establish_cc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Distributors of organic fertilisers or soil improvers in bulk" languageID="en">establish_ofsibu</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Distributors of packed organic fertilisers or soil improvers" languageID="en">establish_ofsipa</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Feed plant" languageID="en">establish_feedp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Other ABP activities" languageID="en">establish_other</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Pharmaceutical acitivity" languageID="en">establish_phar</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Registered traders" languageID="en">establish_trade</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Retail" languageID="en">establish_retail</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for cosmetic products" languageID="en">establish_ucosm</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for organic fertilisers and soil improvers" languageID="en">establish_ufert</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for technical products other than specified elsewhere" languageID="en">establish_tech</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-PET" lms="true" active="true">
+        <ns8:Description languageID="en">Petfood plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Petfood Plant using only processed ABP" languageID="en">establish_petpp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Petfood plant using only raw ABP" languageID="en">establish_petpr</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-PET" lms="true" active="true">
+        <ns8:Description languageID="en">Petfood plants (Including plants manufacturing dogchews and flavouring innards)</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 1" languageID="en">establish_cat_1</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-PROCP" lms="true" active="true">
+        <ns8:Description languageID="en">Processing plants</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="ABP Processing Plant" languageID="en">establish_procp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alkaline hydrolysis plant" languageID="en">establish_oalkhp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative method: Multiple-step catalytic hydro-treatment for the production of renewable fuels" languageID="en">establish_omschy</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative processing method: Ensilage of fish material processing plant" languageID="en">establish_oefp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative processing method: Lime treatment for pig and poultry manure plant" languageID="en">establish_oltppm</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative processing method: Multi-step catalytic processes for the production of renewable fuels plant" languageID="en">establish_omscp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative processing method: combustion of animal fat in a thermal boiler process plant" languageID="en">establish_ocaftb</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Alternative processing method: thermomechanical biofuel production" languageID="en">establish_otmb</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Biodiesel production plant" languageID="en">establish_obiodp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Brookes gasification plant" languageID="en">establish_obrgap</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="High pressure high temperature process plant" languageID="en">establish_ohphtp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="High pressure hydrolysis process plant" languageID="en">establish_ohphbp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-SH" lms="true" active="true">
+        <ns8:Description languageID="en">Slaughterhouses and fishery vessels</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 1" languageID="en">establish_cat_1</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 2" languageID="en">establish_cat_2</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-SOIL" lms="true" active="true">
+        <ns8:Description languageID="en">Fertiliser and soil improvers</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 2" languageID="en">establish_cat_2</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Category 3" languageID="en">establish_cat_3</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-SPU" lms="true" active="true">
+        <ns8:Description languageID="en">Registered users of animal by-products and derived product for specific purposes</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for diagnostic, education and/or research" languageID="en">establish_uder</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for dogs recognised kennels or packs of hounds and dogs and cats in shelter Kennels and shelters" languageID="en">establish_udog</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for exhibitions and/or artistic activities" languageID="en">establish_uexart</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for fur animals" languageID="en">establish_ufur</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for insects (incl maggots and worms) for fishing bait" languageID="en">establish_uinse</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for necrophagous birds" languageID="en">establish_unec</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for reptiles and birds of prey" languageID="en">establish_urbp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for technical products other than specified elsewhere" languageID="en">establish_tech</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for wild animals" languageID="en">establish_uwild</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for zoo/circus animals" languageID="en">establish_uzoo</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-STORP" lms="true" active="true">
+        <ns8:Description languageID="en">Establishments or plants for the storage of derived products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="ABP Storage Plant" languageID="en">establish_storp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-TECHP" lms="true" active="true">
+        <ns8:Description languageID="en">Establishments or plants handling animal by-products or derived products for purposes outside the feed chain</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Game Trophies Plant" languageID="en">establish_gatrp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Pharmaceutical acitivity" languageID="en">establish_phar</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Tannery" languageID="en">establish_tan</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for cosmetic products" languageID="en">establish_ucosm</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Use for technical products other than specified elsewhere" languageID="en">establish_tech</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-TRADER" lms="false" active="false">
+        <ns8:Description languageID="en">Animal by-Products Trader</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Animal By-Products traders" languageID="en">animal_byproducts_trader</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ABP-TRANSPORTER" lms="false" active="false">
+        <ns8:Description languageID="en">Animal By-Products Transporter</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Animal By-Products">animal_byproducts</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Animal By-Products Transporter" languageID="en">animal_byproducts_transporter</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CCFV_EU_APPROVED_TRADER" lms="false" active="true">
+        <ns8:Description languageID="en">CCFV EU Approved trader (Article 4.1(a) EC 2430/2023)</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Conformity Checks Fruits and Vegetables">ccfv</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="CCFV EU Approved trader (Article 4.1(a) EC 2430/2023)" languageID="en">ccfv_eu_approved_trader</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CCFV_EU_EXEMPTED_TRADER" lms="false" active="true">
+        <ns8:Description languageID="en">CCFV EU Exempted trader (Article 4.1(c) EC 2430/2023)</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Conformity Checks Fruits and Vegetables">ccfv</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="CCFV EU Exempted trader (Article 4.1(c) EC 2430/2023)" languageID="en">ccfv_eu_exempted_trader</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CCFV_EU_OTHER_TRADER" lms="false" active="true">
+        <ns8:Description languageID="en">CCFV EU Traders other than those referred to in Article 4.1(a)/(c) EC 2430/2023)</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Conformity Checks Fruits and Vegetables">ccfv</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="CCFV EU Traders other than those referred to in Article 4.1(a)/(c) EC 2430/2023)" languageID="en">ccfv_eu_other_trader</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CCFV_TC_TRADER" lms="false" active="true">
+        <ns8:Description languageID="en">CCFV TC Trader</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Conformity Checks Fruits and Vegetables">ccfv</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EU_CITES" lms="false" active="true">
+        <ns8:Description languageID="en">EU CITES</ns8:Description>
+        <ns8:ClassificationSectionChapter name="EU Cites">eucites</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="CITES Operator" languageID="en">cites_operator</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EUDR" lms="false" active="true">
+        <ns8:Description languageID="en">EUDR</ns8:Description>
+        <ns8:ClassificationSectionChapter name="EUDR">eudr</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="EUDR Authorized Representative" languageID="en">eudr_representative</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="EUDR Operator" languageID="en">eudr_operator</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="EUDR Trader" languageID="en">eudr_trader</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="NON_ANIMAL_ORIGIN_FOOD_AND_FEED" lms="false" active="true">
+        <ns8:Description languageID="en">Feed and Food of Non-Animal Origin</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Feed and Food of Non-Animal Origin">non_animal_origin_food_and_feed</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Establishment" languageID="en">establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exporter" languageID="en">exporter</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Importer" languageID="en">importer</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Place of production" languageID="en">plant_prod</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CATCH" lms="false" active="true">
+        <ns8:Description languageID="en">Fishing</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Fishing">fishing</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Fishing license holder / Duly mandated representative" languageID="en">fishing_license_holder</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Master of vessel" languageID="en">master_of_vessel</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CFFP" lms="false" active="true">
+        <ns8:Description languageID="en">CATCH fishery products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Fishing">fishing</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exporter" languageID="en">exporter</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Importer" languageID="en">importer</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CFFP" lms="false" active="true">
+        <ns8:Description languageID="en">CATCH fishery products - EU</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Fishing">fishing</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exporter" languageID="en">exporter</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Importer" languageID="en">importer</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CP" lms="false" active="true">
+        <ns8:Description languageID="en">CATCH ports</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Fishing">fishing</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Port of loading" languageID="en">port_of_loading</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CAS" lms="true" active="true">
+        <ns8:Description languageID="en">Treated stomachs, bladders and intestines: casings only</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="COL" lms="true" active="true">
+        <ns8:Description languageID="en">Collagen</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Collection Centre" languageID="en">establish_cc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EEP" lms="true" active="true">
+        <ns8:Description languageID="en">Eggs and egg products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Egg-packing Centre" languageID="en">establish_epc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Liquid Egg Plant" languageID="en">establish_lep</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EPP" lms="true" active="true">
+        <ns8:Description languageID="en">Eggs and egg products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Egg-packing Centre" languageID="en">establish_epc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Liquid Egg Plant" languageID="en">establish_lep</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="FAT" lms="true" active="true">
+        <ns8:Description languageID="en">Rendered animal fats and greaves</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Collection Centre" languageID="en">establish_cc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="FAT" lms="true" active="true">
+        <ns8:Description languageID="en">Rendered animal fats and greaves</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="FFP" lms="true" active="true">
+        <ns8:Description languageID="en">Fishery products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Factory Vessel" languageID="en">establish_fv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Freezer Vessel" languageID="en">establish_zv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Reefer Vessel" languageID="en">establish_rv</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="FFP" lms="true" active="true">
+        <ns8:Description languageID="en">Fishery products - EU</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Auction Hall" languageID="en">establish_ah</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Factory Vessel" languageID="en">establish_fv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Fishing Vessel" languageID="en">fishing_vessel</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Freezer Vessel" languageID="en">establish_zv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Fresh Fishery Products Plant" languageID="en">establish_ffpp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Reefer Vessel" languageID="en">establish_rv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Wholesale Market" languageID="en">establish_wm</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="FLS" lms="true" active="true">
+        <ns8:Description languageID="en">Frogs' legs and snails</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="FLS" lms="true" active="true">
+        <ns8:Description languageID="en">Frogs' legs and snails</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="FOOD-OTH" lms="false" active="true">
+        <ns8:Description languageID="en">Other establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Establishment" languageID="en">establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exporter" languageID="en">exporter</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Importer" languageID="en">importer</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Port of loading" languageID="en">port_of_loading</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GEL" lms="true" active="true">
+        <ns8:Description languageID="en">Gelatine</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Collection Centre" languageID="en">establish_cc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GEL" lms="true" active="true">
+        <ns8:Description languageID="en">Gelatine</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GEN" lms="true" active="true">
+        <ns8:Description languageID="en">General activity establishment - EU</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exporter" languageID="en">exporter</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Importer" languageID="en">importer</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Re-wrapping Establishment" languageID="en">establish_rw</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Reefer Vessel" languageID="en">establish_rv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Wholesale Market" languageID="en">establish_wm</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GEN" lms="true" active="true">
+        <ns8:Description languageID="en">General activity establishment - non-EU</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Re-wrapping Establishment" languageID="en">establish_rw</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Reefer Vessel" languageID="en">establish_rv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Wholesale Market" languageID="en">establish_wm</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GM" lms="true" active="true">
+        <ns8:Description languageID="en">Meat of farmed game</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cutting Plant" languageID="en">establish_cp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Slaughterhouse" languageID="en">establish_sh</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GM" lms="true" active="true">
+        <ns8:Description languageID="en">Meat of farmed game</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cutting Plant" languageID="en">establish_cp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Slaughterhouse" languageID="en">establish_sh</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="HON" lms="true" active="true">
+        <ns8:Description languageID="en">Honey and other apiculture products establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Establishment" languageID="en">establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="HRP" lms="true" active="true">
+        <ns8:Description languageID="en">Highly refined products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="LBM" lms="true" active="true">
+        <ns8:Description languageID="en">Live bivalve molluscs</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Dispatch centre" languageID="en">establish_dc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Intermediary operator" languageID="en">intermediary_operator</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Production Areas" languageID="en">establish_z</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Purification Centre" languageID="en">establish_pc</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="LBM" lms="true" active="true">
+        <ns8:Description languageID="en">Live bivalve molluscs</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Factory Vessel" languageID="en">establish_fv</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Intermediate Plant" languageID="en">establish_ip</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Production Areas" languageID="en">establish_z</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Purification Centre" languageID="en">establish_pc</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="MM" lms="true" active="true">
+        <ns8:Description languageID="en">Minced meat, meat preparations and mechanically separated meat – MM, MP, MSM</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Meat Preparation Plant" languageID="en">establish_mp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Mechanically Separated Meat Plant" languageID="en">establish_msm</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Minced Meat Plant" languageID="en">establish_mm</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="MM" lms="true" active="true">
+        <ns8:Description languageID="en">Minced meat, meat preparations and mechanically separated meat – MM, MP, MSM</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Meat Preparation Plant" languageID="en">establish_mp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Mechanically Separated Meat Plant" languageID="en">establish_msm</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Minced Meat Plant" languageID="en">establish_mm</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="MMP" lms="true" active="true">
+        <ns8:Description languageID="en">Raw milk, dairy products, colostrum and colostrum-based products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Collection Centre" languageID="en">establish_cc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="MMP" lms="true" active="true">
+        <ns8:Description languageID="en">Raw milk, dairy products, colostrum and colostrum-based products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="PM" lms="true" active="true">
+        <ns8:Description languageID="en">Meat from poultry and lagomorphs</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cutting Plant" languageID="en">establish_cp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Slaughterhouse" languageID="en">establish_sh</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="PM" lms="true" active="true">
+        <ns8:Description languageID="en">Meat from poultry and lagomorphs</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cutting Plant" languageID="en">establish_cp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Slaughterhouse" languageID="en">establish_sh</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="RCG" lms="true" active="true">
+        <ns8:Description languageID="en">Raw materials for the production of gelatine and collagen</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Collection Centre" languageID="en">establish_cc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="REMOS" lms="false" active="true">
+        <ns8:Description languageID="en">NI Retail movement scheme (NIRMS)</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="NI Retail Movement Scheme" languageID="en">remos</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="RM" lms="true" active="true">
+        <ns8:Description languageID="en">Meat of domestic ungulates</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cutting Plant" languageID="en">establish_cp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Slaughterhouse" languageID="en">establish_sh</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="RM" lms="true" active="true">
+        <ns8:Description languageID="en">Meat of domestic ungulates</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cutting Plant" languageID="en">establish_cp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Slaughterhouse" languageID="en">establish_sh</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="RPM" lms="true" active="true">
+        <ns8:Description languageID="en">Meat products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Slaughterhouse" languageID="en">establish_sh</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="RPM" lms="true" active="true">
+        <ns8:Description languageID="en">Meat products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="SPR" lms="true" active="true">
+        <ns8:Description languageID="en">Sprouts</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Producing Plant" languageID="en">establish_pdp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="TCG" lms="true" active="true">
+        <ns8:Description languageID="en">Treated raw material for the production of gelatine and collagen (TCG)</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Processing Plant" languageID="en">establish_pp</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="WM" lms="true" active="true">
+        <ns8:Description languageID="en">Wild game meat</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cold Stores" languageID="en">establish_cs</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cutting Plant" languageID="en">establish_cp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Game-Handling Establishment" languageID="en">establish_ghe</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="WM" lms="true" active="true">
+        <ns8:Description languageID="en">Wild game meat</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Food">food</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Cutting Plant" languageID="en">establish_cp</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Game-Handling Establishment" languageID="en">establish_ghe</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EMB-COL" lms="true" active="true">
+        <ns8:Description languageID="en">Embryo collection teams</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Germinal products">germinal_products</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine collection team" languageID="en">bovine_collection_team</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine collection team" languageID="en">equine_collection_team</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/caprine collection team" languageID="en">ovine_caprine_collection_team</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine collection team" languageID="en">porcine_collection_team</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EMB-PRO" lms="true" active="true">
+        <ns8:Description languageID="en">Embryo production teams</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Germinal products">germinal_products</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine production team" languageID="en">bovine_production_team</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine production team" languageID="en">equine_production_team</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/caprine production team" languageID="en">ovine_caprine_production_team</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine production team" languageID="en">porcine_production_team</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GERM-CONF" lms="true" active="true">
+        <ns8:Description languageID="en">Germinal product establishments - confined animals</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Germinal products">germinal_products</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Germinal product establishment" languageID="en">germinal_product_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GERM-OTH" lms="true" active="true">
+        <ns8:Description languageID="en">Other establishments related to certain germinal products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Germinal products">germinal_products</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Establishments using germinal products for scientific purposes in accordance with Article 44 of CDR (EU) 2020/686" languageID="en">germinal_product_establishment_scientific_purposes</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Gene bank in accordance with Article 45 of CDR (EU) 2020/686" languageID="en">gene_bank</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GERM-PRO" lms="true" active="true">
+        <ns8:Description languageID="en">Germinal product processing establishments</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Germinal products">germinal_products</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine GPP establishment" languageID="en">bovine_gpp_establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine GPP establishment" languageID="en">equine_gpp_establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/caprine GPP establishment" languageID="en">ovine_caprine_gpp_establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine GPP establishment" languageID="en">porcine_gpp_establishment</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="GERM-STO" lms="true" active="true">
+        <ns8:Description languageID="en">Germinal product storage centres</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Germinal products">germinal_products</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine GPS centre" languageID="en">bovine_gps_establishment</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine GPS centre" languageID="en">equine_gps_centre</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/caprine GPS centre" languageID="en">ovine_caprine_gps_centre</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine GPS centre" languageID="en">porcine_gps_centre</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="SEM-COL" lms="true" active="true">
+        <ns8:Description languageID="en">Semen collection centres</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Germinal products">germinal_products</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Bovine collection centre" languageID="en">bovine_collection_centre</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Equine collection centre" languageID="en">equine_collection_centre</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Ovine/caprine collection centre" languageID="en">ovine_caprine_collection_centre</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Porcine collection centre" languageID="en">porcine_collection_centre</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="AUTHORISED-ENTITY" lms="false" active="false">
+        <ns8:Description languageID="en">Exemption beneficiaries</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Import of cultural goods">import_of_cultural_goods</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exemption beneficiaries" languageID="en">authorised_entity</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EXEMPTION_BENEFICIARY" lms="false" active="true">
+        <ns8:Description languageID="en">Exemption beneficiary</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Import of cultural goods">import_of_cultural_goods</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exemption beneficiary" languageID="en">exemption_beneficiary</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="HOLDER-OF-THE-GOODS" lms="false" active="true">
+        <ns8:Description languageID="en">HOLDER-OF-THE-GOODS</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Import of cultural goods">import_of_cultural_goods</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Holder of the goods" languageID="en">holder_of_the_goods</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="FLEGT" lms="false" active="true">
+        <ns8:Description languageID="en">FLEGT</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Imported Timber Products">imported_timber</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Timber import" languageID="en">timber_importer</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="(a)" lms="false" active="false">
+        <ns8:Description languageID="en">Unprocessed plants and plant products, including seeds and other plant reproductive material</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="(b)" lms="false" active="false">
+        <ns8:Description languageID="en">Livestock and unprocessed livestock products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="(c)" lms="false" active="false">
+        <ns8:Description languageID="en">Algae and unprocessed aquaculture products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="(d)" lms="false" active="false">
+        <ns8:Description languageID="en">Processed agricultural products, including aquaculture products, for use as food</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="(e)" lms="false" active="false">
+        <ns8:Description languageID="en">Feed</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="(f)" lms="false" active="false">
+        <ns8:Description languageID="en">Wine</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="(g)" lms="false" active="false">
+        <ns8:Description languageID="en">Other products listed in Annex I to Regulation (EU) 2018/848 or not covered by the previous categories</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="A" lms="false" active="false">
+        <ns8:Description languageID="en">Unprocessed plant products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="B" lms="false" active="false">
+        <ns8:Description languageID="en">Live animals or unprocessed animal products</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="C" lms="false" active="false">
+        <ns8:Description languageID="en">Aquaculture products and seaweeds</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="D" lms="false" active="false">
+        <ns8:Description languageID="en">Processed agricultural products for use as food</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="E" lms="false" active="false">
+        <ns8:Description languageID="en">Processed agricultural products for use as feed</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EXEMPTED-ART-34-2" lms="false" active="true">
+        <ns8:Description languageID="en">Exempted from notification under Article 34(2) of Regulation (EU) 2018/848</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Distribution/Placing on the market" languageID="en">distribution_placing_on_the_market</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EXEMPTED-ART-35-8" lms="false" active="true">
+        <ns8:Description languageID="en">Exempted from certification under Article 35(8) of Regulation (EU) 2018/848</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Distribution/Placing on the market" languageID="en">distribution_placing_on_the_market</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="F" lms="false" active="false">
+        <ns8:Description languageID="en">Vegetative propagating material and seeds for cultivation</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC DISTRIBUTION" lms="false" active="true">
+        <ns8:Description languageID="en">Distribution/Placing on the market</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Distribution" languageID="en">distribution</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Distribution/Placing on the market" languageID="en">distribution_placing_on_the_market</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC EXPORT" lms="false" active="true">
+        <ns8:Description languageID="en">Export</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Export" languageID="en">export</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC EXPORTER" lms="false" active="true">
+        <ns8:Description languageID="en">Organic Exporter</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Organic Exporter" languageID="en">organic_exporter</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC IMPORT" lms="false" active="true">
+        <ns8:Description languageID="en">Import</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Import" languageID="en">_import</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC IMPORTER" lms="false" active="true">
+        <ns8:Description languageID="en">Organic Importer</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EEA">EEA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Organic Importer" languageID="en">organic_importer</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC OPERATOR" lms="false" active="true">
+        <ns8:Description languageID="en">Organic Operator</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Organic Operator" languageID="en">organic_operator</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC PREPARATION" lms="false" active="true">
+        <ns8:Description languageID="en">Preparation</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Preparation" languageID="en">preparation</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC PRODUCER" lms="false" active="true">
+        <ns8:Description languageID="en">Organic Producer</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Organic Processor" languageID="en">organic_processor</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Organic Producer" languageID="en">organic_producer</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC PRODUCTION" lms="false" active="true">
+        <ns8:Description languageID="en">Production</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Production" languageID="en">production</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC STORING" lms="false" active="true">
+        <ns8:Description languageID="en">Storing</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Storing" languageID="en">storing</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="ORGANIC TRADER" lms="false" active="true">
+        <ns8:Description languageID="en">Organic Trader</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Organic">organic</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Organic Trader" languageID="en">organic_trader</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EUPO" lms="false" active="true">
+        <ns8:Description languageID="en">EU professional operators other than EU registered professional operators</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Plant health">plants</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Professional operators other than those referred to in Article 45(1)(l) IMSOC" languageID="en">professional_operator_other_than_registered</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EURPO" lms="true" active="true">
+        <ns8:Description languageID="en">EU registered professional operators</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Plant health">plants</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Professional operators referred to in Article 45(1)(l) IMSOC" languageID="en">registered_professional_operator</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="PLANTS" lms="false" active="true">
+        <ns8:Description languageID="en">Plant</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Plant health">plants</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Professional operator (plants, plant products and other objects)" languageID="en">nursery</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Professional operator (plants, plant products and other objects)" languageID="en">plant_estab</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="QUA-CONF" lms="true" active="true">
+        <ns8:Description languageID="en">Quarantine stations and confinement facilities</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Plant health">plants</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Confinement facilities referred to in Article 45(1)(m) IMSOC" languageID="en">confinement_facility</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Quarantine stations referred to in Article 45(1)(m) IMSOC" languageID="en">quarantine_station</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="TCPO" lms="false" active="true">
+        <ns8:Description languageID="en">Third country professional operators</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Plant health">plants</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Professional operator" languageID="en">professional_operator</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EMB" lms="true" active="true">
+        <ns8:Description languageID="en">Embryo team</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Semen and Embryo">semen_and_embryo</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Embryo collection team" languageID="en">establish_ect</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Embryo production team" languageID="en">establish_fiv</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="SEM" lms="true" active="true">
+        <ns8:Description languageID="en">Semen centers</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Semen and Embryo">semen_and_embryo</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="Third countries">THIRD_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Semen collection center" languageID="en">establish_scc</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Semen storage centre" languageID="en">establish_ssc</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="WSR" lms="false" active="true">
+        <ns8:Description languageID="en">Waste Shipment Regulation</ns8:Description>
+        <ns8:ClassificationSectionChapter name="Waste Shipment Regulation">wsr</ns8:ClassificationSectionChapter>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="WSR Operator" languageID="en">waste_operator</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="CP" lms="false" active="false">
+        <ns8:Description languageID="en">Control point</ns8:Description>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Control point" languageID="en">control_point</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="EXPORTER" lms="false" active="true">
+        <ns8:Description languageID="en">Exporter</ns8:Description>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Exporter" languageID="en">exporter</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="IMPORTER" lms="false" active="true">
+        <ns8:Description languageID="en">Importer</ns8:Description>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Importer" languageID="en">importer</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="OTF" lms="false" active="false">
+        <ns8:Description languageID="en">Onward transportation facility</ns8:Description>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Onward transportation facility" languageID="en">onward_transportation_facility</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="RFL" lms="false" active="true">
+        <ns8:Description languageID="en">Responsible For the Load (Freight Forwarder)</ns8:Description>
+        <ns8:MetaCountryGroupScope name="EFTA">EFTA</ns8:MetaCountryGroupScope>
+        <ns8:MetaCountryGroupScope name="European Union">EU</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Responsible for the load" languageID="en">responsible</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+      <ns13:ClassificationSection code="TRANSPORTER" lms="false" active="true">
+        <ns8:Description languageID="en">Transporter</ns8:Description>
+        <ns8:MetaCountryGroupScope name="All countries">ALL_COUNTRIES</ns8:MetaCountryGroupScope>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="RORO ferry" languageID="en">ro_ro_ferry</ns8:OperatorActivityType>
+        <ns8:OperatorActivityType active="true" listID="OPERATOR_ACTIVITY_TYPE" name="Transporter" languageID="en">com_transport</ns8:OperatorActivityType>
+      </ns13:ClassificationSection>
+    </ns13:GetClassificationSectionsResponse>
+  </S:Body>
+</S:Envelope>
