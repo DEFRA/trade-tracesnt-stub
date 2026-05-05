@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "cfe114f1-2420-4374-8736-53dc97a827e5",
+    "_postman_id": "9eca6176-9874-42ad-8a2c-1181995e9442",
     "name": "TracesNT",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "38565776"
+    "_exporter_id": "53149761",
+    "_collection_link": "https://go.postman.co/collection/53149761-9eca6176-9874-42ad-8a2c-1181995e9442?source=collection_link"
   },
   "item": [
     {
@@ -729,7 +730,7 @@
               ]
             },
             {
-              "name": "Reference Data",
+              "name": "REFERENCE DATA",
               "item": [
                 {
                   "name": "Get Classification Sections",
@@ -822,6 +823,385 @@
                         "tracesnt",
                         "ws",
                         "ReferenceDataServiceV1"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get Classification Tree",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "SOAPAction",
+                        "value": "\"getClassificationTree\"",
+                        "type": "text"
+                      },
+                      {
+                        "key": "x-api-key",
+                        "value": "{{API-KEY}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "text/xml",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\t<s:Header>\n        <h:LanguageCode xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">EN</h:LanguageCode>\n\t\t<h:WebServiceClientId xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">{{WEB_SERVICE_CLIENT_ID}}</h:WebServiceClientId>\n\t\t<Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\n\t\t\t<wsse:UsernameToken wsu:Id=\"20E0E1B0C5764059A3F84975AE421E55\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n\t\t\t\t<wsse:Username>{{USERNAME}}</wsse:Username>\n\t\t\t\t<wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{password}}</wsse:Password>\n\t\t\t\t<wsse:Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{nonce}}</wsse:Nonce>\n\t\t\t\t<wsu:Created>{{createdTimestamp}}</wsu:Created>\n\t\t\t</wsse:UsernameToken>\n\t\t\t<wsu:Timestamp wsu:Id=\"TS-C7215B1871604A45B3AD072621CC75E7\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n\t\t\t\t<wsu:Created>{{createdTimestamp}}</wsu:Created>\n\t\t\t\t<wsu:Expires>{{expiresTimestamp}}</wsu:Expires>\n\t\t\t</wsu:Timestamp>\n\t\t</Security>\n\t</s:Header>\n\t<s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n\t\t<GetClassificationTreeRequest xmlns=\"http://ec.europa.eu/tracesnt/referencedata/v1\">\n          <TreeID xmlns=\"http://ec.europa.eu/tracesnt/referencedata/v1\">cheda</TreeID>\n        </GetClassificationTreeRequest>\n\t</s:Body>\n</s:Envelope>",
+                      "options": {
+                        "raw": {
+                          "language": "xml"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{Host}}/proxy/tracesnt/ws/ReferenceDataServiceV1",
+                      "host": [
+                        "{{Host}}"
+                      ],
+                      "path": [
+                        "proxy",
+                        "tracesnt",
+                        "ws",
+                        "ReferenceDataServiceV1"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get Classification Tree Node Detail By CN Code",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "SOAPAction",
+                        "value": "\"getClassificationTreeNodeDetail\"",
+                        "type": "text"
+                      },
+                      {
+                        "key": "x-api-key",
+                        "value": "{{API-KEY}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "text/xml",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\t<s:Header>\n        <h:LanguageCode xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">EN</h:LanguageCode>\n\t\t<h:WebServiceClientId xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">{{WEB_SERVICE_CLIENT_ID}}</h:WebServiceClientId>\n\t\t<Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\n\t\t\t<wsse:UsernameToken wsu:Id=\"20E0E1B0C5764059A3F84975AE421E55\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n\t\t\t\t<wsse:Username>{{USERNAME}}</wsse:Username>\n\t\t\t\t<wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{password}}</wsse:Password>\n\t\t\t\t<wsse:Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{nonce}}</wsse:Nonce>\n\t\t\t\t<wsu:Created>{{createdTimestamp}}</wsu:Created>\n\t\t\t</wsse:UsernameToken>\n\t\t\t<wsu:Timestamp wsu:Id=\"TS-C7215B1871604A45B3AD072621CC75E7\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n\t\t\t\t<wsu:Created>{{createdTimestamp}}</wsu:Created>\n\t\t\t\t<wsu:Expires>{{expiresTimestamp}}</wsu:Expires>\n\t\t\t</wsu:Timestamp>\n\t\t</Security>\n\t</s:Header>\n\t<s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n\t\t<GetClassificationTreeNodeDetailRequest xmlns=\"http://ec.europa.eu/tracesnt/referencedata/v1\">\n          <TreeID xmlns=\"http://ec.europa.eu/tracesnt/referencedata/v1\">cheda</TreeID>\n            <CNCode xmlns=\"http://ec.europa.eu/tracesnt/referencedata/v1\">03019985</CNCode>\n        </GetClassificationTreeNodeDetailRequest>\n\t</s:Body>\n</s:Envelope>",
+                      "options": {
+                        "raw": {
+                          "language": "xml"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{Host}}/proxy/tracesnt/ws/ReferenceDataServiceV1",
+                      "host": [
+                        "{{Host}}"
+                      ],
+                      "path": [
+                        "proxy",
+                        "tracesnt",
+                        "ws",
+                        "ReferenceDataServiceV1"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get Classification Tree Node Detail By Path",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "SOAPAction",
+                        "value": "\"getClassificationTreeNodeDetail\"",
+                        "type": "text"
+                      },
+                      {
+                        "key": "x-api-key",
+                        "value": "{{API-KEY}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "text/xml",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\t<s:Header>\n        <h:LanguageCode xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">EN</h:LanguageCode>\n\t\t<h:WebServiceClientId xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">{{WEB_SERVICE_CLIENT_ID}}</h:WebServiceClientId>\n\t\t<Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\n\t\t\t<wsse:UsernameToken wsu:Id=\"20E0E1B0C5764059A3F84975AE421E55\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n\t\t\t\t<wsse:Username>{{USERNAME}}</wsse:Username>\n\t\t\t\t<wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{password}}</wsse:Password>\n\t\t\t\t<wsse:Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{nonce}}</wsse:Nonce>\n\t\t\t\t<wsu:Created>{{createdTimestamp}}</wsu:Created>\n\t\t\t</wsse:UsernameToken>\n\t\t\t<wsu:Timestamp wsu:Id=\"TS-C7215B1871604A45B3AD072621CC75E7\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n\t\t\t\t<wsu:Created>{{createdTimestamp}}</wsu:Created>\n\t\t\t\t<wsu:Expires>{{expiresTimestamp}}</wsu:Expires>\n\t\t\t</wsu:Timestamp>\n\t\t</Security>\n\t</s:Header>\n\t<s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n\t\t<GetClassificationTreeNodeDetailRequest xmlns=\"http://ec.europa.eu/tracesnt/referencedata/v1\">\n          <TreeID xmlns=\"http://ec.europa.eu/tracesnt/referencedata/v1\">cheda</TreeID>\n            <Path xmlns=\"http://ec.europa.eu/tracesnt/referencedata/v1\">R/N-10002/N-10081/N-10445/N-19996/N-11890</Path>\n        </GetClassificationTreeNodeDetailRequest>\n\t</s:Body>\n</s:Envelope>",
+                      "options": {
+                        "raw": {
+                          "language": "xml"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{Host}}/proxy/tracesnt/ws/ReferenceDataServiceV1",
+                      "host": [
+                        "{{Host}}"
+                      ],
+                      "path": [
+                        "proxy",
+                        "tracesnt",
+                        "ws",
+                        "ReferenceDataServiceV1"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "OPERATOR",
+              "item": [
+                {
+                  "name": "Create Operator",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "SOAPAction",
+                        "value": "\"createOperator\"",
+                        "type": "text"
+                      },
+                      {
+                        "key": "x-api-key",
+                        "value": "{{API-KEY}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "text/xml",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Header>\r\n        <h:Attributes xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\"/>\r\n        <h:LanguageCode xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">EN</h:LanguageCode>\r\n\t\t<h:WebServiceClientId xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">{{WEB_SERVICE_CLIENT_ID}}</h:WebServiceClientId>\r\n        <Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\r\n            <wsse:UsernameToken wsu:Id=\"20E0E1B0C5764059A3F84975AE421E55\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsse:Username>{{USERNAME}}</wsse:Username>\r\n                <wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{password}}</wsse:Password>\r\n                <wsse:Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{nonce}}</wsse:Nonce>\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n            </wsse:UsernameToken>\r\n            <wsu:Timestamp wsu:Id=\"TS-C7215B1871604A45B3AD072621CC75E7\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n                <wsu:Expires>{{expiresTimestamp}}</wsu:Expires>\r\n            </wsu:Timestamp>\r\n        </Security>\r\n    </s:Header>\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <CreateOperatorRequest xmlns=\"http://ec.europa.eu/tracesnt/directory/operator/v1\">\r\n            <Operator xmlns=\"http://ec.europa.eu/tracesnt/directory/operator/v1\">\r\n                <Name>Nick Test Corp</Name>\r\n                <OperatorAddress main=\"true\">\r\n                    <Address>\r\n                        <Street xmlns=\"http://ec.europa.eu/tracesnt/directory/common/v1\">47 Donegall Place</Street>\r\n                            <City xmlns=\"http://ec.europa.eu/tracesnt/directory/common/v1\">\r\n                            <Name languageID=\"EN\" languageLocaleID=\"EN\" xmlns=\"http://ec.europa.eu/tracesnt/directory/geo/city/v1\">Belfast</Name>\r\n                            <PostalCode xmlns=\"http://ec.europa.eu/tracesnt/directory/geo/city/v1\">BT1</PostalCode>\r\n                            <CountryID xmlns=\"http://ec.europa.eu/tracesnt/directory/geo/city/v1\">XI</CountryID>\r\n                        </City>\r\n                    </Address>\r\n                </OperatorAddress>\r\n                <Activity>\r\n                    <ActivityType>\r\n                        <Chapter>veterinary</Chapter>\r\n                        <Section>OTH-OPER</Section>\r\n                        <Type>importer</Type>\r\n                    </ActivityType>\r\n                </Activity>\r\n            </Operator>\r\n        </CreateOperatorRequest>\r\n    </s:Body>\r\n</s:Envelope>",
+                      "options": {
+                        "raw": {
+                          "language": "xml"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{Host}}/proxy/tracesnt/ws/OperatorDirectoryServiceV1",
+                      "host": [
+                        "{{Host}}"
+                      ],
+                      "path": [
+                        "proxy",
+                        "tracesnt",
+                        "ws",
+                        "OperatorDirectoryServiceV1"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Find Operator",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "SOAPAction",
+                        "value": "\"findOperator\"",
+                        "type": "text"
+                      },
+                      {
+                        "key": "x-api-key",
+                        "value": "{{API-KEY}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "text/xml",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Header>\r\n        <h:Attributes xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\"/>\r\n        <h:LanguageCode xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">EN</h:LanguageCode>\r\n\t\t<h:WebServiceClientId xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">{{WEB_SERVICE_CLIENT_ID}}</h:WebServiceClientId>\r\n        <Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\r\n            <wsse:UsernameToken wsu:Id=\"20E0E1B0C5764059A3F84975AE421E55\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsse:Username>{{USERNAME}}</wsse:Username>\r\n                <wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{password}}</wsse:Password>\r\n                <wsse:Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{nonce}}</wsse:Nonce>\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n            </wsse:UsernameToken>\r\n            <wsu:Timestamp wsu:Id=\"TS-C7215B1871604A45B3AD072621CC75E7\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n                <wsu:Expires>{{expiresTimestamp}}</wsu:Expires>\r\n            </wsu:Timestamp>\r\n        </Security>\r\n    </s:Header>\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <FindOperatorRequest pageSize=\"30\" xmlns=\"http://ec.europa.eu/tracesnt/directory/operator/v1\">\r\n            <Name xmlns=\"http://ec.europa.eu/tracesnt/directory/operator/v1\">test</Name>\r\n            <CountryID xmlns=\"http://ec.europa.eu/tracesnt/directory/operator/v1\">GB</CountryID>\r\n        </FindOperatorRequest>\r\n    </s:Body>\r\n</s:Envelope>",
+                      "options": {
+                        "raw": {
+                          "language": "xml"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{Host}}/proxy/tracesnt/ws/OperatorDirectoryServiceV1",
+                      "host": [
+                        "{{Host}}"
+                      ],
+                      "path": [
+                        "proxy",
+                        "tracesnt",
+                        "ws",
+                        "OperatorDirectoryServiceV1"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get Operator By Id",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "SOAPAction",
+                        "value": "\"getOperator\"",
+                        "type": "text"
+                      },
+                      {
+                        "key": "x-api-key",
+                        "value": "{{API-KEY}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "text/xml",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Header>\r\n        <h:Attributes xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\"/>\r\n        <h:LanguageCode xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">EN</h:LanguageCode>\r\n\t\t<h:WebServiceClientId xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">{{WEB_SERVICE_CLIENT_ID}}</h:WebServiceClientId>\r\n        <Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\r\n            <wsse:UsernameToken wsu:Id=\"20E0E1B0C5764059A3F84975AE421E55\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsse:Username>{{USERNAME}}</wsse:Username>\r\n                <wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{password}}</wsse:Password>\r\n                <wsse:Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{nonce}}</wsse:Nonce>\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n            </wsse:UsernameToken>\r\n            <wsu:Timestamp wsu:Id=\"TS-C7215B1871604A45B3AD072621CC75E7\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n                <wsu:Expires>{{expiresTimestamp}}</wsu:Expires>\r\n            </wsu:Timestamp>\r\n        </Security>\r\n    </s:Header>\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <GetOperatorRequest xmlns=\"http://ec.europa.eu/tracesnt/directory/operator/v1\">\r\n            <ID>363203</ID>\r\n        </GetOperatorRequest>\r\n    </s:Body>\r\n</s:Envelope>",
+                      "options": {
+                        "raw": {
+                          "language": "xml"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{Host}}/proxy/tracesnt/ws/OperatorDirectoryServiceV1",
+                      "host": [
+                        "{{Host}}"
+                      ],
+                      "path": [
+                        "proxy",
+                        "tracesnt",
+                        "ws",
+                        "OperatorDirectoryServiceV1"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "ORGANIC OPERATOR",
+              "item": [
+                {
+                  "name": "Find Organic Operator",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "SOAPAction",
+                        "value": "\"organicOperator\"",
+                        "type": "text"
+                      },
+                      {
+                        "key": "x-api-key",
+                        "value": "{{API-KEY}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "text/xml",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Header>\r\n        <h:Attributes xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\"/>\r\n        <h:LanguageCode xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">EN</h:LanguageCode>\r\n\t\t<h:WebServiceClientId xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">{{WEB_SERVICE_CLIENT_ID}}</h:WebServiceClientId>\r\n        <Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\r\n            <wsse:UsernameToken wsu:Id=\"20E0E1B0C5764059A3F84975AE421E55\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsse:Username>{{USERNAME}}</wsse:Username>\r\n                <wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{password}}</wsse:Password>\r\n                <wsse:Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{nonce}}</wsse:Nonce>\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n            </wsse:UsernameToken>\r\n            <wsu:Timestamp wsu:Id=\"TS-C7215B1871604A45B3AD072621CC75E7\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n                <wsu:Expires>{{expiresTimestamp}}</wsu:Expires>\r\n            </wsu:Timestamp>\r\n        </Security>\r\n    </s:Header>\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <FindOrganicOperatorCertificateRequest pageSize=\"30\" xmlns=\"http://ec.europa.eu/tracesnt/certificate/organicoperator/retrieval/v1\">\r\n            <Status listID=\"4405\" listAgencyID=\"6\" listVersionID=\"D16B\" xmlns=\"http://ec.europa.eu/tracesnt/certificate/organicoperator/retrieval/v1\">49</Status>\r\n            <CreateDateTimeRange xmlns=\"http://ec.europa.eu/tracesnt/certificate/organicoperator/retrieval/v1\">\r\n                <From xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">2020-01-04T17:38:09Z</From>\r\n                <To xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">2026-04-04T17:38:09Z</To>\r\n            </CreateDateTimeRange>\r\n            <UpdateDateTimeRange xmlns=\"http://ec.europa.eu/tracesnt/certificate/organicoperator/retrieval/v1\">\r\n                <From xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">2020-01-04T17:38:09Z</From>\r\n                <To xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">2026-04-04T17:38:09Z</To>\r\n            </UpdateDateTimeRange>\r\n        </FindOrganicOperatorCertificateRequest>\r\n    </s:Body>\r\n</s:Envelope>",
+                      "options": {
+                        "raw": {
+                          "language": "xml"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{Host}}/proxy/tracesnt/ws/OrganicOperatorCertificateRetrievalServiceV1",
+                      "host": [
+                        "{{Host}}"
+                      ],
+                      "path": [
+                        "proxy",
+                        "tracesnt",
+                        "ws",
+                        "OrganicOperatorCertificateRetrievalServiceV1"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get Organic Operator By Id",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "SOAPAction",
+                        "value": "\"getOrganicOperatorCertificate\"",
+                        "type": "text"
+                      },
+                      {
+                        "key": "x-api-key",
+                        "value": "{{API-KEY}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "text/xml",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Header>\r\n        <h:Attributes xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\"/>\r\n        <h:LanguageCode xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">EN</h:LanguageCode>\r\n\t\t<h:WebServiceClientId xmlns:h=\"http://ec.europa.eu/sanco/tracesnt/base/v4\" xmlns=\"http://ec.europa.eu/sanco/tracesnt/base/v4\">{{WEB_SERVICE_CLIENT_ID}}</h:WebServiceClientId>\r\n        <Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\r\n            <wsse:UsernameToken wsu:Id=\"20E0E1B0C5764059A3F84975AE421E55\" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsse:Username>{{USERNAME}}</wsse:Username>\r\n                <wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{password}}</wsse:Password>\r\n                <wsse:Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{nonce}}</wsse:Nonce>\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n            </wsse:UsernameToken>\r\n            <wsu:Timestamp wsu:Id=\"TS-C7215B1871604A45B3AD072621CC75E7\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n                <wsu:Created>{{createdTimestamp}}</wsu:Created>\r\n                <wsu:Expires>{{expiresTimestamp}}</wsu:Expires>\r\n            </wsu:Timestamp>\r\n        </Security>\r\n    </s:Header>\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <GetOrganicOperatorCertificateRequest xmlns=\"http://ec.europa.eu/tracesnt/certificate/organicoperator/retrieval/v1\">\r\n            <ID xmlns=\"http://ec.europa.eu/tracesnt/certificate/organicoperator/retrieval/v1\">GB-ORG-07.998-0000052.2024.001</ID>\r\n        </GetOrganicOperatorCertificateRequest>\r\n    </s:Body>\r\n</s:Envelope>",
+                      "options": {
+                        "raw": {
+                          "language": "xml"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{Host}}/proxy/tracesnt/ws/OrganicOperatorCertificateRetrievalServiceV1",
+                      "host": [
+                        "{{Host}}"
+                      ],
+                      "path": [
+                        "proxy",
+                        "tracesnt",
+                        "ws",
+                        "OrganicOperatorCertificateRetrievalServiceV1"
                       ]
                     }
                   },
