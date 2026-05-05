@@ -52,6 +52,8 @@
     <EmbeddedResource Include="Samples\INTRA\FindEuIntraCertificateResponse.xml" />
     <EmbeddedResource Include="Samples\OPERATOR\FindOperatorResponse.xml" />
     <EmbeddedResource Include="Samples\OPERATOR\Operator.Created.TEMPLATE.xml" />
+    <EmbeddedResource Include="Samples\ORGANIC_OPERATOR\GetOrganicOperatorResponse.xml" />
+    <EmbeddedResource Include="Samples\ORGANIC_OPERATOR\FindOrganicOperatorResponse.xml" />
     <EmbeddedResource Include="Samples\REFERENCE_DATA\GetClassificationSectionsResponse.xml" />
     <EmbeddedResource Include="Samples\REFERENCE_DATA\GetClassificationTreeResponse.xml" />
     <EmbeddedResource Include="Samples\REFERENCE_DATA\GetClassificationTreeNodeDetailResponse.xml" />

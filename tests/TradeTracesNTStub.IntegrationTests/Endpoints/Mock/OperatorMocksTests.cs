@@ -17,7 +17,7 @@ public class OperatorMocksTests : IntegrationTestBase
     }
 
     [Fact]
-    public async Task CreateOprator_WithValidRequest_ShouldBeOk_AndReturnOperatorId()
+    public async Task CreateOperator_WithValidRequest_ShouldBeOk_AndReturnOperatorId()
     {
         var soapRequestBody = """
                               <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
