@@ -1,7 +1,6 @@
 using FluentAssertions;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace TradeTracesNTStub.IntegrationTests.Endpoints.Mock;
 

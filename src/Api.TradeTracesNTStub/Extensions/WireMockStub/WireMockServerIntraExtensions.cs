@@ -1,7 +1,7 @@
-using System.Net;
-using Api.TradeTracesNTStub.Utils.Soap.Matchers;
 using Api.TradeTracesNTStub.Utils.Soap;
+using Api.TradeTracesNTStub.Utils.Soap.Matchers;
 using Api.TradeTracesNTStub.Utils.Soap.Responses;
+using System.Net;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
