@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>9103b4b6-7d43-4bdd-99bf-31ed32df55eb</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-05-05T10:04:17.672+02:00</ns1:Created>
+        <ns1:Expires>2026-05-05T10:04:22.672+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+  </S:Header>
+  <S:Body>
+    <ns3:FindOrganicOperatorCertificateResponse xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns3="http://ec.europa.eu/tracesnt/certificate/organicoperator/retrieval/v1" xmlns:ns4="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns6="http://ec.europa.eu/tracesnt/certificate/organicoperator/v1" xmlns:ns7="http://ec.europa.eu/tracesnt/certificate/base/v01" xmlns:ns8="http://www.w3.org/2000/09/xmldsig#" xmlns:ns9="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns10="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns11="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns12="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns13="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns14="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns15="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns26="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2" pageSize="30" offset="0">
+      <ns3:OrganicOperatorCertificateResult>
+        <ns3:ID>GB-ORG-07.998-0000052.2024.001</ns3:ID>
+        <ns3:OperatorIdentifier>998-0000052</ns3:OperatorIdentifier>
+        <ns3:Status name="Expired version (Expired)">49</ns3:Status>
+        <ns3:OperatorType listID="organic_operator_certificate_type" listName="Organic operator certificate type" name="Operator">OPERATOR</ns3:OperatorType>
+        <ns3:OperatorSPSParty>
+          <ns4:Name>John Thompson &amp; Sons Ltd.</ns4:Name>
+          <ns4:SpecifiedSPSAddress>
+            <ns4:CityName languageID="en"></ns4:CityName>
+            <ns4:CountryID>XI</ns4:CountryID>
+            <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+          </ns4:SpecifiedSPSAddress>
+        </ns3:OperatorSPSParty>
+        <ns3:IssuingSPSParty>
+          <ns4:ID schemeID="organic_control_body_id" schemeName="Organic control body ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">GB-ORG-07</ns4:ID>
+          <ns4:Name>Irish Organic Association</ns4:Name>
+          <ns4:SpecifiedSPSAddress>
+            <ns4:CityName languageID="en"></ns4:CityName>
+            <ns4:CountryID>Ireland</ns4:CountryID>
+            <ns4:CountryName languageID="en">Ireland</ns4:CountryName>
+          </ns4:SpecifiedSPSAddress>
+        </ns3:IssuingSPSParty>
+        <ns3:OperatorActivityType listID="operator_activity_type" listName="Operator activity type" name="Distribution and placing on the market">DISTRIBUTION_AND_PLACING_ON_THE_MARKET</ns3:OperatorActivityType>
+        <ns3:OperatorActivityType listID="operator_activity_type" listName="Operator activity type" name="Import">IMPORT</ns3:OperatorActivityType>
+        <ns3:OperatorActivityType listID="operator_activity_type" listName="Operator activity type" name="Preparation">PREPARATION</ns3:OperatorActivityType>
+        <ns3:CategoryOfProduct name="Feed">(e)</ns3:CategoryOfProduct>
+        <ns3:CreateDateTime>2024-01-04T17:38:09.000Z</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>2024-12-31T23:07:13.000Z</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>2024-12-31T23:07:14.000Z</ns3:StatusChangeDateTime>
+      </ns3:OrganicOperatorCertificateResult>
+      <ns3:OrganicOperatorCertificateResult>
+        <ns3:ID>GB-ORG-05.998-0000019.2023.005</ns3:ID>
+        <ns3:OperatorIdentifier>998-0000019</ns3:OperatorIdentifier>
+        <ns3:Status name="Expired version (Expired)">49</ns3:Status>
+        <ns3:OperatorType listID="organic_operator_certificate_type" listName="Organic operator certificate type" name="Operator">OPERATOR</ns3:OperatorType>
+        <ns3:OperatorSPSParty>
+          <ns4:Name>Demo Company Traces</ns4:Name>
+          <ns4:SpecifiedSPSAddress>
+            <ns4:CityName languageID="en"></ns4:CityName>
+            <ns4:CountryID>XI</ns4:CountryID>
+            <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+          </ns4:SpecifiedSPSAddress>
+        </ns3:OperatorSPSParty>
+        <ns3:IssuingSPSParty>
+          <ns4:ID schemeID="organic_control_body_id" schemeName="Organic control body ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">GB-ORG-05</ns4:ID>
+          <ns4:Name>Soil Association Certification Ltd</ns4:Name>
+          <ns4:SpecifiedSPSAddress>
+            <ns4:CityName languageID="en"></ns4:CityName>
+            <ns4:CountryID>United Kingdom</ns4:CountryID>
+            <ns4:CountryName languageID="en">United Kingdom</ns4:CountryName>
+          </ns4:SpecifiedSPSAddress>
+        </ns3:IssuingSPSParty>
+        <ns3:OperatorActivityType listID="operator_activity_type" listName="Operator activity type" name="Producer">PRODUCER</ns3:OperatorActivityType>
+        <ns3:OperatorActivityType listID="operator_activity_type" listName="Operator activity type" name="Storing">STORING</ns3:OperatorActivityType>
+        <ns3:CategoryOfProduct name="Processed agricultural products, including aquaculture products, for use as food">(d)</ns3:CategoryOfProduct>
+        <ns3:CategoryOfProduct name="Unprocessed plants and plant products, including seeds and other plant reproductive material">(a)</ns3:CategoryOfProduct>
+        <ns3:CreateDateTime>2023-04-27T08:43:16.000Z</ns3:CreateDateTime>
+        <ns3:UpdateDateTime>2024-04-27T22:00:18.000Z</ns3:UpdateDateTime>
+        <ns3:StatusChangeDateTime>2024-04-27T22:00:19.000Z</ns3:StatusChangeDateTime>
+      </ns3:OrganicOperatorCertificateResult>
+    </ns3:FindOrganicOperatorCertificateResponse>
+  </S:Body>
+</S:Envelope>

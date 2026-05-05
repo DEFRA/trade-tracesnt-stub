@@ -1,0 +1,50 @@
+﻿<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>Guid_1</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>DateTimeOffset_1</ns1:Created>
+        <ns1:Expires>DateTimeOffset_2</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+  </S:Header>
+  <S:Body>
+    <ns9:GetOperatorResponse xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns3="http://ec.europa.eu/tracesnt/directory/authoritydomain/v1" xmlns:ns4="http://ec.europa.eu/sanco/tracesnt/error/v01" xmlns:ns5="http://ec.europa.eu/tracesnt/directory/authority/v1" xmlns:ns6="http://ec.europa.eu/tracesnt/directory/common/v1" xmlns:ns7="http://ec.europa.eu/tracesnt/directory/geo/city/v1" xmlns:ns8="http://ec.europa.eu/tracesnt/directory/geo/region/v1" xmlns:ns9="http://ec.europa.eu/tracesnt/directory/operator/v1" xmlns:ns10="http://ec.europa.eu/tracesnt/directory/ocb/v1" xmlns:ns11="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns12="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns13="http://www.w3.org/2000/09/xmldsig#" xmlns:ns14="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns15="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27">
+      <ns9:Operator internalID="0000000">
+        <ns9:Name>test</ns9:Name>
+        <ns9:OperatorAddress main="true">
+          <ns9:Address internalID="0000000">
+            <ns6:Street>1 Coombe Road</ns6:Street>
+            <ns6:City internalID="0000000">
+              <ns7:Name languageID="en">Kingston upon Thames</ns7:Name>
+              <ns7:PostalCode>KT1</ns7:PostalCode>
+              <ns7:CountryID>GB</ns7:CountryID>
+            </ns6:City>
+          </ns9:Address>
+        </ns9:OperatorAddress>
+        <ns9:Activity internalID="0000000">
+          <ns9:ActivityType>
+            <ns9:Chapter name="Food">food</ns9:Chapter>
+            <ns9:Section name="Other establishments">FOOD-OTH</ns9:Section>
+            <ns9:Type name="Exporter">exporter</ns9:Type>
+          </ns9:ActivityType>
+          <ns9:Status>NEW</ns9:Status>
+          <ns9:Address internalID="0000000">
+            <ns6:Street>1 Coombe Road</ns6:Street>
+            <ns6:City internalID="0000000">
+              <ns7:Name languageID="en">Kingston upon Thames</ns7:Name>
+              <ns7:PostalCode>KT1</ns7:PostalCode>
+              <ns7:CountryID>GB</ns7:CountryID>
+            </ns6:City>
+          </ns9:Address>
+          <ns9:ValidityDateFrom>2024-06-17+02:00</ns9:ValidityDateFrom>
+          <ns9:ValidityDateTo>2029-11-30+01:00</ns9:ValidityDateTo>
+        </ns9:Activity>
+        <ns9:ChanProcedure>false</ns9:ChanProcedure>
+      </ns9:Operator>
+    </ns9:GetOperatorResponse>
+  </S:Body>
+</S:Envelope>

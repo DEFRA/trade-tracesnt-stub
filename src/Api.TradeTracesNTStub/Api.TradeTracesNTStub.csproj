@@ -16,12 +16,12 @@
   <ItemGroup>
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.11.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="8.0.11"/>
+    <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="8.0.11" />
     <PackageReference Include="MongoDB.Driver" Version="3.6.0" />
     <PackageReference Include="MongoDB.Driver.Authentication.AWS" Version="3.6.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageReference Include="Serilog.Enrichers.ClientInfo" Version="2.9.0" />
-    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="10.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
     <PackageReference Include="WireMock.Net" Version="2.4.0" />
@@ -31,6 +31,8 @@
     <None Remove="Samples\INTRA\INTRA.EU.NL.2021.0000001.xml" />
     <None Remove="Samples\INTRA\MethodNotAllowed.html" />
     <None Remove="Samples\INTRA\UnauthenticatedException.xml" />
+    <None Remove="Samples\OPERATOR\FindOperatorResponse.xml" />
+    <None Remove="Samples\OPERATOR\Operator.Created.TEMPLATE.xml" />
     <EmbeddedResource Include="Samples\INTRA\UnauthenticatedException.xml" />
     <None Remove="Samples\INTRA\INTRA.EU.NL.2021.TEMPLATE.xml" />
     <EmbeddedResource Include="Samples\INTRA\ITAHC.TEMPLATE.xml" />
@@ -39,7 +41,6 @@
     <None Remove="Samples\INTRA\INTRA.EU.FR.2026.0000041-en.pdf" />
     <None Remove="Samples\INTRA\ITAHC.PDF.xml" />
     <EmbeddedResource Include="Samples\INTRA\ITAHC.PDF.TEMPLATE.xml" />
-    <None Remove="Samples\CHED\CHEDA.TEMPLATE.xml" />
     <EmbeddedResource Include="Samples\CHED\CHEDA.TEMPLATE.xml" />
     <None Remove="Samples\CHED\CHED.Submitted.TEMPLATE.xml" />
     <EmbeddedResource Include="Samples\CHED\CHED.Submitted.TEMPLATE.xml" />
@@ -49,6 +50,15 @@
     <EmbeddedResource Include="Samples\CHED\GetCertificateAttachmentResponse.TEMPLATE.xml" />
     <None Remove="Samples\INTRA\FindEuIntraCertificateResponse.xml" />
     <EmbeddedResource Include="Samples\INTRA\FindEuIntraCertificateResponse.xml" />
+    <EmbeddedResource Include="Samples\OPERATOR\FindOperatorResponse.xml" />
+    <EmbeddedResource Include="Samples\OPERATOR\GetOperatorByIdResponse.TEMPLATE.xml" />
+    <EmbeddedResource Include="Samples\OPERATOR\Operator.Created.TEMPLATE.xml" />
+    <EmbeddedResource Include="Samples\ORGANIC_OPERATOR\GetOrganicOperatorResponse.xml" />
+    <EmbeddedResource Include="Samples\ORGANIC_OPERATOR\FindOrganicOperatorResponse.xml" />
+    <EmbeddedResource Include="Samples\REFERENCE_DATA\GetClassificationSectionsResponse.xml" />
+    <EmbeddedResource Include="Samples\REFERENCE_DATA\GetClassificationTreeResponse.xml" />
+    <EmbeddedResource Include="Samples\REFERENCE_DATA\GetClassificationTreeNodeDetailResponse.xml" />
+    <EmbeddedResource Include="Samples\REFERENCE_DATA\GetClassificationTreesResponse.xml" />
   </ItemGroup>
 
 

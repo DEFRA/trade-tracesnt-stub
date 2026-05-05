@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>8354fd54-c6f7-49bc-a6e5-86a879394e6a</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-05-05T10:08:20.642+02:00</ns1:Created>
+        <ns1:Expires>2026-05-05T10:08:25.642+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+  </S:Header>
+  <S:Body>
+    <ns3:GetOrganicOperatorCertificateResponse xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns3="http://ec.europa.eu/tracesnt/certificate/organicoperator/retrieval/v1" xmlns:ns4="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns6="http://ec.europa.eu/tracesnt/certificate/organicoperator/v1" xmlns:ns7="http://ec.europa.eu/tracesnt/certificate/base/v01" xmlns:ns8="http://www.w3.org/2000/09/xmldsig#" xmlns:ns9="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns10="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns11="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns12="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns13="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns14="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns15="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns26="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2">
+      <ns3:OrganicOperatorCertificate>
+        <ns6:ExchangedDocument>
+          <ns4:Name>Organic Operator Certificate</ns4:Name>
+          <ns4:ID>GB-ORG-07.998-0000052.2024.001</ns4:ID>
+          <ns4:TypeCode name="Certificate of conformity (Organic operator certificate)">2</ns4:TypeCode>
+          <ns4:StatusCode name="Expired version (Expired)">49</ns4:StatusCode>
+          <ns4:IssueDateTime>
+            <ns5:DateTime>2024-01-04T18:38:09.000+01:00</ns5:DateTime>
+          </ns4:IssueDateTime>
+          <ns4:IncludedSPSNote>
+            <ns4:Content>2025-01-01T00:07:13.000+01:00</ns4:Content>
+            <ns4:SubjectCode listID="organic_operator_certificate_note_subject_code" listName="Organic operator certificate Note SubjectCode list" name="Last updated">LAST_UPDATE_DATETIME</ns4:SubjectCode>
+          </ns4:IncludedSPSNote>
+          <ns4:ReferenceSPSReferencedDocument>
+            <ns4:IssueDateTime>2024-01-04T18:38:09.000+01:00</ns4:IssueDateTime>
+            <ns4:TypeCode name="Certificate of conformity (Organic operator certificate)">2</ns4:TypeCode>
+            <ns4:RelationshipTypeCode name="Document reference, internal (Document reference, internal)">CAW</ns4:RelationshipTypeCode>
+            <ns4:ID>GB-ORG-07.998-0000052.2024.001</ns4:ID>
+            <ns4:AttachmentBinaryObject format="url" mimeCode="text/url" uri="https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/organic-operator/GB-ORG-07.998-0000052.2024.001"/>
+          </ns4:ReferenceSPSReferencedDocument>
+          <ns4:SignatorySPSAuthentication>
+            <ns4:TypeCode name="Inspection (Issuance)">4</ns4:TypeCode>
+            <ns4:ActualDateTime>
+              <ns5:DateTime>2024-01-04T18:38:09.000+01:00</ns5:DateTime>
+            </ns4:ActualDateTime>
+            <ns4:ProviderSPSParty>
+              <ns4:ID schemeID="organic_control_body_id" schemeName="Organic control body ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">GB-ORG-07</ns4:ID>
+              <ns4:Name>Irish Organic Association</ns4:Name>
+              <ns4:RoleCode name="Officer (Issuing body / authority)">VJ</ns4:RoleCode>
+              <ns4:TypeCode listID="user_body_role" listName="User body role" name="Organic control body">ORGANIC_CONTROL_BODY</ns4:TypeCode>
+              <ns4:SpecifiedSPSAddress>
+                <ns4:PostcodeCode>A45</ns4:PostcodeCode>
+                <ns4:LineOne>
+                  Unit 13 Inish Carrig, Golden Island
+                  Athlone, County Westmeath
+                </ns4:LineOne>
+                <ns4:CityName languageID="en">County Westmeath</ns4:CityName>
+                <ns4:CountryID>IE</ns4:CountryID>
+                <ns4:CountryName languageID="en">Ireland</ns4:CountryName>
+                <ns4:CountrySubDivisionName languageID="en">County Westmeath</ns4:CountrySubDivisionName>
+              </ns4:SpecifiedSPSAddress>
+              <ns4:SpecifiedSPSPerson>
+                <ns4:Name>Angela CLARKE</ns4:Name>
+              </ns4:SpecifiedSPSPerson>
+            </ns4:ProviderSPSParty>
+            <ns4:IncludedSPSClause>
+              <ns4:ID schemeID="organic_operator_certificate_clause" schemeName="Organic operator certificate clause" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">SIGNATORY_PERSON_EMAIL</ns4:ID>
+              <ns4:Content>angela.clarke@irishoa.ie</ns4:Content>
+            </ns4:IncludedSPSClause>
+            <ns4:IncludedSPSClause>
+              <ns4:ID schemeID="organic_operator_certificate_clause" schemeName="Organic operator certificate clause" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">DIGITALLY_SIGNED_DOCUMENT_TYPE</ns4:ID>
+              <ns4:Content>PDF</ns4:Content>
+            </ns4:IncludedSPSClause>
+          </ns4:SignatorySPSAuthentication>
+        </ns6:ExchangedDocument>
+        <ns6:MandatoryPart>
+          <ns6:OperatorType listID="organic_operator_certificate_type" listName="Organic operator certificate type" name="Operator">OPERATOR</ns6:OperatorType>
+          <ns6:OperatorIdentifier>998-0000052</ns6:OperatorIdentifier>
+          <ns6:OperatorSPSParty>
+            <ns4:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">IOA003516</ns4:ID>
+            <ns4:Name>John Thompson &amp; Sons Ltd.</ns4:Name>
+            <ns4:SpecifiedSPSAddress>
+              <ns4:PostcodeCode>BT1</ns4:PostcodeCode>
+              <ns4:LineOne>
+                35-39 York Road
+                , Belfast, Co Antrim
+              </ns4:LineOne>
+              <ns4:CityName languageID="en">Belfast</ns4:CityName>
+              <ns4:CountryID>XI</ns4:CountryID>
+              <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+              <ns4:CountrySubDivisionName languageID="en">County Antrim</ns4:CountrySubDivisionName>
+              <ns4:CityID schemeID="city_internal_id" schemeName="City internal ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">4592965</ns4:CityID>
+            </ns4:SpecifiedSPSAddress>
+          </ns6:OperatorSPSParty>
+          <ns6:IssuingSPSParty>
+            <ns4:ID schemeID="organic_control_body_id" schemeName="Organic control body ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">GB-ORG-07</ns4:ID>
+            <ns4:Name>Irish Organic Association</ns4:Name>
+            <ns4:TypeCode listID="organic_control_body_type" listName="Organic control body type" name="Control Body">control_body</ns4:TypeCode>
+            <ns4:SpecifiedSPSAddress>
+              <ns4:PostcodeCode>A45</ns4:PostcodeCode>
+              <ns4:LineOne>
+                Unit 13 Inish Carrig, Golden Island
+                Athlone, County Westmeath
+              </ns4:LineOne>
+              <ns4:CityName languageID="en">County Westmeath</ns4:CityName>
+              <ns4:CountryID>IE</ns4:CountryID>
+              <ns4:CountryName languageID="en">Ireland</ns4:CountryName>
+              <ns4:CountrySubDivisionName languageID="en">County Westmeath</ns4:CountrySubDivisionName>
+            </ns4:SpecifiedSPSAddress>
+          </ns6:IssuingSPSParty>
+          <ns6:OperatorActivityType listID="operator_activity_type" listName="Operator activity type" name="Preparation">PREPARATION</ns6:OperatorActivityType>
+          <ns6:OperatorActivityType listID="operator_activity_type" listName="Operator activity type" name="Distribution and placing on the market">DISTRIBUTION_AND_PLACING_ON_THE_MARKET</ns6:OperatorActivityType>
+          <ns6:OperatorActivityType listID="operator_activity_type" listName="Operator activity type" name="Import">IMPORT</ns6:OperatorActivityType>
+          <ns6:ProductCategory>
+            <ns6:Category name="Feed">(e)</ns6:Category>
+            <ns6:ProductionMethod name="Production of organic products">POOP</ns6:ProductionMethod>
+          </ns6:ProductCategory>
+          <ns6:ValidityFrom>2024-01-01</ns6:ValidityFrom>
+          <ns6:ValidityTo>2024-12-31</ns6:ValidityTo>
+          <ns6:IncludedSPSNote>
+            <ns4:ContentCode listID="boolean" listName="Boolean (yes/no)">NO</ns4:ContentCode>
+            <ns4:Content></ns4:Content>
+            <ns4:SubjectCode listID="organic_operator_certificate_note_subject_code" listName="Organic operator certificate Note SubjectCode list" name="Exporter">EXPORTER</ns4:SubjectCode>
+          </ns6:IncludedSPSNote>
+        </ns6:MandatoryPart>
+        <ns6:OptionalPart>
+          <ns6:DirectoryOfProduct>
+            <ns6:Name>Livestock Feed</ns6:Name>
+            <ns6:ProductionMethod>ORGANIC</ns6:ProductionMethod>
+          </ns6:DirectoryOfProduct>
+          <ns6:Permise>
+            <ns6:Location>35-39 York Road,Belfast,Co Antrim,BT15 3GW</ns6:Location>
+            <ns6:OperatorActivity name="Preparation">PREPARATION</ns6:OperatorActivity>
+          </ns6:Permise>
+          <ns6:CarriedOutActivity>
+            <ns6:OperatorActivity name="Preparation">PREPARATION</ns6:OperatorActivity>
+            <ns6:OperatorActivityCarryingOut listID="organic_operator_carrying_out_type" listName="Carrying out activity for own purpose or as subcontractor" name="Carrying out activity/activities for own purpose">FOR_OWN_PURPOSE</ns6:OperatorActivityCarryingOut>
+          </ns6:CarriedOutActivity>
+          <ns6:CarriedOutActivity>
+            <ns6:OperatorActivity name="Distribution/Placing on the market">DISTRIBUTION_AND_PLACING_ON_THE_MARKET</ns6:OperatorActivity>
+            <ns6:OperatorActivityCarryingOut listID="organic_operator_carrying_out_type" listName="Carrying out activity for own purpose or as subcontractor" name="Carrying out activity/activities for own purpose">FOR_OWN_PURPOSE</ns6:OperatorActivityCarryingOut>
+          </ns6:CarriedOutActivity>
+          <ns6:CarriedOutActivity>
+            <ns6:OperatorActivity name="Import">IMPORT</ns6:OperatorActivity>
+            <ns6:OperatorActivityCarryingOut listID="organic_operator_carrying_out_type" listName="Carrying out activity for own purpose or as subcontractor" name="Carrying out activity/activities for own purpose">FOR_OWN_PURPOSE</ns6:OperatorActivityCarryingOut>
+          </ns6:CarriedOutActivity>
+        </ns6:OptionalPart>
+      </ns3:OrganicOperatorCertificate>
+    </ns3:GetOrganicOperatorCertificateResponse>
+  </S:Body>
+</S:Envelope>
