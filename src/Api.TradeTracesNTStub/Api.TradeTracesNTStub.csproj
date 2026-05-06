@@ -8,13 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Samples\CERTIFICATE_ATTACHMENTS\**" />
-    <Content Remove="Samples\CERTIFICATE_ATTACHMENTS\**" />
-    <EmbeddedResource Remove="Samples\CERTIFICATE_ATTACHMENTS\**" />
-    <None Remove="Samples\CERTIFICATE_ATTACHMENTS\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="..\.dockerignore">
       <Link>.dockerignore</Link>
     </Content>
