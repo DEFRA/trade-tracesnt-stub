@@ -18,7 +18,7 @@ public static class WireMockServerChedExtensions
                 .WithBody(ChedMatchers.ValidGetChedCertificateRequestRequest(), MatchOperator.And))
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => await ChedResponses.CreateChedAResponse(HttpStatusCode.OK, request)));
-       
+        
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"createAndSubmitForDecision\""])
