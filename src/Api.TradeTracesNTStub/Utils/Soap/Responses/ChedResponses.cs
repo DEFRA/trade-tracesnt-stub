@@ -26,28 +26,6 @@ public static class ChedResponses
         return SoapUtils.StubResponseMessage(statusCode, resourceContent);
     }
     
-    public static async Task<ResponseMessage> CreateSubmitCertificateAttachmentResponse(HttpStatusCode statusCode, IRequestMessage request)
-    {
-        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.SubmitCertificateAttachmentResponse.TEMPLATE.xml");
-        
-        var requestBody = XElement.Parse(request.Body!);
-        var filename = requestBody.XPathSelectElement("//*[local-name()='SubmitCertificateAttachmentRequest']")?.Attribute("fileName")?.Value;
-        resourceContent = resourceContent?.Replace("{{FILENAME}}", filename);
-
-        return SoapUtils.StubResponseMessage(statusCode, resourceContent);
-    }
-    
-    public static async Task<ResponseMessage> CreateGetCertificateAttachmentResponse(HttpStatusCode statusCode, IRequestMessage request)
-    {
-        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.GetCertificateAttachmentResponse.TEMPLATE.xml");
-        
-        var requestBody = XElement.Parse(request.Body!);
-        var filename = requestBody.XPathSelectElement("//*[local-name()='GetCertificateAttachmentRequest']/*[local-name()='FileName']")?.Value;
-        resourceContent = resourceContent?.Replace("{{FILENAME}}", filename);
-
-        return SoapUtils.StubResponseMessage(statusCode, resourceContent);
-    }
-
     public static async Task<ResponseMessage> CreateChedSubmittedResponse(HttpStatusCode statusCode, IRequestMessage request)
     {
         var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.CHED.Submitted.TEMPLATE.xml");

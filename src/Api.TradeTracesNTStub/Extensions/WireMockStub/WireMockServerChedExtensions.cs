@@ -18,21 +18,7 @@ public static class WireMockServerChedExtensions
                 .WithBody(ChedMatchers.ValidGetChedCertificateRequestRequest(), MatchOperator.And))
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => await ChedResponses.CreateChedAResponse(HttpStatusCode.OK, request)));
-        
-        server
-            .Given(Request.Create()
-                .WithHeader("SOAPAction", ["\"submitCertificateAttachment\""])
-                .WithBody(ChedMatchers.ValidSubmitCertificateAttachmentRequest(), MatchOperator.And))
-            .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await ChedResponses.CreateSubmitCertificateAttachmentResponse(HttpStatusCode.OK, request)));
-        
-        server
-            .Given(Request.Create()
-                .WithHeader("SOAPAction", ["\"getCertificateAttachment\""])
-                .WithBody(ChedMatchers.ValidGetCertificateAttachmentRequest(), MatchOperator.And))
-            .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async request => await ChedResponses.CreateGetCertificateAttachmentResponse(HttpStatusCode.OK, request)));
-        
+       
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"createAndSubmitForDecision\""])
