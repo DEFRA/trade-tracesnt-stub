@@ -12,23 +12,6 @@ public static class ChedMatchers
                 ])
             .ToArray();
     
-    public static IMatcher[] ValidSubmitCertificateAttachmentRequest() =>
-        MessageMatchers.ValidHeaders()
-            .Concat(
-            [
-                new XPathMatcher(MessageMatchers.BodyXPath + "/*[local-name() = 'SubmitCertificateAttachmentRequest']/*[local-name() = 'Attachment' and text()]")
-            ])
-            .ToArray();
-    
-    public static IMatcher[] ValidGetCertificateAttachmentRequest() =>
-        MessageMatchers.ValidHeaders()
-            .Concat(
-            [
-                new XPathMatcher(MessageMatchers.BodyXPath + "/*[local-name() = 'GetCertificateAttachmentRequest']/*[local-name() = 'FileName' and text()]"),
-                new XPathMatcher(MessageMatchers.BodyXPath + "/*[local-name() = 'GetCertificateAttachmentRequest']/*[local-name() = 'DocumentId' and text()]"),
-            ])
-            .ToArray();
-    
     public static IMatcher[] ValidCreateAndSubmitChedForDecisionRequest() =>
         MessageMatchers.ValidHeaders()
             .Concat(MessageMatchers.ValidCompetentAuthorityHeaders())
