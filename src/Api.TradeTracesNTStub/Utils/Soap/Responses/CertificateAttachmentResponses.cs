@@ -20,7 +20,7 @@ public static class CertificateAttachmentResponses
     
     public static async Task<ResponseMessage> CreateGetCertificateAttachmentResponse(HttpStatusCode statusCode, IRequestMessage request)
     {
-        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CERTIFICATE_ATTACHMENT.GetCertificateAttachmentResponse.TEMPLATE.xml");
+        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CERTIFICATE_ATTACHMENT.GetCertificateAttachmentResponse.xml");
         
         var requestBody = XElement.Parse(request.Body!);
         var filename = requestBody.XPathSelectElement("//*[local-name()='GetCertificateAttachmentRequest']/*[local-name()='FileName']")?.Value;
