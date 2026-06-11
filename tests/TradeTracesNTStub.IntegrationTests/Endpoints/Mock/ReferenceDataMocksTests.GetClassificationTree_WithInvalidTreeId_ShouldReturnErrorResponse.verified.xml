@@ -1,0 +1,12 @@
+<S:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header />
+  <S:Body>
+    <S:Fault xmlns:ns3="http://www.w3.org/2003/05/soap-envelope" xmlns="">
+      <faultcode>S:Client</faultcode>
+      <faultstring>Invalid classification tree ID</faultstring>
+      <detail>
+        <ns13:PermissionDeniedException xmlns:ns9="http://ec.europa.eu/tracesnt/referencedata/classificationtree/v1" xmlns:ns8="http://ec.europa.eu/tracesnt/referencedata/classificationsection/v1" xmlns:ns7="http://ec.europa.eu/tracesnt/referencedata/certificatemodel/v1" xmlns:ns6="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns5="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns4="http://ec.europa.eu/sanco/tracesnt/message/v1" xmlns:ns3="http://ec.europa.eu/sanco/tracesnt/error/v01" xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns15="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns14="http://www.w3.org/2000/09/xmldsig#" xmlns:ns12="http://ec.europa.eu/tracesnt/referencedata/laboratorytest/v1" xmlns:ns11="http://ec.europa.eu/tracesnt/referencedata/common/v1" xmlns:ns10="http://ec.europa.eu/tracesnt/referencedata/nodeattribute/v1" xmlns:ns13="http://ec.europa.eu/tracesnt/referencedata/v1" />
+      </detail>
+    </S:Fault>
+  </S:Body>
+</S:Envelope>

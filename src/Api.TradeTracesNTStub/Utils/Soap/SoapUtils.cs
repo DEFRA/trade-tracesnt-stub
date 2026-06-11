@@ -29,6 +29,18 @@ public static class SoapUtils
         return requestBody.XPathSelectElement("//*[local-name()='ID']")?.Value;
     }
 
+    public static string? GetTreeId(IRequestMessage request)
+    {
+        var requestBody = XElement.Parse(request.Body!);
+        return requestBody.XPathSelectElement("//*[local-name()='TreeID']")?.Value;
+    }
+
+    public static string? GetNodePath(IRequestMessage request)
+    {
+        var requestBody = XElement.Parse(request.Body!);
+        return requestBody.XPathSelectElement("//*[local-name()='Path']")?.Value;
+    }
+
     public static string GenerateCentralEuropeanTime()
     {
         var currentCentralEuropeanTime = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time"));
