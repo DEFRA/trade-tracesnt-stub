@@ -1,6 +1,9 @@
 using Api.TradeTracesNTStub.Utils.Soap;
 using Api.TradeTracesNTStub.Utils.Soap.Matchers;
+using Api.TradeTracesNTStub.Utils.Soap.Responses;
+
 using System.Net;
+
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
@@ -26,20 +29,26 @@ public static class WireMockServerReferenceDataExtensions
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreesResponse.xml")));
 
-
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"getClassificationTree\""])
                 .WithBody(ReferenceDataMatchers.ValidGetClassificationTreeRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeResponse.xml")));
+            .RespondWith(Response.Create().WithCallback(async request => (
+                       await ReferenceDataResponses.CreateClassificationTreeResponse(HttpStatusCode.OK, request)
+                    ?? await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeResponse.INVALID.xml"))
+                    )
+            );
 
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"getClassificationTreeNodeDetail\""])
                 .WithBody(ReferenceDataMatchers.ValidGetClassificationTreeNodeDetailRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeNodeDetailResponse.xml")));
+            .RespondWith(Response.Create().WithCallback(
+                    async request => await ReferenceDataResponses.CreateClassificationTreeNodeDetailResponse(HttpStatusCode.OK, request)
+                                  ?? await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeNodeDetailResponse.NOT_FOUND.xml"))
+            );
 
         return server;
     }

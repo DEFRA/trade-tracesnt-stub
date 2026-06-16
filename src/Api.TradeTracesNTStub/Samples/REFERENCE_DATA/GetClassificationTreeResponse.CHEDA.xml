@@ -1,13 +1,14 @@
-﻿<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
   <S:Header>
     <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
       <ID>WS_REQUEST_ID</ID>
-      <Message>Guid_1</Message>
+      <Message>d2b6359d-6327-4ae0-b640-856056347c33</Message>
     </Message>
     <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <ns1:Timestamp>
-        <ns1:Created>DateTimeOffset_1</ns1:Created>
-        <ns1:Expires>DateTimeOffset_2</ns1:Expires>
+        <ns1:Created>2026-06-01T12:39:45.180+02:00</ns1:Created>
+        <ns1:Expires>2026-06-01T12:39:50.180+02:00</ns1:Expires>
       </ns1:Timestamp>
     </ns2:Security>
   </S:Header>
