@@ -1,0 +1,50 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Header xmlns:v06="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06"
+            xmlns:v03="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03"
+            xmlns:v1="http://ec.europa.eu/tracesnt/body/v1"
+            xmlns:v3="http://ec.europa.eu/sanco/tracesnt/base/v3">
+    <v06:CertexHeader>
+      <v03:MessageId>test</v03:MessageId>
+      <v03:UniqRequesterPrefix>123456-</v03:UniqRequesterPrefix>
+    </v06:CertexHeader>
+    <v1:CustomsOfficeReferenceNumber>XI000002</v1:CustomsOfficeReferenceNumber>
+    <v3:LanguageCode >EN</v3:LanguageCode>
+    <v3:WebServiceClientId>{{WEB_SERVICE_CLIENT_ID}}</v3:WebServiceClientId>
+    <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <wsu:Timestamp>
+        <wsu:Created>{{createdTimestamp}}</wsu:Created>
+        <wsu:Expires>{{expiresTimestamp}}</wsu:Expires>
+      </wsu:Timestamp>
+      <wsse:UsernameToken wsu:Id="UsernameToken-20E0E1B0C5764059A3F84975AE421E55">
+        <wsse:Username>{{USERNAME}}</wsse:Username>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">{{password}}</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">{{nonce}}</wsse:Nonce>
+        <wsu:Created>{{createdTimestamp}}</wsu:Created>
+      </wsse:UsernameToken>
+    </wsse:Security>
+  </s:Header>
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          xmlns:v03="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03"
+          xmlns:v06="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+    <v06:ProcessedChedRequest>
+      <v06:SendingDate>2026-06-30T08:00:53Z</v06:SendingDate>
+      <v06:ChedCertificateId>CHEDPP.XI.2026.0000074</v06:ChedCertificateId>
+      <v06:CustomsDeclarationReferenceNumber>
+        <v03:MRN>26UK12345678900001</v03:MRN>
+      </v06:CustomsDeclarationReferenceNumber>
+      <v06:CompetentCustomsOffice>
+        <v03:ReferenceNumber>XI000002</v03:ReferenceNumber>
+      </v06:CompetentCustomsOffice>
+      <v06:CommodityDescriptionForChed>
+        <v03:GoodsItemNumber>1</v03:GoodsItemNumber>
+        <v03:CertificateLineNumber>1</v03:CertificateLineNumber>
+        <v03:ClassCode>08051028</v03:ClassCode>
+        <v03:NetWeightQuantity>10</v03:NetWeightQuantity>
+        <v03:NetWeightUnitOfMeasure>KGM</v03:NetWeightUnitOfMeasure>
+      </v06:CommodityDescriptionForChed>
+      <v06:Language>EN</v06:Language>
+      <v06:QuantityManagementIndication>1</v06:QuantityManagementIndication>
+    </v06:ProcessedChedRequest>
+  </s:Body>
+</s:Envelope>

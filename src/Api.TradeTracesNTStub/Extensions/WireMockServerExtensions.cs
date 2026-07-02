@@ -28,6 +28,7 @@ public static class WireMockServerExtensions
 
         server.CreateIntraStubs();
         server.CreateChedStubs();
+        server.CreateCertexStubs();
         server.CreateCertificateAttachmentStubs();
         server.CreateOperatorStubs();
         server.CreateOrganicOperatorStubs();

@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>15aa0e61-2ed9-4ba8-80c6-e568b0b16191</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-07-02T11:52:18.840+02:00</ns1:Created>
+        <ns1:Expires>2026-07-02T11:52:23.841+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+    <ns2:CertexHeader xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03" xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+      <MessageId>test</MessageId>
+      <UniqRequesterPrefix>123456-</UniqRequesterPrefix>
+    </ns2:CertexHeader>
+  </S:Header>
+  <S:Body>
+    <ns6:ProcessedChedInformationResponse xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03" xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v3" xmlns:ns3="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns4="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:ns6="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06" xmlns:ns7="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns8="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns9="http://www.w3.org/2000/09/xmldsig#" xmlns:ns10="http://ec.europa.eu/tracesnt/body/v1" xmlns:ns11="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns12="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns13="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns14="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns15="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2">
+      <ns6:ChedCertificate>
+        <ns5:SPSCertificate>
+          <ns5:SPSExchangedDocument>
+            <ns3:Name languageID="en">CHED-PP - Common Health Entry Document for Plant Product</ns3:Name>
+            <ns3:ID>CHEDPP.XI.2026.0000074</ns3:ID>
+            <ns3:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</ns3:TypeCode>
+            <ns3:StatusCode name="To be done (New)">1</ns3:StatusCode>
+            <ns3:IssueDateTime>
+              <ns4:DateTime>2026-06-19T11:26:30.000+02:00</ns4:DateTime>
+            </ns3:IssueDateTime>
+            <ns3:IssuerSPSParty>
+              <ns3:ID schemeID="authority_activity_id" schemeName="Authority activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">XIBEL1-DAERA</ns3:ID>
+              <ns3:Name>Belfast Port</ns3:Name>
+              <ns3:RoleCode name="Officer (Identification of Applicant)">VJ</ns3:RoleCode>
+              <ns3:TypeCode listID="user_body_role" listName="User body role" name="Authority">AUTHORITY</ns3:TypeCode>
+              <ns3:SpecifiedSPSAddress>
+                <ns3:PostcodeCode>BT3</ns3:PostcodeCode>
+                <ns3:LineOne>
+                  Belfast City Council
+                  5 Corry Place
+                  Belfast Harbour Estate
+                  BT3 9HY
+                </ns3:LineOne>
+                <ns3:CityName languageID="en">County Down</ns3:CityName>
+                <ns3:CountryID>XI</ns3:CountryID>
+                <ns3:CountryName languageID="en">United Kingdom (Northern Ireland)</ns3:CountryName>
+                <ns3:CountrySubDivisionName languageID="en">Northern Ireland</ns3:CountrySubDivisionName>
+              </ns3:SpecifiedSPSAddress>
+              <ns3:SpecifiedSPSPerson>
+                <ns3:Name>ciara luke</ns3:Name>
+              </ns3:SpecifiedSPSPerson>
+            </ns3:IssuerSPSParty>
+            <ns3:IncludedSPSNote>
+              <ns3:ContentCode listID="ched_type" listName="CHED type" name="CHED-PP - Common Health Entry Document for Plant Product">PP</ns3:ContentCode>
+              <ns3:Content></ns3:Content>
+              <ns3:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Type of CHED">CHED_TYPE</ns3:SubjectCode>
+            </ns3:IncludedSPSNote>
+            <ns3:IncludedSPSNote>
+              <ns3:Content>2026-06-19T11:26:30.000+02:00</ns3:Content>
+              <ns3:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Last updated">LAST_UPDATE_DATETIME</ns3:SubjectCode>
+            </ns3:IncludedSPSNote>
+            <ns3:ReferenceSPSReferencedDocument>
+              <ns3:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</ns3:TypeCode>
+              <ns3:RelationshipTypeCode name="Document reference, internal (Document reference, internal)">CAW</ns3:RelationshipTypeCode>
+              <ns3:ID>CHEDPP.XI.2026.0000074</ns3:ID>
+              <ns3:AttachmentBinaryObject format="url" mimeCode="text/url" uri="https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/ched/CHEDPP.XI.2026.0000074"/>
+            </ns3:ReferenceSPSReferencedDocument>
+            <ns3:ReferenceSPSReferencedDocument>
+              <ns3:IssueDateTime>2026-06-04T00:00:00.000+02:00</ns3:IssueDateTime>
+              <ns3:TypeCode name="Heat Treatment Certificate (Heat treatment certificate)">625</ns3:TypeCode>
+              <ns3:RelationshipTypeCode name="Mutually defined reference number (Supporting document)">ZZZ</ns3:RelationshipTypeCode>
+              <ns3:ID schemeAgencyID="BB">65865865856</ns3:ID>
+            </ns3:ReferenceSPSReferencedDocument>
+            <ns3:SignatorySPSAuthentication>
+              <ns3:TypeCode name="Inspection (Identification of Applicant)">4</ns3:TypeCode>
+              <ns3:ActualDateTime>
+                <ns4:DateTime>2026-06-19T11:26:30.000+02:00</ns4:DateTime>
+              </ns3:ActualDateTime>
+              <ns3:ProviderSPSParty>
+                <ns3:Name></ns3:Name>
+              </ns3:ProviderSPSParty>
+              <ns3:IncludedSPSClause>
+                <ns3:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">PURPOSE</ns3:ID>
+                <ns3:Content>INTERNAL_MARKET</ns3:Content>
+                <ns3:Content languageID="en">For free circulation</ns3:Content>
+              </ns3:IncludedSPSClause>
+              <ns3:IncludedSPSClause>
+                <ns3:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">SIGNATORY_PERSON_EMAIL</ns3:ID>
+                <ns3:Content>redacted@redacted.gov.uk</ns3:Content>
+              </ns3:IncludedSPSClause>
+            </ns3:SignatorySPSAuthentication>
+          </ns5:SPSExchangedDocument>
+          <ns5:SPSConsignment>
+            <ns3:AvailabilityDueDateTime>
+              <ns4:DateTime>2026-06-20T00:00:00.000+01:00</ns4:DateTime>
+            </ns3:AvailabilityDueDateTime>
+            <ns3:ConsignorSPSParty>
+              <ns3:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">54967</ns3:ID>
+              <ns3:Name>RIPE NOW LIMITED</ns3:Name>
+              <ns3:RoleCode name="Exporter">EX</ns3:RoleCode>
+              <ns3:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Professional operator">PROFESSIONAL_OPERATOR</ns3:TypeCode>
+              <ns3:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Third country professional operators">TCPO</ns3:TypeCode>
+              <ns3:SpecifiedSPSAddress>
+                <ns3:PostcodeCode>LS22</ns3:PostcodeCode>
+                <ns3:LineOne>BITTERN WAY</ns3:LineOne>
+                <ns3:CityName languageID="en">Boston Spa</ns3:CityName>
+                <ns3:CountryID>GB</ns3:CountryID>
+                <ns3:CountryName languageID="en">United Kingdom</ns3:CountryName>
+                <ns3:CountrySubDivisionName languageID="en">Yorkshire and the Humber</ns3:CountrySubDivisionName>
+              </ns3:SpecifiedSPSAddress>
+            </ns3:ConsignorSPSParty>
+            <ns3:ConsigneeSPSParty>
+              <ns3:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">RMS-GB-013311</ns3:ID>
+              <ns3:Name>Fintan Test Ltd</ns3:Name>
+              <ns3:RoleCode name="Consignee (Importer)">CN</ns3:RoleCode>
+              <ns3:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Responsible for the load">RESPONSIBLE_FOR_THE_LOAD</ns3:TypeCode>
+              <ns3:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Responsible For the Load (Freight Forwarder)">RFL</ns3:TypeCode>
+              <ns3:SpecifiedSPSAddress>
+                <ns3:PostcodeCode>BT13</ns3:PostcodeCode>
+                <ns3:LineOne>01 Kings Sq, Belfast</ns3:LineOne>
+                <ns3:CityName languageID="en">Belfast</ns3:CityName>
+                <ns3:CountryID>XI</ns3:CountryID>
+                <ns3:CountryName languageID="en">United Kingdom (Northern Ireland)</ns3:CountryName>
+                <ns3:CountrySubDivisionName languageID="en">County Antrim</ns3:CountrySubDivisionName>
+              </ns3:SpecifiedSPSAddress>
+            </ns3:ConsigneeSPSParty>
+            <ns3:ExportSPSCountry>
+              <ns3:ID>GB</ns3:ID>
+              <ns3:Name languageID="en">United Kingdom</ns3:Name>
+            </ns3:ExportSPSCountry>
+            <ns3:ImportSPSCountry>
+              <ns3:ID></ns3:ID>
+              <ns3:Name></ns3:Name>
+            </ns3:ImportSPSCountry>
+            <ns3:UnloadingBaseportSPSLocation>
+              <ns3:ID schemeID="un_locode" schemeName="UN/LOCODE" schemeAgencyID="un" schemeAgencyName="United Nations" schemeDataURI="authority_activity">GBBEL</ns3:ID>
+              <ns3:Name>XI</ns3:Name>
+              <ns3:Name languageID="en">Belfast</ns3:Name>
+              <ns3:Name>XIBEL1</ns3:Name>
+              <ns3:Name>Belfast Port</ns3:Name>
+              <ns3:Name>
+                DAERA Plant Health Inspection Branch
+                Room 1022 Dundonald House
+                Upper Newtownards Road
+              </ns3:Name>
+              <ns3:Name>GBBEL</ns3:Name>
+            </ns3:UnloadingBaseportSPSLocation>
+            <ns3:ExaminationSPSEvent>
+              <ns3:OccurrenceSPSLocation>
+                <ns3:Name></ns3:Name>
+              </ns3:OccurrenceSPSLocation>
+            </ns3:ExaminationSPSEvent>
+            <ns3:DeliverySPSParty>
+              <ns3:ID schemeID="operator_internal_activity_id" schemeName="Operator internal activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">361927</ns3:ID>
+              <ns3:Name>NI Supermarket Test</ns3:Name>
+              <ns3:RoleCode name="Delivery party (Place of destination)">DP</ns3:RoleCode>
+              <ns3:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Professional operators referred to in Article 45(1)(l) IMSOC">REGISTERED_PROFESSIONAL_OPERATOR</ns3:TypeCode>
+              <ns3:TypeCode listID="classification_section_code" listName="Operator classification section code" name="EU registered professional operators">EURPO</ns3:TypeCode>
+              <ns3:SpecifiedSPSAddress>
+                <ns3:PostcodeCode>BT1</ns3:PostcodeCode>
+                <ns3:LineOne>Square</ns3:LineOne>
+                <ns3:CityName languageID="en">Belfast</ns3:CityName>
+                <ns3:CountryID>XI</ns3:CountryID>
+                <ns3:CountryName languageID="en">United Kingdom (Northern Ireland)</ns3:CountryName>
+                <ns3:CountrySubDivisionName languageID="en">County Antrim</ns3:CountrySubDivisionName>
+              </ns3:SpecifiedSPSAddress>
+            </ns3:DeliverySPSParty>
+            <ns3:CustomsTransitAgentSPSParty>
+              <ns3:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">RMS-NI-554433</ns3:ID>
+              <ns3:Name>Dave Imports</ns3:Name>
+              <ns3:RoleCode name="Customs broker (Responsible for consignment)">CB</ns3:RoleCode>
+              <ns3:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Responsible for the load">RESPONSIBLE_FOR_THE_LOAD</ns3:TypeCode>
+              <ns3:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Responsible For the Load (Freight Forwarder)">RFL</ns3:TypeCode>
+              <ns3:SpecifiedSPSAddress>
+                <ns3:PostcodeCode>BT7</ns3:PostcodeCode>
+                <ns3:LineOne>Cregagh Estate</ns3:LineOne>
+                <ns3:CityName languageID="en">Belfast</ns3:CityName>
+                <ns3:CountryID>XI</ns3:CountryID>
+                <ns3:CountryName languageID="en">United Kingdom (Northern Ireland)</ns3:CountryName>
+                <ns3:CountrySubDivisionName languageID="en">County Antrim</ns3:CountrySubDivisionName>
+              </ns3:SpecifiedSPSAddress>
+            </ns3:CustomsTransitAgentSPSParty>
+            <ns3:MainCarriageSPSTransportMovement>
+              <ns3:ID schemeID="road_vehicle_registration_before_bcp" schemeName="Road vehicle registration (before BCP)" schemeAgencyID="XI" schemeAgencyName="United Kingdom (Northern Ireland)">chedpp</ns3:ID>
+              <ns3:ModeCode name="Road transport">3</ns3:ModeCode>
+            </ns3:MainCarriageSPSTransportMovement>
+            <ns3:IncludedSPSConsignmentItem>
+              <ns3:NatureIdentificationSPSCargo>
+                <ns3:TypeCode name="General cargo (Commodities)">12</ns3:TypeCode>
+              </ns3:NatureIdentificationSPSCargo>
+              <ns3:IncludedSPSTradeLineItem>
+                <ns3:SequenceNumeric>0</ns3:SequenceNumeric>
+                <ns3:Description>Consignment totals and summary</ns3:Description>
+                <ns3:NetWeightMeasure unitCode="KGM">900</ns3:NetWeightMeasure>
+                <ns3:GrossWeightMeasure unitCode="KGM">1800</ns3:GrossWeightMeasure>
+                <ns3:PhysicalSPSPackage>
+                  <ns3:LevelCode name="No packaging hierarchy">4</ns3:LevelCode>
+                  <ns3:TypeCode name="Bag">BG</ns3:TypeCode>
+                  <ns3:ItemQuantity>90.0</ns3:ItemQuantity>
+                </ns3:PhysicalSPSPackage>
+              </ns3:IncludedSPSTradeLineItem>
+              <ns3:IncludedSPSTradeLineItem>
+                <ns3:SequenceNumeric>1</ns3:SequenceNumeric>
+                <ns3:Description></ns3:Description>
+                <ns3:ScientificName languageID="la">C.itrus x lumia var. lumia</ns3:ScientificName>
+                <ns3:NetWeightMeasure unitCode="KGM">900</ns3:NetWeightMeasure>
+                <ns3:ApplicableSPSClassification>
+                  <ns3:SystemID>CN</ns3:SystemID>
+                  <ns3:SystemName>CN Code (Combined Nomenclature)</ns3:SystemName>
+                  <ns3:ClassCode>08051028</ns3:ClassCode>
+                  <ns3:ClassName languageID="en">EDIBLE FRUIT AND NUTS; PEEL OF CITRUS FRUIT OR MELONS</ns3:ClassName>
+                  <ns3:ClassName languageID="en">Citrus fruit, fresh or dried</ns3:ClassName>
+                  <ns3:ClassName languageID="en">Oranges</ns3:ClassName>
+                  <ns3:ClassName languageID="en">Sweet oranges, fresh</ns3:ClassName>
+                  <ns3:ClassName languageID="en">Other</ns3:ClassName>
+                </ns3:ApplicableSPSClassification>
+                <ns3:ApplicableSPSClassification>
+                  <ns3:SystemID>EPPT</ns3:SystemID>
+                  <ns3:SystemName>EPPO Plant Protection Thesaurus</ns3:SystemName>
+                  <ns3:ClassCode>CIDLU</ns3:ClassCode>
+                  <ns3:ClassName languageID="la">C.itrus x lumia var. lumia</ns3:ClassName>
+                </ns3:ApplicableSPSClassification>
+                <ns3:ApplicableSPSClassification>
+                  <ns3:SystemID>PRODUCT_TYPE</ns3:SystemID>
+                  <ns3:SystemName>Product type</ns3:SystemName>
+                  <ns3:ClassCode>INTENDED_FOR_PLANTING_ALREADY_PLANTED</ns3:ClassCode>
+                  <ns3:ClassName languageID="en">Intended for planting: already planted</ns3:ClassName>
+                </ns3:ApplicableSPSClassification>
+                <ns3:PhysicalSPSPackage>
+                  <ns3:LevelCode name="No packaging hierarchy">4</ns3:LevelCode>
+                  <ns3:TypeCode name="Bag">BG</ns3:TypeCode>
+                  <ns3:ItemQuantity>90.0</ns3:ItemQuantity>
+                </ns3:PhysicalSPSPackage>
+                <ns3:OriginSPSCountry>
+                  <ns3:ID>GB</ns3:ID>
+                  <ns3:Name languageID="en">United Kingdom</ns3:Name>
+                </ns3:OriginSPSCountry>
+              </ns3:IncludedSPSTradeLineItem>
+            </ns3:IncludedSPSConsignmentItem>
+          </ns5:SPSConsignment>
+        </ns5:SPSCertificate>
+      </ns6:ChedCertificate>
+      <ns6:QuantityManagementSummary>
+        <AvailableQuantity>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>080510</HarmonizedSystemSubheadingcode>
+            <CombinedNomenclatureCode>28</CombinedNomenclatureCode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>KGM</UnitOfMeasure>
+            <Quantity>900</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+        </AvailableQuantity>
+      </ns6:QuantityManagementSummary>
+      <ns6:OperationCode>0</ns6:OperationCode>
+      <ns6:ReservationResult>0</ns6:ReservationResult>
+      <ns6:ReservationFailureReason>04</ns6:ReservationFailureReason>
+      <ns6:PushActive>false</ns6:PushActive>
+    </ns6:ProcessedChedInformationResponse>
+  </S:Body>
+</S:Envelope>
