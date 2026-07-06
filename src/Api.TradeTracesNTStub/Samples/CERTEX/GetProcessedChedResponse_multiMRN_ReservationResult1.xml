@@ -1,0 +1,427 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>7f604b4d-afe3-49d4-acaf-c92e51b13afa</Message>
+    </Message>
+    <ns2:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns2="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-07-03T09:28:08.213+02:00</ns1:Created>
+        <ns1:Expires>2026-07-03T09:28:13.213+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns2:Security>
+    <ns2:CertexHeader xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03" xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+      <MessageId>test</MessageId>
+      <UniqRequesterPrefix>123456-</UniqRequesterPrefix>
+    </ns2:CertexHeader>
+  </S:Header>
+  <S:Body>
+    <ns3:ProcessedChedInformationResponse xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03" xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v3" xmlns:ns3="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06" xmlns:ns4="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns6="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:ns7="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns8="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns9="http://www.w3.org/2000/09/xmldsig#" xmlns:ns10="http://ec.europa.eu/tracesnt/body/v1" xmlns:ns11="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns12="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns13="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns14="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns15="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2">
+      <ns3:ChedCertificate>
+        <ns6:SPSCertificate>
+          <ns6:SPSExchangedDocument>
+            <ns4:Name languageID="en">CHED-P - Common Health Entry Document for Animal Product</ns4:Name>
+            <ns4:ID>CHEDP.XI.2026.0000516</ns4:ID>
+            <ns4:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</ns4:TypeCode>
+            <ns4:StatusCode name="Issued (Validated)">70</ns4:StatusCode>
+            <ns4:IssueDateTime>
+              <ns5:DateTime>2026-07-01T12:00:25.000+02:00</ns5:DateTime>
+            </ns4:IssueDateTime>
+            <ns4:IssuerSPSParty>
+              <ns4:ID schemeID="authority_activity_id" schemeName="Authority activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">XIBEL1-DAERA</ns4:ID>
+              <ns4:Name>Belfast Port</ns4:Name>
+              <ns4:RoleCode name="Officer (Identification of Applicant)">VJ</ns4:RoleCode>
+              <ns4:TypeCode listID="user_body_role" listName="User body role" name="Authority">AUTHORITY</ns4:TypeCode>
+              <ns4:SpecifiedSPSAddress>
+                <ns4:PostcodeCode>BT3</ns4:PostcodeCode>
+                <ns4:LineOne>
+                  Belfast City Council
+                  5 Corry Place
+                  Belfast Harbour Estate
+                  BT3 9HY
+                </ns4:LineOne>
+                <ns4:CityName languageID="en">County Down</ns4:CityName>
+                <ns4:CountryID>XI</ns4:CountryID>
+                <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+                <ns4:CountrySubDivisionName languageID="en">Northern Ireland</ns4:CountrySubDivisionName>
+              </ns4:SpecifiedSPSAddress>
+              <ns4:SpecifiedSPSPerson>
+                <ns4:Name>ciara luke</ns4:Name>
+              </ns4:SpecifiedSPSPerson>
+            </ns4:IssuerSPSParty>
+            <ns4:IncludedSPSNote>
+              <ns4:ContentCode listID="ched_type" listName="CHED type" name="CHED-P - Common Health Entry Document for Animal Product">P</ns4:ContentCode>
+              <ns4:Content></ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Type of CHED">CHED_TYPE</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:ContentCode listID="product_temperature" listName="Product temperature" name="Chilled">CHILLED</ns4:ContentCode>
+              <ns4:Content></ns4:Content>
+              <ns4:SubjectCode listID="certificate_note_subject_code" listName="Certificate Note SubjectCode list" name="Product temperature">PRODUCT_TEMPERATURE</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:Content>2026-07-01T12:07:23.000+02:00</ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Last updated">LAST_UPDATE_DATETIME</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:Content>2026-07-05T03:00:00.000+02:00</ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Date of departure from BCP">DEPARTURE_FROM_BCP_DATETIME</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:ContentCode listID="ched_monitoring_procedure" listName="CHED monitoring procedure" name="Entry monitoring">ENTRY_MONITORING</ns4:ContentCode>
+              <ns4:Content></ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Procedure when acceptable for monitoring">ACCEPTABLE_MONITORING_PROCEDURE</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:Content>0</ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Total number of laboratory tests on commodities">LABORATORY_TESTS_COMMODITIES_TOTAL</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:Content>0</ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Number of satisfactory laboratory tests on commodities">LABORATORY_TESTS_COMMODITIES_SATISFACTORY</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:Content>0</ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Number of not-satisfactory laboratory tests on commodities">LABORATORY_TESTS_COMMODITIES_NOT_SATISFACTORY</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:Content>0</ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Number of pending laboratory tests on commodities">LABORATORY_TESTS_COMMODITIES_PENDING</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:IncludedSPSNote>
+              <ns4:ContentCode listID="boolean" listName="Boolean (yes/no)">NO</ns4:ContentCode>
+              <ns4:Content></ns4:Content>
+              <ns4:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Presence of details on non-compliance">NON_COMPLIANCE_DETAILS_PRESENT</ns4:SubjectCode>
+            </ns4:IncludedSPSNote>
+            <ns4:ReferenceSPSReferencedDocument>
+              <ns4:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</ns4:TypeCode>
+              <ns4:RelationshipTypeCode name="Document reference, internal (Document reference, internal)">CAW</ns4:RelationshipTypeCode>
+              <ns4:ID>CHEDP.XI.2026.0000516</ns4:ID>
+              <ns4:AttachmentBinaryObject format="url" mimeCode="text/url" uri="https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/ched/CHEDP.XI.2026.0000516"/>
+            </ns4:ReferenceSPSReferencedDocument>
+            <ns4:ReferenceSPSReferencedDocument>
+              <ns4:IssueDateTime>2026-06-29T00:00:00.000+02:00</ns4:IssueDateTime>
+              <ns4:TypeCode name="Health certificate (Health certificate)">636</ns4:TypeCode>
+              <ns4:RelationshipTypeCode name="Mutually defined reference number (Supporting document)">ZZZ</ns4:RelationshipTypeCode>
+              <ns4:ID schemeAgencyID="BD">65475775474</ns4:ID>
+            </ns4:ReferenceSPSReferencedDocument>
+            <ns4:SignatorySPSAuthentication>
+              <ns4:TypeCode name="Inspection (Identification of Applicant)">4</ns4:TypeCode>
+              <ns4:ActualDateTime>
+                <ns5:DateTime>2026-07-01T12:00:25.000+02:00</ns5:DateTime>
+              </ns4:ActualDateTime>
+              <ns4:ProviderSPSParty>
+                <ns4:Name></ns4:Name>
+              </ns4:ProviderSPSParty>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">PURPOSE</ns4:ID>
+                <ns4:Content>INTERNAL_MARKET</ns4:Content>
+                <ns4:Content languageID="en">For free circulation</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">GOODS_CERTIFIED_AS</ns4:ID>
+                <ns4:Content>LOCAL_USE</ns4:Content>
+                <ns4:Content languageID="en">Local use</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">COMPLIANCE_OF_GOODS</ns4:ID>
+                <ns4:Content>CONFORM</ns4:Content>
+                <ns4:Content languageID="en">Conforms</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">SIGNATORY_PERSON_EMAIL</ns4:ID>
+                <ns4:Content>ciara.luke@daera-ni.gov.uk</ns4:Content>
+              </ns4:IncludedSPSClause>
+            </ns4:SignatorySPSAuthentication>
+            <ns4:SignatorySPSAuthentication>
+              <ns4:TypeCode name="Clearance (Official inspector)">1</ns4:TypeCode>
+              <ns4:ActualDateTime>
+                <ns5:DateTime>2026-07-01T12:07:19.000+02:00</ns5:DateTime>
+              </ns4:ActualDateTime>
+              <ns4:ProviderSPSParty>
+                <ns4:ID schemeID="authority_activity_id" schemeName="Authority activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">XIWPT1-DAERA</ns4:ID>
+                <ns4:Name>Warrenpoint Port</ns4:Name>
+                <ns4:RoleCode name="Authorized official">AM</ns4:RoleCode>
+                <ns4:TypeCode listID="user_body_role" listName="User body role" name="Authority">AUTHORITY</ns4:TypeCode>
+                <ns4:SpecifiedSPSAddress>
+                  <ns4:PostcodeCode>BT34</ns4:PostcodeCode>
+                  <ns4:LineOne>
+                    Warrenpoint Harbour Authority, Harbour Office,
+                    The Docks
+                  </ns4:LineOne>
+                  <ns4:CityName languageID="en">Warrenpoint</ns4:CityName>
+                  <ns4:CountryID>XI</ns4:CountryID>
+                  <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+                  <ns4:CountrySubDivisionName languageID="en">County Down</ns4:CountrySubDivisionName>
+                </ns4:SpecifiedSPSAddress>
+                <ns4:SpecifiedSPSPerson>
+                  <ns4:Name>DAERA TechnicalTeam</ns4:Name>
+                </ns4:SpecifiedSPSPerson>
+              </ns4:ProviderSPSParty>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">DECISION_CONCLUSION</ns4:ID>
+                <ns4:Content>ACCEPTABLE_FOR_MONITORING</ns4:Content>
+                <ns4:Content languageID="en">Acceptable for monitoring</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">DOCUMENTARY_CHECK</ns4:ID>
+                <ns4:Content>YES</ns4:Content>
+                <ns4:Content languageID="en">True</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">DOCUMENTARY_CHECK_RESULT</ns4:ID>
+                <ns4:Content>SATISFACTORY</ns4:Content>
+                <ns4:Content languageID="en">Satisfactory</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">DOCUMENTARY_CHECK_RESULT_NATIONAL</ns4:ID>
+                <ns4:Content>SATISFACTORY</ns4:Content>
+                <ns4:Content languageID="en">Satisfactory</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">IDENTITY_CHECK</ns4:ID>
+                <ns4:Content>YES</ns4:Content>
+                <ns4:Content languageID="en">True</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">IDENTITY_CHECK_TYPE</ns4:ID>
+                <ns4:Content>FULL_CHECK</ns4:Content>
+                <ns4:Content languageID="en">Full Check</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">IDENTITY_CHECK_RESULT</ns4:ID>
+                <ns4:Content>SATISFACTORY</ns4:Content>
+                <ns4:Content languageID="en">Satisfactory</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">PHYSICAL_CHECK</ns4:ID>
+                <ns4:Content>NO</ns4:Content>
+                <ns4:Content languageID="en">False</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">PHYSICAL_CHECK_NO_REASON</ns4:ID>
+                <ns4:Content>OTHER</ns4:Content>
+                <ns4:Content languageID="en">Other</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">SIGNATORY_PERSON_EMAIL</ns4:ID>
+                <ns4:Content>SPSHealthImport.TechnicalTeam@daera-ni.gov.uk</ns4:Content>
+              </ns4:IncludedSPSClause>
+              <ns4:IncludedSPSClause>
+                <ns4:ID schemeID="ched_decision_clause" schemeName="CHED decision's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">DIGITALLY_SIGNED_DOCUMENT_TYPE</ns4:ID>
+                <ns4:Content>XML</ns4:Content>
+              </ns4:IncludedSPSClause>
+            </ns4:SignatorySPSAuthentication>
+          </ns6:SPSExchangedDocument>
+          <ns6:SPSConsignment>
+            <ns4:AvailabilityDueDateTime>
+              <ns5:DateTime>2026-07-05T00:00:00.000+01:00</ns5:DateTime>
+            </ns4:AvailabilityDueDateTime>
+            <ns4:ConsignorSPSParty>
+              <ns4:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">RMS-GB-013311</ns4:ID>
+              <ns4:Name>gapTest</ns4:Name>
+              <ns4:RoleCode name="Exporter">EX</ns4:RoleCode>
+              <ns4:TypeCode listID="operator_activity_type" listName="Operator activity type" name="NI Retail Movement Scheme">REMOS</ns4:TypeCode>
+              <ns4:TypeCode listID="classification_section_code" listName="Operator classification section code" name="NI Retail movement scheme (NIRMS)">REMOS</ns4:TypeCode>
+              <ns4:SpecifiedSPSAddress>
+                <ns4:PostcodeCode>WD18</ns4:PostcodeCode>
+                <ns4:LineOne>47, TAYLOR POINT, ST. JOHNS ROAD, WATFORD,WD17 1DF</ns4:LineOne>
+                <ns4:CityName languageID="en">West Watford</ns4:CityName>
+                <ns4:CountryID>GB</ns4:CountryID>
+                <ns4:CountryName languageID="en">United Kingdom</ns4:CountryName>
+                <ns4:CountrySubDivisionName languageID="en">Hertfordshire</ns4:CountrySubDivisionName>
+              </ns4:SpecifiedSPSAddress>
+            </ns4:ConsignorSPSParty>
+            <ns4:ConsigneeSPSParty>
+              <ns4:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">RMS-NI-007873</ns4:ID>
+              <ns4:Name>WorldUSUB14 Ltd</ns4:Name>
+              <ns4:RoleCode name="Consignee (Importer)">CN</ns4:RoleCode>
+              <ns4:TypeCode listID="operator_activity_type" listName="Operator activity type" name="NI Retail Movement Scheme">REMOS</ns4:TypeCode>
+              <ns4:TypeCode listID="classification_section_code" listName="Operator classification section code" name="NI Retail movement scheme (NIRMS)">REMOS</ns4:TypeCode>
+              <ns4:SpecifiedSPSAddress>
+                <ns4:PostcodeCode>BT71</ns4:PostcodeCode>
+                <ns4:LineOne>Generaal Charles 14</ns4:LineOne>
+                <ns4:CityName languageID="en">Dungannon</ns4:CityName>
+                <ns4:CountryID>XI</ns4:CountryID>
+                <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+                <ns4:CountrySubDivisionName languageID="en">County Tyrone</ns4:CountrySubDivisionName>
+              </ns4:SpecifiedSPSAddress>
+            </ns4:ConsigneeSPSParty>
+            <ns4:ExportSPSCountry>
+              <ns4:ID>GB</ns4:ID>
+              <ns4:Name languageID="en">United Kingdom</ns4:Name>
+            </ns4:ExportSPSCountry>
+            <ns4:ImportSPSCountry>
+              <ns4:ID></ns4:ID>
+              <ns4:Name></ns4:Name>
+            </ns4:ImportSPSCountry>
+            <ns4:TransitSPSCountry>
+              <ns4:ID></ns4:ID>
+              <ns4:Name></ns4:Name>
+              <ns4:SubordinateSPSCountrySubDivision>
+                <ns4:Name></ns4:Name>
+                <ns4:HierarchicalLevelCode name="None">0</ns4:HierarchicalLevelCode>
+                <ns4:FunctionTypeCode name="Goods disposal location, designated">283</ns4:FunctionTypeCode>
+                <ns4:ActivityAuthorizedSPSParty>
+                  <ns4:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">RMS-NI-007774-008</ns4:ID>
+                  <ns4:Name>ZSTB</ns4:Name>
+                  <ns4:RoleCode name="Delivery party (Place of destination)">DP</ns4:RoleCode>
+                  <ns4:TypeCode listID="operator_activity_type" listName="Operator activity type" name="NI Retail Movement Scheme">REMOS</ns4:TypeCode>
+                  <ns4:TypeCode listID="classification_section_code" listName="Operator classification section code" name="NI Retail movement scheme (NIRMS)">REMOS</ns4:TypeCode>
+                  <ns4:SpecifiedSPSAddress>
+                    <ns4:PostcodeCode>BT4</ns4:PostcodeCode>
+                    <ns4:LineOne>4 Belfast Road</ns4:LineOne>
+                    <ns4:CityName languageID="en">Belfast</ns4:CityName>
+                    <ns4:CountryID>XI</ns4:CountryID>
+                    <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+                    <ns4:CountrySubDivisionName languageID="en">County Antrim</ns4:CountrySubDivisionName>
+                  </ns4:SpecifiedSPSAddress>
+                </ns4:ActivityAuthorizedSPSParty>
+              </ns4:SubordinateSPSCountrySubDivision>
+            </ns4:TransitSPSCountry>
+            <ns4:UnloadingBaseportSPSLocation>
+              <ns4:ID schemeID="un_locode" schemeName="UN/LOCODE" schemeAgencyID="un" schemeAgencyName="United Nations" schemeDataURI="authority_activity">GBWPT</ns4:ID>
+              <ns4:Name>XI</ns4:Name>
+              <ns4:Name languageID="en">Warrenpoint</ns4:Name>
+              <ns4:Name>XIWPT1-DAERA</ns4:Name>
+              <ns4:Name>Warrenpoint Port</ns4:Name>
+              <ns4:Name>
+                Warrenpoint Harbour Authority, Harbour Office,
+                The Docks
+              </ns4:Name>
+              <ns4:Name>GBWPT</ns4:Name>
+            </ns4:UnloadingBaseportSPSLocation>
+            <ns4:ExaminationSPSEvent>
+              <ns4:OccurrenceSPSLocation>
+                <ns4:Name></ns4:Name>
+              </ns4:OccurrenceSPSLocation>
+            </ns4:ExaminationSPSEvent>
+            <ns4:DeliverySPSParty>
+              <ns4:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">RMS-NI-007774-008</ns4:ID>
+              <ns4:Name>ZSTB</ns4:Name>
+              <ns4:RoleCode name="Delivery party (Place of destination)">DP</ns4:RoleCode>
+              <ns4:TypeCode listID="operator_activity_type" listName="Operator activity type" name="NI Retail Movement Scheme">REMOS</ns4:TypeCode>
+              <ns4:TypeCode listID="classification_section_code" listName="Operator classification section code" name="NI Retail movement scheme (NIRMS)">REMOS</ns4:TypeCode>
+              <ns4:SpecifiedSPSAddress>
+                <ns4:PostcodeCode>BT4</ns4:PostcodeCode>
+                <ns4:LineOne>4 Belfast Road</ns4:LineOne>
+                <ns4:CityName languageID="en">Belfast</ns4:CityName>
+                <ns4:CountryID>XI</ns4:CountryID>
+                <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+                <ns4:CountrySubDivisionName languageID="en">County Antrim</ns4:CountrySubDivisionName>
+              </ns4:SpecifiedSPSAddress>
+            </ns4:DeliverySPSParty>
+            <ns4:CustomsTransitAgentSPSParty>
+              <ns4:ID schemeID="operator_activity_id" schemeName="Operator activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">DAERA-12345</ns4:ID>
+              <ns4:Name>COOPERATIVEtx26 Ltd</ns4:Name>
+              <ns4:RoleCode name="Customs broker (Responsible for consignment)">CB</ns4:RoleCode>
+              <ns4:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Responsible for the load">RESPONSIBLE_FOR_THE_LOAD</ns4:TypeCode>
+              <ns4:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Responsible For the Load (Freight Forwarder)">RFL</ns4:TypeCode>
+              <ns4:SpecifiedSPSAddress>
+                <ns4:PostcodeCode>BT5</ns4:PostcodeCode>
+                <ns4:LineOne>Avenue Pierre Saul 23</ns4:LineOne>
+                <ns4:CityName languageID="en">County Down</ns4:CityName>
+                <ns4:CountryID>XI</ns4:CountryID>
+                <ns4:CountryName languageID="en">United Kingdom (Northern Ireland)</ns4:CountryName>
+                <ns4:CountrySubDivisionName languageID="en">Northern Ireland</ns4:CountrySubDivisionName>
+              </ns4:SpecifiedSPSAddress>
+            </ns4:CustomsTransitAgentSPSParty>
+            <ns4:MainCarriageSPSTransportMovement>
+              <ns4:ID schemeID="road_vehicle_registration_before_bcp" schemeName="Road vehicle registration (before BCP)" schemeAgencyID="BB" schemeAgencyName="Barbados">charging</ns4:ID>
+              <ns4:ModeCode name="Road transport">3</ns4:ModeCode>
+            </ns4:MainCarriageSPSTransportMovement>
+            <ns4:MainCarriageSPSTransportMovement>
+              <ns4:ID schemeID="road_vehicle_registration_after_bcp" schemeName="Road vehicle registration (after BCP)" schemeAgencyID="BB" schemeAgencyName="Barbados">charging</ns4:ID>
+              <ns4:ModeCode name="Road transport">3</ns4:ModeCode>
+            </ns4:MainCarriageSPSTransportMovement>
+            <ns4:IncludedSPSConsignmentItem>
+              <ns4:NatureIdentificationSPSCargo>
+                <ns4:TypeCode name="General cargo (Commodities)">12</ns4:TypeCode>
+              </ns4:NatureIdentificationSPSCargo>
+              <ns4:IncludedSPSTradeLineItem>
+                <ns4:SequenceNumeric>0</ns4:SequenceNumeric>
+                <ns4:Description>Consignment totals and summary</ns4:Description>
+                <ns4:NetWeightMeasure unitCode="KGM">234</ns4:NetWeightMeasure>
+                <ns4:GrossWeightMeasure unitCode="KGM">567</ns4:GrossWeightMeasure>
+                <ns4:PhysicalSPSPackage>
+                  <ns4:LevelCode name="No packaging hierarchy">4</ns4:LevelCode>
+                  <ns4:TypeCode name="Package">PK</ns4:TypeCode>
+                  <ns4:ItemQuantity>500.0</ns4:ItemQuantity>
+                </ns4:PhysicalSPSPackage>
+              </ns4:IncludedSPSTradeLineItem>
+              <ns4:IncludedSPSTradeLineItem>
+                <ns4:SequenceNumeric>1</ns4:SequenceNumeric>
+                <ns4:Description></ns4:Description>
+                <ns4:NetWeightMeasure unitCode="KGM">234</ns4:NetWeightMeasure>
+                <ns4:ApplicableSPSClassification>
+                  <ns4:SystemID>CN</ns4:SystemID>
+                  <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+                  <ns4:ClassCode>9930</ns4:ClassCode>
+                  <ns4:ClassName languageID="en">SPECIFIC EXTERNAL TRADE STATISTICS</ns4:ClassName>
+                  <ns4:ClassName languageID="en">Goods delivered to vessels and aircraft</ns4:ClassName>
+                </ns4:ApplicableSPSClassification>
+                <ns4:PhysicalSPSPackage>
+                  <ns4:LevelCode name="No packaging hierarchy">4</ns4:LevelCode>
+                  <ns4:TypeCode name="Package">PK</ns4:TypeCode>
+                  <ns4:ItemQuantity>500.0</ns4:ItemQuantity>
+                </ns4:PhysicalSPSPackage>
+                <ns4:OriginSPSCountry>
+                  <ns4:ID>GB</ns4:ID>
+                  <ns4:Name languageID="en">United Kingdom</ns4:Name>
+                </ns4:OriginSPSCountry>
+              </ns4:IncludedSPSTradeLineItem>
+            </ns4:IncludedSPSConsignmentItem>
+          </ns6:SPSConsignment>
+        </ns6:SPSCertificate>
+      </ns3:ChedCertificate>
+      <ns3:QuantityManagementSummary>
+        <AvailableQuantity>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>9930</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>KGM</UnitOfMeasure>
+            <Quantity>214</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+        </AvailableQuantity>
+        <ReservedQuantity>
+          <GoodsItemNumber>1</GoodsItemNumber>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>993000</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>KGM</UnitOfMeasure>
+            <Quantity>10</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+          <EventDateTime>2026-06-30T10:00:53.000+02:00</EventDateTime>
+          <CompetentCustomsOffice>
+            <ReferenceNumber>XI000002</ReferenceNumber>
+          </CompetentCustomsOffice>
+          <MRN>26UK12345678900001</MRN>
+        </ReservedQuantity>
+        <ReservedQuantity>
+          <GoodsItemNumber>1</GoodsItemNumber>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>993000</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>KGM</UnitOfMeasure>
+            <Quantity>10</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+          <EventDateTime>2026-06-30T08:00:53.000Z</EventDateTime>
+          <CompetentCustomsOffice>
+            <ReferenceNumber>XI000002</ReferenceNumber>
+          </CompetentCustomsOffice>
+          <MRN>26UK12345678900002</MRN>
+        </ReservedQuantity>
+      </ns3:QuantityManagementSummary>
+      <ns3:OperationCode>0</ns3:OperationCode>
+      <ns3:ReservationResult>1</ns3:ReservationResult>
+      <ns3:PushActive>false</ns3:PushActive>
+    </ns3:ProcessedChedInformationResponse>
+  </S:Body>
+</S:Envelope>
