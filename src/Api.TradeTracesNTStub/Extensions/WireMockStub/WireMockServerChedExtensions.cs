@@ -23,7 +23,7 @@ public static class WireMockServerChedExtensions
          server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"getChedCertificate\""])
-                .WithBody(ChedMatchers.ValidPermissionDenied(), MatchOperator.And))
+                .WithBody(ChedMatchers.PermissionDeniedErrorFromTraces(), MatchOperator.And))
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError,
             "Api.TradeTracesNTStub.Samples.CHED.GetChedCertificateResponse.PERMISSION_DENIED.xml")));
