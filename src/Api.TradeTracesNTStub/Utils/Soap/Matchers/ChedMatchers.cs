@@ -8,7 +8,7 @@ public static class ChedMatchers
         MessageMatchers.ValidHeaders()
             .Concat(
                 [
-                    new XPathMatcher(MessageMatchers.BodyXPath + "/*[local-name() = 'Envelope']/*[local-name() = 'Body']/*[local-name() = 'GetChedCertificateRequest']/*[local-name() = 'ID' and text() != 'CHEDPP.XI.2026.0000074']")
+                    new XPathMatcher(MessageMatchers.BodyXPath + "/*[local-name() = 'GetChedCertificateRequest']/*[local-name() = 'ID' and text() != 'CHEDPP.XI.2026.0000074']")
                 ])
             .ToArray();
 
