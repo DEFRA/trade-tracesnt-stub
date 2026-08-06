@@ -34,7 +34,14 @@ public static class WireMockServerChedExtensions
                 .WithBody(ChedMatchers.ValidCreateAndSubmitChedForDecisionRequest(), MatchOperator.And))
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => await ChedResponses.CreateChedSubmittedResponse(HttpStatusCode.OK, request)));
-        
+
+        server
+            .Given(Request.Create()
+                .WithHeader("SOAPAction", ["\"findChedCertificate\""])
+                .WithBody(ChedMatchers.ValidFindChedCertificateRequest(), MatchOperator.And))
+            .AtPriority(2)
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.CHED.FindChedCertificateResponse.xml")));
+
         return server;
     }
 }
