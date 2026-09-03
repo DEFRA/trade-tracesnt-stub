@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TradeTracesNTStub.IntegrationTests</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
