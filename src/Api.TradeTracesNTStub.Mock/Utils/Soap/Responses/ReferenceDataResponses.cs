@@ -2,7 +2,7 @@ using System.Net;
 
 using WireMock;
 
-namespace Api.TradeTracesNTStub.Utils.Soap.Responses
+namespace Api.TradeTracesNTStub.Mock.Utils.Soap.Responses
 {
     public class ReferenceDataResponses
     {
@@ -10,7 +10,7 @@ namespace Api.TradeTracesNTStub.Utils.Soap.Responses
         {
             var treeId = SoapUtils.GetTreeId(request);
 
-            var resourceContent = await SoapUtils.GetEmbeddedResource($"Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeResponse.{treeId?.ToUpperInvariant()}.xml");
+            var resourceContent = await SoapUtils.GetEmbeddedResource($"Api.TradeTracesNTStub.Mock.Samples.REFERENCE_DATA.GetClassificationTreeResponse.{treeId?.ToUpperInvariant()}.xml");
 
             if (resourceContent == null)
             {
@@ -25,7 +25,7 @@ namespace Api.TradeTracesNTStub.Utils.Soap.Responses
             var treeId = SoapUtils.GetTreeId(request);
             var nodePath = SoapUtils.GetNodePath(request)?.Replace("/", "_");
 
-            var resourceContent = await SoapUtils.GetEmbeddedResource($"Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeNodeDetailResponse.{treeId?.ToUpperInvariant()}.{nodePath?.ToUpperInvariant()}.xml");
+            var resourceContent = await SoapUtils.GetEmbeddedResource($"Api.TradeTracesNTStub.Mock.Samples.REFERENCE_DATA.GetClassificationTreeNodeDetailResponse.{treeId?.ToUpperInvariant()}.{nodePath?.ToUpperInvariant()}.xml");
 
             if (resourceContent == null)
             {

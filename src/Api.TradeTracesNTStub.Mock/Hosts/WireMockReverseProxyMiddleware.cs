@@ -1,4 +1,6 @@
-namespace Api.TradeTracesNTStub.Hosts;
+using Microsoft.AspNetCore.Http;
+
+namespace Api.TradeTracesNTStub.Mock.Hosts;
 
 public class WireMockReverseProxyMiddleware(RequestDelegate nextMiddleware)
 {

@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using WireMock;
 
-namespace Api.TradeTracesNTStub.Utils.Soap.Responses;
+namespace Api.TradeTracesNTStub.Mock.Utils.Soap.Responses;
 
 public static class ChedResponses
 {
@@ -18,7 +18,7 @@ public static class ChedResponses
     
     public static async Task<ResponseMessage> CreateChedAResponse(HttpStatusCode statusCode, IRequestMessage request)
     {
-        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.CHEDA.TEMPLATE.xml");
+        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Mock.Samples.CHED.CHEDA.TEMPLATE.xml");
         
         var requestedChedId = SoapUtils.GetRequestedId(request);
         resourceContent = resourceContent?.Replace("{{CHED_ID}}", requestedChedId);
@@ -28,7 +28,7 @@ public static class ChedResponses
     
     public static async Task<ResponseMessage> CreateChedSubmittedResponse(HttpStatusCode statusCode, IRequestMessage request)
     {
-        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Samples.CHED.CHED.Submitted.TEMPLATE.xml");
+        var resourceContent = await SoapUtils.GetEmbeddedResource("Api.TradeTracesNTStub.Mock.Samples.CHED.CHED.Submitted.TEMPLATE.xml");
 
         var requestBody = XElement.Parse(request.Body!);
         var issueDateTime = SoapUtils.GenerateCentralEuropeanTime();
