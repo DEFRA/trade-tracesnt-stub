@@ -1,5 +1,4 @@
 using System.Net;
-using FluentAssertions;
 
 namespace TradeTracesNTStub.IntegrationTests.Endpoints.Health;
 
