@@ -7,6 +7,7 @@ using Api.TradeTracesNTStub.Config;
 using Api.TradeTracesNTStub.Endpoints.Api;
 using Api.TradeTracesNTStub.Mock.Extensions;
 using Api.TradeTracesNTStub.Mock.Hosts;
+using Api.TradeTracesNTStub.Simulator.Extensions;
 using Api.TradeTracesNTStub.Utils.Logging;
 using MongoDB.Driver;
 using MongoDB.Driver.Authentication.AWS;
@@ -71,6 +72,9 @@ static void ConfigureBuilder(WebApplicationBuilder builder)
     
     // Set up WireMock Hosted Service
     builder.Services.AddWireMockHostedService();
+
+    // Set up the CoreWCF TRACES NT simulator.
+    builder.Services.AddTracesNtSimulator(builder.Configuration);
 }
 
 [ExcludeFromCodeCoverage]
@@ -81,6 +85,9 @@ static WebApplication SetupApplication(WebApplication app)
     app.MapHealthChecks("/health");
     
     app.UseSampleEndpoints();
+
+    // The simulator owns the five TRACES service paths; the WireMock stub owns /mock and /proxy.
+    app.UseTracesNtSimulator();
     app.UseMiddleware<WireMockReverseProxyMiddleware>();
 
     return app;
