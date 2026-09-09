@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The TRACES contracts and ports, generated from master.wsdl in the gateway repo.
+         Sharing the package is what stops the simulator and the gateway's clients drifting. -->
+    <PackageReference Include="Defra.Trade.Gateway.TracesNT" Version="0.1.0" />
+    <PackageReference Include="CoreWCF.Http" Version="1.9.1" />
+    <PackageReference Include="CoreWCF.Primitives" Version="1.9.1" />
+  </ItemGroup>
+
+</Project>

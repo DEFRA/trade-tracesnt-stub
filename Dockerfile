@@ -19,11 +19,14 @@ WORKDIR /src
 COPY . .
 WORKDIR "/src"
 
+RUN --mount=type=secret,id=nuget_pat \
+    DEFRA_NUGET_PAT="$(cat /run/secrets/nuget_pat)" dotnet restore
+
 # unit test and code coverage
-RUN dotnet test --project tests/TradeTracesNTStub.Test/TradeTracesNTStub.Test.csproj --filter-not-trait Category=IntegrationTests
+RUN dotnet test --project tests/TradeTracesNTStub.Test/TradeTracesNTStub.Test.csproj --filter-not-trait Category=IntegrationTests --no-restore
 
 FROM build AS publish
-RUN dotnet publish src/Api.TradeTracesNTStub -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish src/Api.TradeTracesNTStub -c Release -o /app/publish /p:UseAppHost=false --no-restore
 
 
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
