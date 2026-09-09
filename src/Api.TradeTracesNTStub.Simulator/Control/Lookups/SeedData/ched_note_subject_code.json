@@ -1,0 +1,14 @@
+{
+  "ALTERNATIVE_PLACE_OF_DESTINATION": {
+    "name": "Alternative place of destination",
+    "listName": "CHED Note SubjectCode list"
+  },
+  "CHED_TYPE": {
+    "name": "Type of CHED",
+    "listName": "CHED Note SubjectCode list"
+  },
+  "LAST_UPDATE_DATETIME": {
+    "name": "Last updated",
+    "listName": "CHED Note SubjectCode list"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "A",
+  "id": "CHEDA.XI.2026.0000064",
+  "status": "VALIDATED",
+  "borderControlPost": "GBBEL",
+  "commodities": [{ "cnCode": "0101", "originCountry": "AF", "packageType": "BG", "packageCount": 2 }],
+  "decision": {
+    "conclusion": "ACCEPTABLE_FOR_FREE_CIRCULATION",
+    "documentaryCheck": "SATISFACTORY",
+    "identityCheck": "SATISFACTORY",
+    "physicalCheck": "SATISFACTORY"
+  }
+}

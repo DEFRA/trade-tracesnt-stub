@@ -5,6 +5,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Baseline CHED documents and code-list seed data the control API builds certificates from. -->
+    <EmbeddedResource Include="Control\Templates\*.xml" />
+    <EmbeddedResource Include="Control\Lookups\SeedData\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- The TRACES contracts and ports, generated from master.wsdl in the gateway repo.
          Sharing the package is what stops the simulator and the gateway's clients drifting. -->
     <PackageReference Include="Defra.Trade.Gateway.TracesNT" Version="0.1.0" />

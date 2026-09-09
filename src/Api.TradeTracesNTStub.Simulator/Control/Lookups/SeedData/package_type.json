@@ -1,0 +1,341 @@
+{
+  "1B": {
+    "name": "[en] (PACKAGE_TYPE) DRUM_ALUMINIUM"
+  },
+  "1D": {
+    "name": "[en] (PACKAGE_TYPE) DRUM_PLYWOOD"
+  },
+  "1F": {
+    "name": "[en] (PACKAGE_TYPE) CONTAINER_FLEXIBLE"
+  },
+  "1G": {
+    "name": "[en] (PACKAGE_TYPE) DRUM_FIBRE"
+  },
+  "1W": {
+    "name": "[en] (PACKAGE_TYPE) DRUM_WOODEN"
+  },
+  "2C": {
+    "name": "[en] (PACKAGE_TYPE) BARREL_WOODEN"
+  },
+  "43": {
+    "name": "[en] (PACKAGE_TYPE) BAG_SUPER_BULK"
+  },
+  "44": {
+    "name": "[en] (PACKAGE_TYPE) BAG_POLYBAG"
+  },
+  "4A": {
+    "name": "[en] (PACKAGE_TYPE) BOX_STEEL"
+  },
+  "4F": {
+    "name": "[en] (PACKAGE_TYPE) BOX_WOOD"
+  },
+  "4G": {
+    "name": "[en] (PACKAGE_TYPE) BOX_FIBRE"
+  },
+  "5H": {
+    "name": "[en] (PACKAGE_TYPE) BAG_PLASTIC"
+  },
+  "5L": {
+    "name": "[en] (PACKAGE_TYPE) BAG_TEXTILE"
+  },
+  "5M": {
+    "name": "[en] (PACKAGE_TYPE) BAG_PAPER"
+  },
+  "8B": {
+    "name": "Wood crate"
+  },
+  "8C": {
+    "name": "Wood Bundle"
+  },
+  "AJ": {
+    "name": "[en] (PACKAGE_TYPE) CONE"
+  },
+  "BA": {
+    "name": "Barrel"
+  },
+  "BE": {
+    "name": "Bundle"
+  },
+  "BG": {
+    "name": "Bag"
+  },
+  "BH": {
+    "name": "Bunch"
+  },
+  "BI": {
+    "name": "Bin"
+  },
+  "BJ": {
+    "name": "Bucket"
+  },
+  "BL": {
+    "name": "Bale"
+  },
+  "BN": {
+    "name": "[en] (PACKAGE_TYPE) BALLE_NON_COMPRESSED"
+  },
+  "BQ": {
+    "name": "[en] (PACKAGE_TYPE) BOTTLE_PROTECTED"
+  },
+  "BS": {
+    "name": "[en] (PACKAGE_TYPE) BOTTLE_NON_PROTECTED"
+  },
+  "BT": {
+    "name": "[en] (PACKAGE_TYPE) PIECE"
+  },
+  "BX": {
+    "name": "Box"
+  },
+  "BY": {
+    "name": "Board, in bundle/bunch/truss"
+  },
+  "CA": {
+    "name": "Can"
+  },
+  "CF": {
+    "name": "Coffer"
+  },
+  "CG": {
+    "name": "[en] (PACKAGE_TYPE) CAGE"
+  },
+  "CH": {
+    "name": "Chest"
+  },
+  "CI": {
+    "name": "Canister"
+  },
+  "CK": {
+    "name": "Cask"
+  },
+  "CL": {
+    "name": "[en] (PACKAGE_TYPE) COIL"
+  },
+  "CN": {
+    "name": "Container"
+  },
+  "CR": {
+    "name": "Crate"
+  },
+  "CS": {
+    "name": "Case"
+  },
+  "CT": {
+    "name": "Carton"
+  },
+  "CU": {
+    "name": "[en] (PACKAGE_TYPE) CUP"
+  },
+  "CV": {
+    "name": "[en] (PACKAGE_TYPE) COVER"
+  },
+  "CW": {
+    "name": "[en] (PACKAGE_TYPE) CAGE_ROLL"
+  },
+  "CZ": {
+    "name": "[en] (PACKAGE_TYPE) CANVAS"
+  },
+  "DK": {
+    "name": "Crate, Bulk, Cardboard (Combo)"
+  },
+  "DL": {
+    "name": "[en] (PACKAGE_TYPE) CRATE_BULK_PLASTIC"
+  },
+  "DR": {
+    "name": "Drum"
+  },
+  "EC": {
+    "name": "[en] (PACKAGE_TYPE) BAG_PLASTICS"
+  },
+  "EE": {
+    "name": "Wooden case with pallet base"
+  },
+  "EF": {
+    "name": "[en] (PACKAGE_TYPE) CASE_PALLET_BASE"
+  },
+  "EN": {
+    "name": "Envelope"
+  },
+  "FB": {
+    "name": "Flexibag"
+  },
+  "FX": {
+    "name": "[en] (PACKAGE_TYPE) BAG_FLEXIBLE"
+  },
+  "GB": {
+    "name": "[en] (PACKAGE_TYPE) BOTTLE_GAS"
+  },
+  "GR": {
+    "name": "Bottle, flask and other glass packages"
+  },
+  "GY": {
+    "name": "[en] (PACKAGE_TYPE) BAG_GUNNY"
+  },
+  "IA": {
+    "name": "Wood package display"
+  },
+  "JB": {
+    "name": "[en] (PACKAGE_TYPE) BAG_JUMBO"
+  },
+  "JR": {
+    "name": "Jar"
+  },
+  "LE": {
+    "name": "Personal luggage"
+  },
+  "LU": {
+    "name": "Lug"
+  },
+  "LZ": {
+    "name": "Logs"
+  },
+  "MB": {
+    "name": "[en] (PACKAGE_TYPE) BAG_MULTIPLY"
+  },
+  "NE": {
+    "name": "Unpacked or unpackaged"
+  },
+  "NT": {
+    "name": "[en] (PACKAGE_TYPE) NET"
+  },
+  "O2": {
+    "name": "Trolley"
+  },
+  "OK": {
+    "name": "Dunnage"
+  },
+  "PA": {
+    "name": "Packet"
+  },
+  "PJ": {
+    "name": "Punnet"
+  },
+  "PK": {
+    "name": "Package"
+  },
+  "PL": {
+    "name": "Pail"
+  },
+  "PO": {
+    "name": "Pouch/ foil pouch"
+  },
+  "PP": {
+    "name": "[en] (PACKAGE_TYPE) PIECES"
+  },
+  "PT": {
+    "name": "Pot"
+  },
+  "PU": {
+    "name": "Tray"
+  },
+  "PX": {
+    "name": "Pallet"
+  },
+  "QC": {
+    "name": "[en] (PACKAGE_TYPE) DRUM_ALUMINIUM_NON_REMOVABLE"
+  },
+  "QH": {
+    "name": "Wooden barrel"
+  },
+  "QJ": {
+    "name": "Wooden barrel with removable head"
+  },
+  "QP": {
+    "name": "Natural wood ordinary box"
+  },
+  "QQ": {
+    "name": "Natural wood box with sift proof walls"
+  },
+  "QR": {
+    "name": "Polystyrene Box"
+  },
+  "RT": {
+    "name": "Rednet"
+  },
+  "SA": {
+    "name": "Sack"
+  },
+  "SH": {
+    "name": "Sachet"
+  },
+  "SI": {
+    "name": "Skid"
+  },
+  "SS": {
+    "name": "[en] (PACKAGE_TYPE) CASE_STEEL"
+  },
+  "ST": {
+    "name": "Sheet"
+  },
+  "TC": {
+    "name": "[en] (PACKAGE_TYPE) TEA_CHEST"
+  },
+  "TK": {
+    "name": "Tank, rectangular"
+  },
+  "TN": {
+    "name": "Tin"
+  },
+  "TT": {
+    "name": "Tote"
+  },
+  "TU": {
+    "name": "Tube"
+  },
+  "TW": {
+    "name": "[en] (PACKAGE_TYPE) PELLET_TRIWALL"
+  },
+  "TY": {
+    "name": "Tank, cylindrical"
+  },
+  "UN": {
+    "name": "[en] (PACKAGE_TYPE) UNIT"
+  },
+  "VG": {
+    "name": "[en] (PACKAGE_TYPE) BULK_GAS"
+  },
+  "VI": {
+    "name": "Vial"
+  },
+  "VL": {
+    "name": "Bulk, liquid"
+  },
+  "VR": {
+    "name": "Bulk"
+  },
+  "VY": {
+    "name": "[en] (PACKAGE_TYPE) BULK_SOLID"
+  },
+  "WA": {
+    "name": "Intermediate bulk container"
+  },
+  "XA": {
+    "name": "[en] (PACKAGE_TYPE) BAG_PLASTIC_WITHOUT_COAT"
+  },
+  "XB": {
+    "name": "[en] (PACKAGE_TYPE) BAG_PLASTIC_SIFT_PROOF"
+  },
+  "XC": {
+    "name": "[en] (PACKAGE_TYPE) BAG_PLASTIC_WATER_RESISTANT"
+  },
+  "XD": {
+    "name": "Plastics film"
+  },
+  "XF": {
+    "name": "[en] (PACKAGE_TYPE) BAG_TEXTILE_WITHOUT_COAT"
+  },
+  "XG": {
+    "name": "[en] (PACKAGE_TYPE) BAG_TEXTILE_SIFT_PROOF"
+  },
+  "XH": {
+    "name": "[en] (PACKAGE_TYPE) BAG_TEXTILE_WATER_RESISTANT"
+  },
+  "XJ": {
+    "name": "[en] (PACKAGE_TYPE) BAG_PAPER_WALL"
+  },
+  "XK": {
+    "name": "[en] (PACKAGE_TYPE) BAG_PAPER_WALL_WATER_RESISTANT"
+  },
+  "ZB": {
+    "name": "[en] (PACKAGE_TYPE) BAG_LARGE"
+  }
+}
