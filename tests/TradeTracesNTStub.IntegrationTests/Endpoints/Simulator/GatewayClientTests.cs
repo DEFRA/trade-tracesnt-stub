@@ -35,8 +35,10 @@ public class GatewayClientTests
     };
 
     [Fact]
-    public async Task ChedPort_IsReachable_AndReportsNotImplemented()
+    public async Task ChedPort_IsReachable_AndServesCheds()
     {
+        // getChedCertificate has real behaviour now, so reachability is proved by the typed
+        // not-found fault for a CHED nobody created. The round trip itself is in ChedRetrievalTests.
         var client = Client<ChedCertificatePortClient, ChedCertificatePort>(
             "ChedCertificateServiceV2",
             s_default,
@@ -52,7 +54,28 @@ public class GatewayClientTests
                 new GetChedCertificateRequestType { ID = "CHEDA.GB.2026.0000001" }
             );
 
-        await ShouldReportNotImplemented(act, "getChedCertificate");
+        await act.Should().ThrowAsync<FaultException<ChedCertificateNotFoundExceptionType>>();
+    }
+
+    [Fact]
+    public async Task ChedPort_StillReportsNotImplemented_ForOperationsWithNoBehaviour()
+    {
+        var client = Client<ChedCertificatePortClient, ChedCertificatePort>(
+            "ChedCertificateServiceV2",
+            s_default,
+            (binding, address) => new ChedCertificatePortClient(binding, address)
+        );
+
+        var act = () =>
+            client.getChedFollowUpAsync(
+                new SecurityHeaderType(),
+                s_default.WebServiceClientId,
+                ISO2AlphaLanguageCodeContentType.en,
+                [],
+                new GetChedFollowUpRequestType { ID = "CHEDA.GB.2026.0000001" }
+            );
+
+        await ShouldReportNotImplemented(act, "getChedFollowUp");
     }
 
     [Fact]

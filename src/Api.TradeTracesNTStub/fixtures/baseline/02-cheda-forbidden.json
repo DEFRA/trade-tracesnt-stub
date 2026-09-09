@@ -1,0 +1,6 @@
+{
+  "//": "Stored but not readable. Covers the permission-denied path, and stands in for the FORBIDDEN magic ID the gateway's CHED tests use.",
+  "type": "A",
+  "id": "FORBIDDEN",
+  "accessible": false
+}

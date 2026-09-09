@@ -1,11 +1,35 @@
+using Api.TradeTracesNTStub.Simulator.Control;
 using TracesNT.WebServices;
 
 namespace Api.TradeTracesNTStub.Simulator.Ports;
 
-public class ChedCertificateSimulator : ChedCertificatePort
+public class ChedCertificateSimulator(ChedStore store) : ChedCertificatePort
 {
-    public Task<GetChedCertificateResponse> getChedCertificateAsync(GetChedCertificateRequest request) =>
-        throw SimulatorFaults.NotImplemented("getChedCertificate");
+    /// <summary>
+    /// Serves a CHED the control API stored.
+    /// </summary>
+    /// <remarks>
+    /// The language argument is accepted and ignored: it is a non-nullable enum, so it is always on
+    /// the wire, but the simulator holds one language per certificate and does not vary by it.
+    /// </remarks>
+    public Task<GetChedCertificateResponse> getChedCertificateAsync(GetChedCertificateRequest request)
+    {
+        var id = request.GetChedCertificateRequest1?.ID ?? "";
+
+        if (!store.TryGet(id, out var ched))
+        {
+            throw SimulatorFaults.ChedNotFound(id);
+        }
+
+        if (!ched.Accessible)
+        {
+            throw SimulatorFaults.ChedPermissionDenied(id);
+        }
+
+        return Task.FromResult(
+            new GetChedCertificateResponse(new ChedCertificateType { SPSCertificate = ched.Certificate })
+        );
+    }
 
     public Task<GetChedFollowUpResponse> getChedFollowUpAsync(GetChedFollowUpRequest request) =>
         throw SimulatorFaults.NotImplemented("getChedFollowUp");

@@ -1,0 +1,21 @@
+{
+  "YES": { "name": "Yes" },
+  "NO": { "name": "No" },
+  "SATISFACTORY": { "name": "Satisfactory" },
+  "NOT_SATISFACTORY": { "name": "Not satisfactory" },
+  "NOT_DONE": { "name": "Not done" },
+  "ACCURATE": { "name": "Accurate" },
+  "ESTIMATE": { "name": "Estimate" },
+
+  "ACCEPTABLE_FOR_FREE_CIRCULATION": { "name": "Acceptable for free circulation" },
+  "ACCEPTABLE_FOR_NON_FREE_CIRCULATION": { "name": "Acceptable for non-free circulation" },
+  "ACCEPTABLE_IF_CHANNELED": { "name": "Acceptable if channelled" },
+  "ACCEPTABLE_FOR_TRANSHIPMENT": { "name": "Acceptable for transhipment" },
+  "ACCEPTABLE_FOR_TRANSIT": { "name": "Acceptable for transit" },
+  "ACCEPTABLE_FOR_TEMPORARY_IMPORT": { "name": "Acceptable for temporary import" },
+  "ACCEPTABLE_FOR_INTERNAL_MARKET": { "name": "Acceptable for internal market" },
+  "ACCEPTABLE_FOR_PRIVATE_IMPORT": { "name": "Acceptable for private import" },
+  "ACCEPTABLE_FOR_TRANSFER": { "name": "Acceptable for transfer" },
+  "HORSE_RE_ENTRY": { "name": "Horse re-entry" },
+  "NOT_ACCEPTABLE": { "name": "Not acceptable" }
+}

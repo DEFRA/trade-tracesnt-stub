@@ -28,8 +28,67 @@ this repository.
 `scripts/update-webservices.sh`, publish a new package version, then bump the `PackageReference` in
 `src/Api.TradeTracesNTStub.Simulator` and in `tests/TradeTracesNTStub.IntegrationTests`.
 
-Only the contracts are implemented so far. Every operation returns a SOAP fault naming itself as not
-implemented; CHED behaviour arrives in its own stories.
+`getChedCertificate` serves CHEDs the control API created. Every other operation still returns a SOAP
+fault naming itself as not implemented.
+
+## Control API
+
+The simulator's simple face, on `/control`, is how a test gets data in. It is deliberately not
+TRACES-shaped — plain JSON designed for the person writing the test — and it is documented at
+`/openapi/v1.json`.
+
+```
+POST   /control/cheds            create; returns the stored representation
+PUT    /control/cheds/{id}       replace
+DELETE /control/cheds/{id}       remove
+POST   /control/reset            empty, or ?fixtureSet=<name>
+GET    /control/fixture-sets     list the sets and templates available
+```
+
+Everything except `type` is optional. Anything left out comes from a baseline template — a real
+captured TRACES response — so a test states only what its scenario turns on:
+
+```bash
+curl -X POST http://localhost:8085/control/cheds -H 'Content-Type: application/json' -d '{
+  "type": "A",
+  "status": "VALIDATED",
+  "borderControlPost": "GBBEL",
+  "commodities": [{ "cnCode": "0101", "originCountry": "AF", "packageType": "BX", "packageCount": 2 }]
+}'
+```
+
+There is no read-back endpoint on purpose. State is held as the TRACES document, and the SOAP face is
+the only way to read it, which stops the two drifting.
+
+**Why the simulator fills in display names.** TRACES enriches on the way out: a document is submitted
+with `<StatusCode>1</StatusCode>` and retrieved as `<StatusCode name="To be done (New)">1</StatusCode>`.
+Trade Gateway copies that `name` straight into its own model and never derives it, so the simulator
+has to supply it. The lookups live in `Control/Lookups/SeedData` and hold only the codes the shipped
+fixtures and tests use. An unknown code is rejected with a 400 naming the list and the file to add it
+to — a blank name would otherwise surface much later as an unexplained snapshot diff.
+
+State is in memory: a restart is a reset, and `POST /control/reset` is how a test isolates itself.
+
+### Fixture sets
+
+`src/Api.TradeTracesNTStub/fixtures/<name>/*.json` — plain control-model files, so a scenario can be
+added and reviewed in a pull request. `reset?fixtureSet=baseline` loads the shipped set, which
+includes a CHED that cannot be read (`accessible: false`) for covering the permission-denied path.
+
+### TestKit
+
+`src/Api.TradeTracesNTStub.TestKit` packages builders and a control client for other repositories:
+
+```csharp
+var simulator = SimulatorControlClient.At("http://localhost:8085");
+
+var id = await simulator.CreateChed(
+    Ched.ChedA()
+        .WithStatus("VALIDATED")
+        .ArrivingAt("GBBEL")
+        .WithCommodity(c => c.CnCode("0101").OriginCountry("AF").Packages(2, "BX"))
+        .WithDecision(d => d.Acceptable()));
+```
 
 ### Authentication
 

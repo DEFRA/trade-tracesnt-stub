@@ -10,6 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Consumes the TestKit exactly as the journey tests will. -->
+    <ProjectReference Include="..\..\src\Api.TradeTracesNTStub.TestKit\Api.TradeTracesNTStub.TestKit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
     <Using Include="AwesomeAssertions" />
   </ItemGroup>

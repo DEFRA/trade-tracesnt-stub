@@ -1,0 +1,16 @@
+{
+  "type": "A",
+  "id": "CHEDA.XI.2026.0000063",
+  "status": "NEW",
+  "borderControlPost": "GBBEL",
+  "commodities": [
+    {
+      "cnCode": "0103",
+      "originCountry": "GB",
+      "netWeightKg": 900,
+      "packageType": "BX",
+      "packageCount": 1,
+      "scientificName": "Babyrousa"
+    }
+  ]
+}

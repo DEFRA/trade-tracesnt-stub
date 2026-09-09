@@ -1,0 +1,26 @@
+{
+  "EURPO": {
+    "name": "EU registered professional operators",
+    "listName": "Operator classification section code"
+  },
+  "EXP": {
+    "name": "Animal exporter",
+    "listName": "Operator classification section code"
+  },
+  "GEN": {
+    "name": "General activity establishment - EU",
+    "listName": "Operator classification section code"
+  },
+  "OTH-OPER": {
+    "name": "Other operators",
+    "listName": "Operator classification section code"
+  },
+  "RFL": {
+    "name": "Responsible For the Load (Freight Forwarder)",
+    "listName": "Operator classification section code"
+  },
+  "TCPO": {
+    "name": "Third country professional operators",
+    "listName": "Operator classification section code"
+  }
+}
