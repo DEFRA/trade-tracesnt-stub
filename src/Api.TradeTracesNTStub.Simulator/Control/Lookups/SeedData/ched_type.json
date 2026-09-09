@@ -1,0 +1,10 @@
+{
+  "A": {
+    "name": "CHED-A - Common Health Entry Document for Animal",
+    "listName": "CHED type"
+  },
+  "PP": {
+    "name": "CHED-PP - Common Health Entry Document for Plant Product",
+    "listName": "CHED type"
+  }
+}

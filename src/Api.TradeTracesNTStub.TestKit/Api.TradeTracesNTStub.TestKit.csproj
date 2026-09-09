@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Defra.Trade.TracesNtStub.TestKit</PackageId>
+    <Description>
+      Builders and a client for the TRACES NT simulator's control API, so a test can set up CHED
+      fixtures without hand-writing JSON.
+    </Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Reuses the simulator's own control models rather than mirroring them. That couples the two
+         projects, which is the point: a mirrored copy would drift silently from the API it targets. -->
+    <ProjectReference Include="..\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,3 +1,6 @@
+using Api.TradeTracesNTStub.Simulator.Control;
+using Api.TradeTracesNTStub.Simulator.Control.Lookups;
+using Api.TradeTracesNTStub.Simulator.Control.Mapping;
 using Api.TradeTracesNTStub.Simulator.Ports;
 using Api.TradeTracesNTStub.Simulator.WsSecurity;
 using CoreWCF;
@@ -25,9 +28,34 @@ public static class SimulatorRegistrationExtensions
 
         services.AddSingleton(new WsSecurityValidator(credentials));
 
+        // Simulator state is a singleton: the SOAP face reads exactly what the control API wrote.
+        services.AddSingleton<ChedStore>();
+        services.AddSingleton<ChedIds>();
+        services.AddSingleton(CodeLists.Seeded);
+        services.AddSingleton<ChedCertificateFactory>();
+        // Resolved against the app directory, not the working directory, so it behaves the same
+        // under `dotnet run` and in the container.
+        var fixtureRoot =
+            configuration["Simulator:FixtureRoot"] ?? Path.Combine(AppContext.BaseDirectory, "fixtures");
+        services.AddSingleton(new FixtureSets(fixtureRoot));
+
+        // CoreWCF only falls back to a parameterless constructor; a port with dependencies has to be
+        // registered. The other four ports are stateless and still use that fallback.
+        services.AddTransient<ChedCertificateSimulator>();
+
         services.AddServiceModelServices();
 
         return services;
+    }
+
+    /// <summary>
+    /// Maps the REST control API. Separate from <see cref="UseTracesNtSimulator"/> because it has to
+    /// be mapped before CoreWCF takes over routing.
+    /// </summary>
+    public static WebApplication UseChedControlApi(this WebApplication app)
+    {
+        app.MapChedControlApi();
+        return app;
     }
 
     public static WebApplication UseTracesNtSimulator(this WebApplication app)

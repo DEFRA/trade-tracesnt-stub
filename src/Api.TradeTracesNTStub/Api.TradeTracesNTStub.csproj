@@ -8,6 +8,7 @@
     <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.11.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
     <PackageReference Include="MongoDB.Driver" Version="3.6.0" />
     <PackageReference Include="MongoDB.Driver.Authentication.AWS" Version="3.6.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
@@ -15,9 +16,16 @@
     <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="10.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
+    <!-- Transitive of Microsoft.AspNetCore.OpenApi, pinned forward off a vulnerable version. -->
+    <PackageReference Include="Microsoft.OpenApi" Version="2.12.2" />
     <!-- Transitives of MongoDB.Driver, pinned forward off vulnerable versions. -->
     <PackageReference Include="SharpCompress" Version="0.48.1" />
     <PackageReference Include="Snappier" Version="1.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Fixture sets are plain files so a scenario can be added and reviewed without a rebuild. -->
+    <Content Update="fixtures\**\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

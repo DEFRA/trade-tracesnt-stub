@@ -1,0 +1,11 @@
+{
+  "BM": {
+    "name": "Bill of lading number (International transport document)"
+  },
+  "CAW": {
+    "name": "Document reference, internal (Document reference, internal)"
+  },
+  "ZZZ": {
+    "name": "Mutually defined reference number (Supporting document)"
+  }
+}

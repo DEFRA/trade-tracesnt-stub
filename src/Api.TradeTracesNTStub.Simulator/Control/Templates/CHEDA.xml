@@ -1,0 +1,222 @@
+<sps:SPSCertificate xmlns:rbe="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:sps="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21">
+        <sps:SPSExchangedDocument>
+          <rbe:Name languageID="en">CHED-A - Common Health Entry Document for Animal</rbe:Name>
+          <rbe:ID>CHEDA.XI.2026.0000001</rbe:ID>
+          <rbe:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</rbe:TypeCode>
+          <rbe:StatusCode name="To be done (New)">1</rbe:StatusCode>
+          <rbe:IssueDateTime>
+            <udt:DateTime>2026-06-12T16:54:14.000+02:00</udt:DateTime>
+          </rbe:IssueDateTime>
+          <rbe:IssuerSPSParty>
+            <rbe:ID schemeID="authority_activity_id" schemeName="Authority activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">XIXXX1</rbe:ID>
+            <rbe:Name>Belfast Port</rbe:Name>
+            <rbe:RoleCode name="Officer (Identification of Applicant)">VJ</rbe:RoleCode>
+            <rbe:TypeCode listID="user_body_role" listName="User body role" name="Authority">AUTHORITY</rbe:TypeCode>
+            <rbe:SpecifiedSPSAddress>
+              <rbe:PostcodeCode>BT4</rbe:PostcodeCode>
+              <rbe:LineOne>
+                DAERA Plant Health Inspection Branch
+                Room 1022 Dundonald House
+                Upper Newtownards Road
+              </rbe:LineOne>
+              <rbe:CityName languageID="en">Belfast</rbe:CityName>
+              <rbe:CountryID>XI</rbe:CountryID>
+              <rbe:CountryName languageID="en">United Kingdom (Northern Ireland)</rbe:CountryName>
+              <rbe:CountrySubDivisionName languageID="en">County Antrim</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+            <rbe:SpecifiedSPSPerson>
+              <rbe:Name>Name Redacted</rbe:Name>
+            </rbe:SpecifiedSPSPerson>
+          </rbe:IssuerSPSParty>
+          <rbe:IncludedSPSNote>
+            <rbe:ContentCode listID="ched_type" listName="CHED type" name="CHED-A - Common Health Entry Document for Animal">A</rbe:ContentCode>
+            <rbe:Content />
+            <rbe:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Type of CHED">CHED_TYPE</rbe:SubjectCode>
+          </rbe:IncludedSPSNote>
+          <rbe:IncludedSPSNote>
+            <rbe:Content>2026-06-12T16:54:14.000+02:00</rbe:Content>
+            <rbe:SubjectCode listID="ched_note_subject_code" listName="CHED Note SubjectCode list" name="Last updated">LAST_UPDATE_DATETIME</rbe:SubjectCode>
+          </rbe:IncludedSPSNote>
+          <rbe:ReferenceSPSReferencedDocument>
+            <rbe:TypeCode name="Health certificate (CHED - Common Health Entry Document)">636</rbe:TypeCode>
+            <rbe:RelationshipTypeCode name="Document reference, internal (Document reference, internal)">CAW</rbe:RelationshipTypeCode>
+            <rbe:ID>CHEDA.XI.2026.0000063</rbe:ID>
+            <rbe:AttachmentBinaryObject format="url" mimeCode="text/url" uri="https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/ched/CHEDA.XI.2026.0000063" />
+          </rbe:ReferenceSPSReferencedDocument>
+          <rbe:ReferenceSPSReferencedDocument>
+            <rbe:TypeCode name="Special requirements permit related to the transport of cargo (Import permit)">521</rbe:TypeCode>
+            <rbe:RelationshipTypeCode name="Mutually defined reference number (Supporting document)">ZZZ</rbe:RelationshipTypeCode>
+            <rbe:ID schemeAgencyID="GB">455645665566</rbe:ID>
+          </rbe:ReferenceSPSReferencedDocument>
+          <rbe:SignatorySPSAuthentication>
+            <rbe:TypeCode name="Inspection (Identification of Applicant)">4</rbe:TypeCode>
+            <rbe:ActualDateTime>
+              <udt:DateTime>2026-06-12T16:54:14.000+02:00</udt:DateTime>
+            </rbe:ActualDateTime>
+            <rbe:ProviderSPSParty>
+              <rbe:Name />
+            </rbe:ProviderSPSParty>
+            <rbe:IncludedSPSClause>
+              <rbe:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">PURPOSE</rbe:ID>
+              <rbe:Content>FREE_CIRCULATION</rbe:Content>
+              <rbe:Content languageID="en">For free circulation</rbe:Content>
+            </rbe:IncludedSPSClause>
+            <rbe:IncludedSPSClause>
+              <rbe:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">GOODS_CERTIFIED_AS</rbe:ID>
+              <rbe:Content>BREEDING_PRODUCTION</rbe:Content>
+              <rbe:Content languageID="en">Breeding/production</rbe:Content>
+            </rbe:IncludedSPSClause>
+            <rbe:IncludedSPSClause>
+              <rbe:ID schemeID="ched_consignment_clause" schemeName="CHED consignment's clauses" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">SIGNATORY_PERSON_EMAIL</rbe:ID>
+              <rbe:Content>email.address.redacted@domain.redacted.uk</rbe:Content>
+            </rbe:IncludedSPSClause>
+          </rbe:SignatorySPSAuthentication>
+        </sps:SPSExchangedDocument>
+        <sps:SPSConsignment>
+          <rbe:AvailabilityDueDateTime>
+            <udt:DateTime>2026-06-12T15:54:00.000+01:00</udt:DateTime>
+          </rbe:AvailabilityDueDateTime>
+          <rbe:ConsignorSPSParty>
+            <rbe:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">123434567890</rbe:ID>
+            <rbe:Name>Defra Test</rbe:Name>
+            <rbe:RoleCode name="Exporter">EX</rbe:RoleCode>
+            <rbe:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Animal exporter">ANIMAL_EXPORTER</rbe:TypeCode>
+            <rbe:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Animal exporter">EXP</rbe:TypeCode>
+            <rbe:SpecifiedSPSAddress>
+              <rbe:PostcodeCode>CW1</rbe:PostcodeCode>
+              <rbe:LineOne>Test</rbe:LineOne>
+              <rbe:CityName languageID="en">Crewe</rbe:CityName>
+              <rbe:CountryID>GB</rbe:CountryID>
+              <rbe:CountryName languageID="en">United Kingdom</rbe:CountryName>
+              <rbe:CountrySubDivisionName languageID="en">Cheshire East</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+          </rbe:ConsignorSPSParty>
+          <rbe:ConsigneeSPSParty>
+            <rbe:ID schemeID="national_registry_number" schemeName="National registry number" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">NL0000000001</rbe:ID>
+            <rbe:Name>Company Name Redacted LTD</rbe:Name>
+            <rbe:RoleCode name="Consignee (Importer)">CN</rbe:RoleCode>
+            <rbe:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Animal establishment">ANIMAL_ESTABLISHMENT</rbe:TypeCode>
+            <rbe:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Other operators">OTH-OPER</rbe:TypeCode>
+            <rbe:SpecifiedSPSAddress>
+              <rbe:PostcodeCode>BT38</rbe:PostcodeCode>
+              <rbe:LineOne>KILROOT BUSINESS PARK COUNTY .ANTRIM</rbe:LineOne>
+              <rbe:CityName languageID="en">Carrickfergus</rbe:CityName>
+              <rbe:CountryID>XI</rbe:CountryID>
+              <rbe:CountryName languageID="en">United Kingdom (Northern Ireland)</rbe:CountryName>
+              <rbe:CountrySubDivisionName languageID="en">County Antrim</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+          </rbe:ConsigneeSPSParty>
+          <rbe:ExportSPSCountry>
+            <rbe:ID />
+            <rbe:Name />
+          </rbe:ExportSPSCountry>
+          <rbe:ImportSPSCountry>
+            <rbe:ID />
+            <rbe:Name />
+          </rbe:ImportSPSCountry>
+          <rbe:UnloadingBaseportSPSLocation>
+            <rbe:ID schemeID="un_locode" schemeName="UN/LOCODE" schemeAgencyID="un" schemeAgencyName="United Nations" schemeDataURI="authority_activity">GBBEL</rbe:ID>
+            <rbe:Name>XI</rbe:Name>
+            <rbe:Name languageID="en">County Down</rbe:Name>
+            <rbe:Name>XIXXX1-DAERA</rbe:Name>
+            <rbe:Name>Belfast Port</rbe:Name>
+            <rbe:Name>
+              Organisation Name
+              Address 1
+              Address 2
+              BT3 9HY
+            </rbe:Name>
+            <rbe:Name>GBBEL</rbe:Name>
+          </rbe:UnloadingBaseportSPSLocation>
+          <rbe:ExaminationSPSEvent>
+            <rbe:OccurrenceSPSLocation>
+              <rbe:Name />
+            </rbe:OccurrenceSPSLocation>
+          </rbe:ExaminationSPSEvent>
+          <rbe:DeliverySPSParty>
+            <rbe:ID schemeID="operator_activity_id" schemeName="Operator activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">DAERA-12345</rbe:ID>
+            <rbe:Name>COOPERATIVEtx26 Ltd</rbe:Name>
+            <rbe:RoleCode name="Delivery party (Place of destination)">DP</rbe:RoleCode>
+            <rbe:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Importer">IMPORTER</rbe:TypeCode>
+            <rbe:TypeCode listID="classification_section_code" listName="Operator classification section code" name="General activity establishment - EU">GEN</rbe:TypeCode>
+            <rbe:SpecifiedSPSAddress>
+              <rbe:PostcodeCode>BT5</rbe:PostcodeCode>
+              <rbe:LineOne>Address 1</rbe:LineOne>
+              <rbe:CityName languageID="en">City</rbe:CityName>
+              <rbe:CountryID>XI</rbe:CountryID>
+              <rbe:CountryName languageID="en">United Kingdom (Northern Ireland)</rbe:CountryName>
+              <rbe:CountrySubDivisionName languageID="en">Northern Ireland</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+          </rbe:DeliverySPSParty>
+          <rbe:CustomsTransitAgentSPSParty>
+            <rbe:ID schemeID="operator_internal_activity_id" schemeName="Operator internal activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">78557</rbe:ID>
+            <rbe:Name>ABP EU TEST</rbe:Name>
+            <rbe:RoleCode name="Customs broker (Responsible for consignment)">CB</rbe:RoleCode>
+            <rbe:TypeCode listID="operator_activity_type" listName="Operator activity type" name="Responsible for the load">RESPONSIBLE_FOR_THE_LOAD</rbe:TypeCode>
+            <rbe:TypeCode listID="classification_section_code" listName="Operator classification section code" name="Responsible For the Load (Freight Forwarder)">RFL</rbe:TypeCode>
+            <rbe:SpecifiedSPSAddress>
+              <rbe:PostcodeCode>13700</rbe:PostcodeCode>
+              <rbe:LineOne>Address a</rbe:LineOne>
+              <rbe:CityName languageID="en">City a</rbe:CityName>
+              <rbe:CountryID>FR</rbe:CountryID>
+              <rbe:CountryName languageID="en">France</rbe:CountryName>
+              <rbe:CountrySubDivisionName languageID="en">City Subdivison</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+          </rbe:CustomsTransitAgentSPSParty>
+          <rbe:MainCarriageSPSTransportMovement>
+            <rbe:ID schemeID="road_vehicle_registration_before_bcp" schemeName="Road vehicle registration (before BCP)" schemeAgencyID="GB" schemeAgencyName="United Kingdom">N1 CKP</rbe:ID>
+            <rbe:ModeCode name="Road transport">3</rbe:ModeCode>
+          </rbe:MainCarriageSPSTransportMovement>
+          <rbe:IncludedSPSConsignmentItem>
+            <rbe:NatureIdentificationSPSCargo>
+              <rbe:TypeCode name="General cargo (Commodities)">12</rbe:TypeCode>
+            </rbe:NatureIdentificationSPSCargo>
+            <rbe:IncludedSPSTradeLineItem>
+              <rbe:SequenceNumeric>0</rbe:SequenceNumeric>
+              <rbe:Description>Consignment totals and summary</rbe:Description>
+              <rbe:NetWeightMeasure>0</rbe:NetWeightMeasure>
+              <rbe:GrossWeightMeasure unitCode="KGM">2000</rbe:GrossWeightMeasure>
+              <rbe:NetVolumeMeasure unitCode="H87">5</rbe:NetVolumeMeasure>
+              <rbe:PhysicalSPSPackage>
+                <rbe:LevelCode name="No packaging hierarchy">4</rbe:LevelCode>
+                <rbe:TypeCode>NA</rbe:TypeCode>
+                <rbe:ItemQuantity>0.0</rbe:ItemQuantity>
+              </rbe:PhysicalSPSPackage>
+            </rbe:IncludedSPSTradeLineItem>
+            <rbe:IncludedSPSTradeLineItem>
+              <rbe:SequenceNumeric>1</rbe:SequenceNumeric>
+              <rbe:Description />
+              <rbe:ScientificName languageID="la">Babyrousa</rbe:ScientificName>
+              <rbe:NetVolumeMeasure unitCode="H87">5</rbe:NetVolumeMeasure>
+              <rbe:AdditionalInformationSPSNote>
+                <rbe:Content>GB0987645768734</rbe:Content>
+                <rbe:SubjectCode listID="ched_commodity_note_subject_code" listName="CHED Commodity Note SubjectCode list" name="Individual identification number">INDIVIDUAL_IDENTIFICATION_NUMBER</rbe:SubjectCode>
+              </rbe:AdditionalInformationSPSNote>
+              <rbe:ApplicableSPSClassification>
+                <rbe:SystemID>CN</rbe:SystemID>
+                <rbe:SystemName>CN Code (Combined Nomenclature)</rbe:SystemName>
+                <rbe:ClassCode>0103</rbe:ClassCode>
+                <rbe:ClassName languageID="en">LIVE ANIMALS</rbe:ClassName>
+                <rbe:ClassName languageID="en">Live swine</rbe:ClassName>
+              </rbe:ApplicableSPSClassification>
+              <rbe:ApplicableSPSClassification>
+                <rbe:SystemID>IDENTIFICATION_SYSTEM</rbe:SystemID>
+                <rbe:SystemName>Identification system</rbe:SystemName>
+                <rbe:ClassCode>BRAND</rbe:ClassCode>
+                <rbe:ClassName languageID="en">Brand</rbe:ClassName>
+              </rbe:ApplicableSPSClassification>
+              <rbe:ApplicableSPSClassification>
+                <rbe:SystemID>PRODUCT_TYPE</rbe:SystemID>
+                <rbe:SystemName>Product type</rbe:SystemName>
+                <rbe:ClassCode>HATCHING_EGGS</rbe:ClassCode>
+                <rbe:ClassName languageID="en">Hatching eggs</rbe:ClassName>
+              </rbe:ApplicableSPSClassification>
+              <rbe:OriginSPSCountry>
+                <rbe:ID>GB</rbe:ID>
+                <rbe:Name languageID="en">United Kingdom</rbe:Name>
+              </rbe:OriginSPSCountry>
+            </rbe:IncludedSPSTradeLineItem>
+          </rbe:IncludedSPSConsignmentItem>
+        </sps:SPSConsignment>
+      </sps:SPSCertificate>
+    
