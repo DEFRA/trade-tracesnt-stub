@@ -1,13 +1,13 @@
-using Api.TradeTracesNTStub.Utils.Soap;
-using Api.TradeTracesNTStub.Utils.Soap.Matchers;
-using Api.TradeTracesNTStub.Utils.Soap.Responses;
+using Api.TradeTracesNTStub.Mock.Utils.Soap;
+using Api.TradeTracesNTStub.Mock.Utils.Soap.Matchers;
+using Api.TradeTracesNTStub.Mock.Utils.Soap.Responses;
 using System.Net;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 
-namespace Api.TradeTracesNTStub.Extensions.WireMockStub;
+namespace Api.TradeTracesNTStub.Mock.Extensions.WireMockStub;
 
 public static class WireMockServerIntraExtensions
 {
@@ -27,7 +27,7 @@ public static class WireMockServerIntraExtensions
                 .WithHeader("SOAPAction", ["\"getEuIntraCertificate\""])
                 .WithBody(MessageMatchers.InvalidHeaders()))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Samples.INTRA.UnauthenticatedException.xml")));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Mock.Samples.INTRA.UnauthenticatedException.xml")));
         
         // Stub calls with SOAPAction Header, valid getEuIntraCertificate request headers and a missing GetEuIntraCertificateRequest -> ID
         server
@@ -35,7 +35,7 @@ public static class WireMockServerIntraExtensions
                 .WithHeader("SOAPAction", ["\"getEuIntraCertificate\""])
                 .WithBody(IntraMatchers.InvalidGetEuIntraCertificateRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Samples.INTRA.GetEuIntraCertificateInvalidId.xml")));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Mock.Samples.INTRA.GetEuIntraCertificateInvalidId.xml")));
 
         // Stub calls with SOAPAction Header and valid getEuIntraPdfCertificate request headers and body
         server
@@ -51,7 +51,7 @@ public static class WireMockServerIntraExtensions
                 .WithHeader("SOAPAction", ["\"findEuIntraCertificate\""])
                 .WithBody(IntraMatchers.ValidFindEuIntraCertificateRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.INTRA.FindEuIntraCertificateResponse.xml")));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Mock.Samples.INTRA.FindEuIntraCertificateResponse.xml")));
 
         return server;
     }

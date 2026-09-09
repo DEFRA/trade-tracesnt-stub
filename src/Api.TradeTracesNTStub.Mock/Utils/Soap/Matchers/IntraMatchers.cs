@@ -1,6 +1,6 @@
 using WireMock.Matchers;
 
-namespace Api.TradeTracesNTStub.Utils.Soap.Matchers;
+namespace Api.TradeTracesNTStub.Mock.Utils.Soap.Matchers;
 
 internal static class IntraMatchers
 {

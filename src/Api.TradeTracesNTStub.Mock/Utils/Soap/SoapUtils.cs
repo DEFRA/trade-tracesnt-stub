@@ -6,7 +6,7 @@ using WireMock;
 using WireMock.Types;
 using WireMock.Util;
 
-namespace Api.TradeTracesNTStub.Utils.Soap;
+namespace Api.TradeTracesNTStub.Mock.Utils.Soap;
 
 public static class SoapUtils
 {

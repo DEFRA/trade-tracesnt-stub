@@ -1,6 +1,6 @@
-using Api.TradeTracesNTStub.Utils.Soap;
-using Api.TradeTracesNTStub.Utils.Soap.Matchers;
-using Api.TradeTracesNTStub.Utils.Soap.Responses;
+using Api.TradeTracesNTStub.Mock.Utils.Soap;
+using Api.TradeTracesNTStub.Mock.Utils.Soap.Matchers;
+using Api.TradeTracesNTStub.Mock.Utils.Soap.Responses;
 
 using System.Net;
 
@@ -9,7 +9,7 @@ using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 
-namespace Api.TradeTracesNTStub.Extensions.WireMockStub;
+namespace Api.TradeTracesNTStub.Mock.Extensions.WireMockStub;
 
 public static class WireMockServerReferenceDataExtensions
 {
@@ -20,14 +20,14 @@ public static class WireMockServerReferenceDataExtensions
                 .WithHeader("SOAPAction", ["\"getClassificationSections\""])
                 .WithBody(ReferenceDataMatchers.ValidGetClassificationSectionsRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationSectionsResponse.xml")));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Mock.Samples.REFERENCE_DATA.GetClassificationSectionsResponse.xml")));
 
         server
             .Given(Request.Create()
                 .WithHeader("SOAPAction", ["\"getClassificationTrees\""])
                 .WithBody(ReferenceDataMatchers.ValidGetClassificationTreesRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreesResponse.xml")));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Mock.Samples.REFERENCE_DATA.GetClassificationTreesResponse.xml")));
 
         server
             .Given(Request.Create()
@@ -36,7 +36,7 @@ public static class WireMockServerReferenceDataExtensions
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async request => (
                        await ReferenceDataResponses.CreateClassificationTreeResponse(HttpStatusCode.OK, request)
-                    ?? await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeResponse.INVALID.xml"))
+                    ?? await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Mock.Samples.REFERENCE_DATA.GetClassificationTreeResponse.INVALID.xml"))
                     )
             );
 
@@ -47,7 +47,7 @@ public static class WireMockServerReferenceDataExtensions
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(
                     async request => await ReferenceDataResponses.CreateClassificationTreeNodeDetailResponse(HttpStatusCode.OK, request)
-                                  ?? await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Samples.REFERENCE_DATA.GetClassificationTreeNodeDetailResponse.NOT_FOUND.xml"))
+                                  ?? await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError, "Api.TradeTracesNTStub.Mock.Samples.REFERENCE_DATA.GetClassificationTreeNodeDetailResponse.NOT_FOUND.xml"))
             );
 
         return server;

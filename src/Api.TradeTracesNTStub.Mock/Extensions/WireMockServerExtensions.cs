@@ -1,10 +1,10 @@
-using Api.TradeTracesNTStub.Extensions.WireMockStub;
+using Api.TradeTracesNTStub.Mock.Extensions.WireMockStub;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 using WireMock.Settings;
 
-namespace Api.TradeTracesNTStub.Extensions;
+namespace Api.TradeTracesNTStub.Mock.Extensions;
 
 public static class WireMockServerExtensions
 {

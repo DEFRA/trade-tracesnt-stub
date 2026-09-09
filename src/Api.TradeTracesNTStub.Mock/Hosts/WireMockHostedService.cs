@@ -1,7 +1,8 @@
-using Api.TradeTracesNTStub.Extensions;
+using Api.TradeTracesNTStub.Mock.Extensions;
+using Microsoft.Extensions.Hosting;
 using WireMock.Server;
 
-namespace Api.TradeTracesNTStub.Hosts;
+namespace Api.TradeTracesNTStub.Mock.Hosts;
 
 public class WireMockHostedService : IHostedService
 {

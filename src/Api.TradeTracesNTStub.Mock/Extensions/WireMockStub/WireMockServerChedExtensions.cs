@@ -1,13 +1,13 @@
-using Api.TradeTracesNTStub.Utils.Soap.Matchers;
-using Api.TradeTracesNTStub.Utils.Soap.Responses;
+using Api.TradeTracesNTStub.Mock.Utils.Soap.Matchers;
+using Api.TradeTracesNTStub.Mock.Utils.Soap.Responses;
 using System.Net;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
-using Api.TradeTracesNTStub.Utils.Soap;
+using Api.TradeTracesNTStub.Mock.Utils.Soap;
 
-namespace Api.TradeTracesNTStub.Extensions.WireMockStub;
+namespace Api.TradeTracesNTStub.Mock.Extensions.WireMockStub;
 
 public static class WireMockServerChedExtensions
 {
@@ -26,7 +26,7 @@ public static class WireMockServerChedExtensions
                 .WithBody(ChedMatchers.PermissionDeniedErrorFromTraces(), MatchOperator.And))
             .AtPriority(2)
             .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.InternalServerError,
-            "Api.TradeTracesNTStub.Samples.CHED.GetChedCertificateResponse.PERMISSION_DENIED.xml")));
+            "Api.TradeTracesNTStub.Mock.Samples.CHED.GetChedCertificateResponse.PERMISSION_DENIED.xml")));
 
         server
             .Given(Request.Create()
@@ -40,7 +40,7 @@ public static class WireMockServerChedExtensions
                 .WithHeader("SOAPAction", ["\"findChedCertificate\""])
                 .WithBody(ChedMatchers.ValidFindChedCertificateRequest(), MatchOperator.And))
             .AtPriority(2)
-            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Samples.CHED.FindChedCertificateResponse.xml")));
+            .RespondWith(Response.Create().WithCallback(async _ => await SoapUtils.CreateResponseFromResource(HttpStatusCode.OK, "Api.TradeTracesNTStub.Mock.Samples.CHED.FindChedCertificateResponse.xml")));
 
         return server;
     }

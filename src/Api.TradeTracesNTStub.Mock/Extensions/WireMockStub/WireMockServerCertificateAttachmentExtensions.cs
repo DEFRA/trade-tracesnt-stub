@@ -1,12 +1,12 @@
-using Api.TradeTracesNTStub.Utils.Soap.Matchers;
-using Api.TradeTracesNTStub.Utils.Soap.Responses;
+using Api.TradeTracesNTStub.Mock.Utils.Soap.Matchers;
+using Api.TradeTracesNTStub.Mock.Utils.Soap.Responses;
 using System.Net;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 
-namespace Api.TradeTracesNTStub.Extensions.WireMockStub;
+namespace Api.TradeTracesNTStub.Mock.Extensions.WireMockStub;
 
 public static class WireMockServerCertificateAttachmentExtensions
 {

@@ -1,6 +1,7 @@
-using Api.TradeTracesNTStub.Hosts;
+using Api.TradeTracesNTStub.Mock.Hosts;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Api.TradeTracesNTStub.Extensions;
+namespace Api.TradeTracesNTStub.Mock.Extensions;
 
 public static class WireMockServiceExtensions
 {
