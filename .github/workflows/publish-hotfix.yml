@@ -7,6 +7,7 @@ permissions:
   id-token: write
   contents: write
   pull-requests: write
+  packages: read
 
 env:
   AWS_REGION: eu-west-2
@@ -17,6 +18,9 @@ jobs:
     if: github.run_number != 1
     name: CDP-build-hotfix-workflow
     runs-on: ubuntu-latest
+    env:
+      # Read by NuGet.config to authenticate against the private DEFRA feed.
+      DEFRA_NUGET_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6
@@ -28,9 +32,13 @@ jobs:
           dotnet-version: |
             10.0
       - name: Publish Hot Fix
-        uses: DEFRA/cdp-build-action/build-hotfix@dfb7dbaa4129b6e7e6b250c043d06628b32f8167
+        # TODO: repoint at a DEFRA SHA once DEFRA/cdp-build-action PR 120 merges.
+        # build-secrets does not exist on the DEFRA ref yet.
+        uses: d-ee-klemm/cdp-build-action/build-hotfix@docker-build-args
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          build-secrets: |
+            nuget_pat=${{ secrets.GITHUB_TOKEN }}
     ## SonarCloud
     ## Uncomment to unable SonarCloud scan
     ## Requires project to be set up in SonarCloud

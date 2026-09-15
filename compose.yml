@@ -19,7 +19,10 @@ services:
       retries: 30
 
   trade-tracesnt-stub:
-    build: ./
+    build:
+      context: ./
+      secrets:
+        - nuget_pat
     ports:
       - '8085:8080'
     links:
@@ -45,6 +48,12 @@ services:
 
 volumes:
   mongodb-data:
+
+# The TRACES contracts come from the private DEFRA feed, so a build needs a GitHub PAT with
+# read:packages exported as DEFRA_NUGET_PAT.
+secrets:
+  nuget_pat:
+    environment: DEFRA_NUGET_PAT
 
 networks:
   cdp-tenant:

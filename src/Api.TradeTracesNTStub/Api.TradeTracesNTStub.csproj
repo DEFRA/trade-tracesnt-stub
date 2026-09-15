@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Api.TradeTracesNTStub.Mock\Api.TradeTracesNTStub.Mock.csproj" />
+    <ProjectReference Include="..\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj" />
   </ItemGroup>
 
 </Project>

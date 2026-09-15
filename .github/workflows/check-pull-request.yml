@@ -11,10 +11,17 @@ on:
       - synchronize
       - ready_for_review
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   pr-validator:
     name: Run Pull Request Checks
     runs-on: ubuntu-latest
+    env:
+      # Read by NuGet.config to authenticate against the private DEFRA feed.
+      DEFRA_NUGET_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6
@@ -41,6 +48,8 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: trade-tracesnt-stub:latest
+          secrets: |
+            nuget_pat=${{ secrets.GITHUB_TOKEN }}
       - name: Check with Trivy
         run: |
           docker run -v /var/run/docker.sock:/var/run/docker.sock \
