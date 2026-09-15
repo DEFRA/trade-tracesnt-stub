@@ -32,9 +32,7 @@ jobs:
           dotnet-version: |
             10.0
       - name: Build and Publish
-        # TODO: repoint at a DEFRA SHA once DEFRA/cdp-build-action PR 120 merges.
-        # build-secrets does not exist on the DEFRA ref yet.
-        uses: d-ee-klemm/cdp-build-action/build@docker-build-args
+        uses: DEFRA/cdp-build-action/build@dfb527d1bca7591fbbfd32ac007557745e888cf2 #v1.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           build-secrets: |
