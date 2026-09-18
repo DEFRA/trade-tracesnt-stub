@@ -1,0 +1,24 @@
+{
+  // Document-level note subjects. `contentCodeList` says the note's value is a code from that
+  // list and belongs in ContentCode; without it the value is free text and goes in Content.
+
+  "CHED_TYPE": {
+    "name": "Type of CHED",
+    "listName": "CHED Note SubjectCode list",
+    "contentCodeList": "ched_type"
+  },
+  "LAST_UPDATE_DATETIME": {
+    "name": "Last updated",
+    "listName": "CHED Note SubjectCode list"
+  },
+  "NOT_ACCEPTABLE_MEASURE": {
+    "name": "Measure taken on a non-acceptable consignment",
+    "listName": "CHED Note SubjectCode list",
+    "contentCodeList": "ched_not_acceptable_measure"
+  },
+  "REFUSAL_REASON": {
+    "name": "Reason for refusal",
+    "listName": "CHED Note SubjectCode list",
+    "contentCodeList": "refusal_reason"
+  }
+}

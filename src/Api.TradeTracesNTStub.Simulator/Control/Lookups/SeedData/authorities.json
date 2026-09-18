@@ -1,0 +1,32 @@
+{
+  // Border control posts and the authority behind each. Synthetic throughout: the simulator only
+  // needs a coherent authority to name, and inventing one keeps real premises data out of the repo.
+  "GBBEL": {
+    "name": "Belfast Port BCP",
+    "city": "County Down",
+    "activityId": "XIBEL1-DAERA",
+    "address": "Belfast Port BCP, Dock Road, Belfast",
+    "unLocode": "GBBEL",
+    "officerName": "Simulator Inspector",
+    "postalAddress": {
+      "countryId": "XI",
+      "postcodeCode": "BT1 1AA",
+      "lineOne": "Belfast Port BCP, Dock Road",
+      "cityName": "Belfast"
+    }
+  },
+  "GBLAR": {
+    "name": "Larne Port BCP",
+    "city": "County Antrim",
+    "activityId": "XILAR1-DAERA",
+    "address": "Larne Port BCP, Harbour Road, Larne",
+    "unLocode": "GBLAR",
+    "officerName": "Simulator Inspector",
+    "postalAddress": {
+      "countryId": "XI",
+      "postcodeCode": "BT40 1AA",
+      "lineOne": "Larne Port BCP, Harbour Road",
+      "cityName": "Larne"
+    }
+  }
+}

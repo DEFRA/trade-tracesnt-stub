@@ -1,3 +1,6 @@
+using Api.TradeTracesNTStub.Simulator.Control;
+using Api.TradeTracesNTStub.Simulator.Control.Lookups;
+using Api.TradeTracesNTStub.Simulator.Control.Mapping;
 using Api.TradeTracesNTStub.Simulator.Ports;
 using Api.TradeTracesNTStub.Simulator.WsSecurity;
 using CoreWCF;
@@ -25,9 +28,30 @@ public static class SimulatorRegistrationExtensions
 
         services.AddSingleton(new WsSecurityValidator(credentials));
 
+        // Simulator state is a singleton: the SOAP face reads exactly what the control API wrote.
+        services.AddSingleton<ChedStore>();
+        services.AddSingleton(CodeLists.Seeded);
+        services.AddSingleton(Registry<OperatorEntry>.Load("operators.json"));
+        services.AddSingleton(Registry<AuthorityEntry>.Load("authorities.json"));
+        services.AddSingleton<ChedCertificateBuilder>();
+
+        // CoreWCF only falls back to a parameterless constructor; a port with dependencies has to be
+        // registered. The other four ports are stateless and still use that fallback.
+        services.AddTransient<ChedCertificateSimulator>();
+
         services.AddServiceModelServices();
 
         return services;
+    }
+
+    /// <summary>
+    /// Maps the REST control API. Separate from <see cref="UseTracesNtSimulator"/> because it has to
+    /// be mapped before CoreWCF takes over routing.
+    /// </summary>
+    public static WebApplication UseChedControlApi(this WebApplication app)
+    {
+        app.MapChedControlApi();
+        return app;
     }
 
     public static WebApplication UseTracesNtSimulator(this WebApplication app)
@@ -61,10 +85,6 @@ public static class SimulatorRegistrationExtensions
             .Urls.Concat((app.Configuration["urls"] ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries))
             .Concat(app.Configuration.GetSection("Kestrel:Endpoints").GetChildren().Select(e => e["Url"] ?? ""));
 
-    /// <summary>
-    /// Hosts one port. Message size limits match the gateway's client bindings — anything smaller
-    /// truncates large certificate responses.
-    /// </summary>
     private static IServiceBuilder AddPort<TService, TContract>(
         this IServiceBuilder builder,
         string servicePath,

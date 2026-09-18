@@ -1,0 +1,7 @@
+{
+  // The SystemName TRACES writes beside each ApplicableSPSClassification's SystemID.
+  "CN": { "name": "CN Code (Combined Nomenclature)" },
+  "IDENTIFICATION_SYSTEM": { "name": "Identification system" },
+  "PRODUCT_TYPE": { "name": "Product type" },
+  "EPPT": { "name": "EPPO Plant Protection Thesaurus" }
+}

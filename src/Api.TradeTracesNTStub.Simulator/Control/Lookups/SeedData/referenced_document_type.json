@@ -1,0 +1,6 @@
+{
+  // UNECE 1001 document names, as they appear on ReferenceSPSReferencedDocument.
+  "636": { "name": "Health certificate (Health certificate)" },
+  "521": { "name": "Special requirements permit related to the transport of cargo (Import permit)" },
+  "730": { "name": "Road consignment note (International transport document for Road Vehicle)" }
+}

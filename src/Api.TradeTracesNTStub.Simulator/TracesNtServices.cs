@@ -12,6 +12,9 @@ public static class TracesNtServices
 {
     public const string SimulatorFaultNamespace = "http://defra.gov.uk/tracesnt/simulator";
 
+    /// <summary>Where the CHED typed faults live. Must match the generated contract's FaultContract.</summary>
+    public const string ChedV2Namespace = "http://ec.europa.eu/tracesnt/certificate/ched/v2";
+
     public const string Ched = "ChedCertificateServiceV2";
     public const string EuIntra = "EuIntraCertificateServiceV1";
     public const string Docom = "DocomCertificateRetrievalServiceV1";

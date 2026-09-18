@@ -28,65 +28,114 @@ this repository.
 `scripts/update-webservices.sh`, publish a new package version, then bump the `PackageReference` in
 `src/Api.TradeTracesNTStub.Simulator` and in `tests/TradeTracesNTStub.IntegrationTests`.
 
-Only the contracts are implemented so far. Every operation returns a SOAP fault naming itself as not
-implemented; CHED behaviour arrives in its own stories.
+`getChedCertificate` serves CHEDs the control API created. Every other operation still returns a SOAP
+fault naming itself as not implemented.
 
-### Authentication
+## Control API
 
-WS-Security is genuinely validated, because a permissive simulator would hide the misconfiguration
-most worth catching — a port authenticating as the wrong account. Callers must present a
-`wsse:UsernameToken` whose password is `Base64(SHA1(nonce + created + authenticationKey))` inside a
-live `wsu:Timestamp`, plus a `WebServiceClientId` header.
-
-The customs port authenticates as a different account from the other four. Credentials are
-configured per account, with deliberately fake local defaults in `appsettings.json`:
+The simulator's simple face, on `/control`, is how a test gets data in. Plain JSON, documented at
+`/openapi/v1.json`.
 
 ```
-Simulator__Credentials__Default__Username
-Simulator__Credentials__Default__AuthenticationKey
-Simulator__Credentials__Default__WebServiceClientId
-Simulator__Credentials__Customs__...
+POST   /control/cheds            create
+PUT    /control/cheds/{id}       replace
+PATCH  /control/cheds/{id}       merge a partial update
+DELETE /control/cheds/{id}       remove
+POST   /control/reset            empty the simulator
 ```
 
-No real TRACES NT credential belongs in this repository. The simulator makes no outbound call to the
-EU estate unless a request is deliberately sent to `/proxy/**`.
+**The client specifies everything a submitter would. The simulator fills in only what TRACES fills
+in.** Nothing is defaulted on your behalf, so a request is the certificate — you can read one
+and know what comes back.
 
-Anything rejected gets the fault TRACES itself returns — an `env:Client` fault with faultstring
-`UnauthenticatedException` — which Trade Gateway surfaces as a 502.
+That boundary is not guesswork. DG SANTE publish it per element in the CHED mapping workbook
+(`TNT-UN-CEFACT-Mappings-CHED-V2.xlsx`, sheet `CHED`, column `Issue`): `M`/`O`/`C` are the
+submitter's, `N` is TRACES's. The control model covers the first set; `Control/Mapping` derives the
+second.
 
-## Running
+What that means in practice — you send a code, and the simulator supplies what TRACES would:
 
-Build and restore need a GitHub PAT with `read:packages` for the private DEFRA feed:
+| You send | The simulator adds |
+| --- | --- |
+| `consignorParty.identifier` | the operator's name, role and activity codes |
+| `unloadingBaseportLocation` | five more location names, and the whole `IssuerSPSParty` subtree |
+| a CN code | its full description hierarchy, up to four levels |
+| a clause code | the display text beside it |
+| any code | `name=`, `listName=`, `schemeName=` |
+
+Worked examples are in `tickets/create-update-ched-examples/` — `1.submitForDecision.http` creates a
+CHED, `4.submitInspectionDecision.http` decides it.
+
+### Creating and deciding
+
+Everything a submitter sends, and nothing else:
 
 ```bash
-export DEFRA_NUGET_PAT=<token>
+curl -X POST http://localhost:8085/control/cheds -H 'Content-Type: application/json' -d '{
+  "exchangedDocument": {
+    "includedNote": { "CHED_TYPE": "A" },
+    "declaration": { "includedClause": { "PURPOSE": "FREE_CIRCULATION" } }
+  },
+  "specifiedConsignment": {
+    "consignorParty": { "identifier": "770198", "postalAddress": { "countryId": "XI" } },
+    "unloadingBaseportLocation": { "identifier": "GBBEL", "countryId": "XI" },
+    "includedConsignmentItem": {
+      "includedTradeLineItem": [
+        { "applicableClassification": { "CN": "0101" }, "originCountry": "AF" }
+      ]
+    }
+  }
+}'
 ```
+
+Deciding it is a `PATCH` carrying only the decision, because notes and clauses merge key by key:
 
 ```bash
-docker compose up --build -d
+curl -X PATCH http://localhost:8085/control/cheds/{id} -H 'Content-Type: application/json' -d '{
+  "status": "VALIDATED",
+  "exchangedDocument": {
+    "clearance": { "includedClause": { "DECISION_CONCLUSION": "ACCEPTABLE_FOR_FREE_CIRCULATION" } }
+  }
+}'
 ```
 
-Or directly:
+Property names follow Trade Gateway's own JSON model, so the vocabulary going in matches what comes
+back from `GET /certificates/cheds/{id}`.
 
-```bash
-dotnet run --project src/Api.TradeTracesNTStub --launch-profile Api.TradeTracesNTStub
+There is no read-back endpoint on purpose: the SOAP face is the only way to read a certificate, which
+stops the two drifting.
+
+### Lookups, and what happens when one is missing
+
+`Control/Lookups/SeedData` holds the code lists and the operator and authority registries. Only the
+codes the tests use are seeded. An unknown code is a `400` naming the list and the file
+to add it to — a silent blank would otherwise surface much later as an unexplained snapshot diff.
+
+If a test needs an operator the registry has never heard of, send a `name` and no `identifier`. That
+is how TRACES models an operator created on the fly, and it skips the lookup entirely.
+
+State is in memory: a restart is a reset. There are no shared fixture sets to reset to — a test
+states the CHEDs it needs, which is the same rule as everywhere else here. Note that `POST
+/control/reset` empties the whole simulator, so a test that calls it takes any other test's CHEDs
+with it.
+
+### TestKit
+
+`src/Api.TradeTracesNTStub.TestKit` packages builders and a control client for other repositories:
+
+```csharp
+var simulator = SimulatorControlClient.At("http://localhost:8085");
+
+var id = await simulator.CreateChed(
+    Ched.ChedA()
+        .WithDeclaration(d => d.Declaring("FREE_CIRCULATION", "FATTENING"))
+        .WithConsignment(c => c
+            .ArrivingAt("GBBEL", "XI")
+            .WithConsignor(p => p.Operator("770198").InCountry("XI"))
+            .WithCommodity(i => i.CnCode("0101").OriginCountry("AF").Packages(2, "BX"))));
+
+await simulator.PatchChed(id, Ched.ChedA().WithStatus("VALIDATED").WithClearance(c => c.Acceptable()));
 ```
-
-Either way the service listens on <http://localhost:8085>.
-
-## Testing
-
-```bash
-# Unit tests — WS-Security validation and contract serialisation
-dotnet test --project tests/TradeTracesNTStub.Test/TradeTracesNTStub.Test.csproj
-
-# Integration tests — require the service to be running
-dotnet test --project tests/TradeTracesNTStub.IntegrationTests/TradeTracesNTStub.IntegrationTests.csproj \
-  --filter-trait Category=IntegrationTest
-```
-
-The integration suite drives the simulator with Trade Gateway's own generated WCF clients, which is
-what proves a consumer needs no code change. The WireMock stub is covered by Verify snapshots.
 
 ## About the licence
 
