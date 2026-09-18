@@ -5,8 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Baseline CHED documents and code-list seed data the control API builds certificates from. -->
-    <EmbeddedResource Include="Control\Templates\*.xml" />
+    <!-- Code lists and registries the control API derives display values from. -->
     <EmbeddedResource Include="Control\Lookups\SeedData\*.json" />
   </ItemGroup>
 

@@ -1,7 +1,6 @@
 using Api.TradeTracesNTStub.Simulator.Control.Lookups;
 using Api.TradeTracesNTStub.Simulator.Control.Mapping;
 using Api.TradeTracesNTStub.Simulator.Control.Models;
-using Api.TradeTracesNTStub.Simulator.Control.Templates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -9,14 +8,9 @@ using Microsoft.AspNetCore.Routing;
 namespace Api.TradeTracesNTStub.Simulator.Control;
 
 /// <summary>
-/// The simple face of the simulator: plain JSON for setting up test data, on a prefix of its own.
+/// Plain JSON for setting up test data, so a test author need not build a SOAP envelope. There is no
+/// read-back endpoint on purpose — the SOAP face is the only way to read state, so the two cannot drift.
 /// </summary>
-/// <remarks>
-/// Deliberately not TRACES-shaped. A test author should not have to build a SOAP envelope to create a
-/// fixture, and nothing here mirrors the XML schema — the mapping onto it happens in
-/// <see cref="ChedCertificateFactory"/>. There is no read-back endpoint on purpose: the SOAP face is
-/// the only way to read state back, which keeps the two from drifting.
-/// </remarks>
 public static class ChedControlEndpoints
 {
     /// <summary>
@@ -33,9 +27,9 @@ public static class ChedControlEndpoints
             .MapPost("/cheds", Create)
             .WithSummary("Create a CHED")
             .WithDescription(
-                "Layers the supplied fields onto a baseline template and stores the result. "
-                    + "Everything except 'type' is optional. The stored representation is returned; "
-                    + "read it back through the SOAP face with getChedCertificate."
+                "Stores exactly the certificate described, filling in only what TRACES itself fills "
+                    + "in — display names, registry lookups and schema scaffolding. Read it back "
+                    + "through the SOAP face with getChedCertificate."
             );
 
         control
@@ -43,16 +37,21 @@ public static class ChedControlEndpoints
             .WithSummary("Replace a CHED")
             .WithDescription("Rebuilds the CHED from the supplied model, keeping its ID.");
 
+        control
+            .MapPatch("/cheds/{id}", Patch)
+            .WithSummary("Apply a partial update to a CHED")
+            .WithDescription(
+                "Merges the supplied fields into the stored CHED. Notes and clauses merge key by key, "
+                    + "so submitting a decision means sending just the clearance block and the new "
+                    + "status. Absent fields are left alone; use PUT to clear one."
+            );
+
         control.MapDelete("/cheds/{id}", Delete).WithSummary("Delete a CHED");
 
         control
             .MapPost("/reset", Reset)
             .WithSummary("Reset simulator state")
-            .WithDescription(
-                "Clears every CHED. Pass ?fixtureSet=<name> to load a named set instead of ending empty."
-            );
-
-        control.MapGet("/fixture-sets", ListFixtureSets).WithSummary("List the available fixture sets");
+            .WithDescription("Clears every CHED. A test states the CHEDs it needs rather than resetting to a set.");
 
         return app;
     }
@@ -60,20 +59,26 @@ public static class ChedControlEndpoints
     private static IResult Create(
         ChedControlModel model,
         ChedStore store,
-        ChedCertificateFactory factory,
-        ChedIds ids
-    )
-    {
-        var id = string.IsNullOrWhiteSpace(model.Id) ? ids.Next(model.Type) : model.Id;
+        ChedCertificateBuilder builder
+    ) =>
+        Guarded(() =>
+        {
+            // The type comes out of the CHED_TYPE note, so reading it can fail the same way any
+            // other lookup fails — inside the guard, not before it.
+            var id = string.IsNullOrWhiteSpace(model.Id)
+                ? store.NextId(ChedCertificateBuilder.ChedTypeOf(model))
+                : model.Id;
 
-        return Store(model, id, store, factory) is { } problem ? problem : Results.Created($"{Prefix}/cheds/{id}", Describe(model, id));
-    }
+            store.Put(new StoredChed(id, builder.Build(model, id), model.Accessible ?? true, model));
+
+            return Results.Created($"{Prefix}/cheds/{id}", Describe(model, id));
+        });
 
     private static IResult Update(
         string id,
         ChedControlModel model,
         ChedStore store,
-        ChedCertificateFactory factory
+        ChedCertificateBuilder builder
     )
     {
         if (!store.TryGet(id, out _))
@@ -81,7 +86,32 @@ public static class ChedControlEndpoints
             return Results.Problem($"No CHED '{id}' exists in the simulator.", statusCode: StatusCodes.Status404NotFound);
         }
 
-        return Store(model, id, store, factory) is { } problem ? problem : Results.Ok(Describe(model, id));
+        return Guarded(() =>
+        {
+            store.Put(new StoredChed(id, builder.Build(model, id), model.Accessible ?? true, model));
+            return Results.Ok(Describe(model, id));
+        });
+    }
+
+    private static IResult Patch(
+        string id,
+        ChedControlModel patch,
+        ChedStore store,
+        ChedCertificateBuilder builder
+    )
+    {
+        if (!store.TryGet(id, out var stored))
+        {
+            return Results.Problem($"No CHED '{id}' exists in the simulator.", statusCode: StatusCodes.Status404NotFound);
+        }
+
+        var merged = stored.Source.Merge(patch);
+
+        return Guarded(() =>
+        {
+            store.Put(new StoredChed(id, builder.Build(merged, id), merged.Accessible ?? true, merged));
+            return Results.Ok(Describe(merged, id));
+        });
     }
 
     private static IResult Delete(string id, ChedStore store) =>
@@ -89,67 +119,22 @@ public static class ChedControlEndpoints
             ? Results.NoContent()
             : Results.Problem($"No CHED '{id}' exists in the simulator.", statusCode: StatusCodes.Status404NotFound);
 
-    private static IResult Reset(
-        string? fixtureSet,
-        ChedStore store,
-        FixtureSets fixtures,
-        ChedCertificateFactory factory,
-        ChedIds ids
-    )
+    private static IResult Reset(ChedStore store)
     {
         store.Clear();
 
-        if (string.IsNullOrWhiteSpace(fixtureSet))
-        {
-            return Results.Ok(new ResetResponse(null, 0));
-        }
-
-        if (!fixtures.Exists(fixtureSet))
-        {
-            return Results.Problem(
-                $"No fixture set named '{fixtureSet}'. Available: {string.Join(", ", fixtures.Names)}.",
-                statusCode: StatusCodes.Status400BadRequest
-            );
-        }
-
-        IReadOnlyList<ChedControlModel> models;
-
-        try
-        {
-            models = fixtures.Load(fixtureSet);
-        }
-        catch (InvalidOperationException exception)
-        {
-            // A malformed fixture is the author's to fix, and the message names the file.
-            return Results.Problem(exception.Message, statusCode: StatusCodes.Status400BadRequest);
-        }
-
-        foreach (var model in models)
-        {
-            var id = string.IsNullOrWhiteSpace(model.Id) ? ids.Next(model.Type) : model.Id;
-
-            if (Store(model, id, store, factory) is { } problem)
-            {
-                return problem;
-            }
-        }
-
-        return Results.Ok(new ResetResponse(fixtureSet, store.Count));
+        return Results.Ok(new ResetResponse(store.Count));
     }
 
-    private static IResult ListFixtureSets(FixtureSets fixtures) =>
-        Results.Ok(new FixtureSetsResponse(fixtures.Names, [.. ChedTemplates.Names]));
-
     /// <summary>
-    /// Builds and stores one CHED, or returns the problem to send back. An unknown code is a 400
-    /// rather than a 500 because it is the caller's to fix, and the message says how.
+    /// Runs a handler, turning a code the simulator has no display name for into a 400 rather than a
+    /// 500. It is the caller's to fix, and the message says which file to add it to.
     /// </summary>
-    private static IResult? Store(ChedControlModel model, string id, ChedStore store, ChedCertificateFactory factory)
+    private static IResult Guarded(Func<IResult> act)
     {
         try
         {
-            store.Put(new StoredChed(id, factory.Create(model, id), model.Accessible));
-            return null;
+            return act();
         }
         catch (UnknownCodeException exception)
         {
@@ -162,12 +147,11 @@ public static class ChedControlEndpoints
     }
 
     private static StoredChedResponse Describe(ChedControlModel model, string id) =>
-        new(id, model.Type, model.Accessible, model with { Id = id });
+        new(id, ChedCertificateBuilder.ChedTypeOf(model), model.Accessible ?? true, model with { Id = id });
 }
 
 /// <summary>What the control API returns for a stored CHED. The certificate itself is read back over SOAP.</summary>
-public record StoredChedResponse(string Id, ChedType Type, bool Accessible, ChedControlModel Ched);
+public record StoredChedResponse(string Id, string ChedType, bool Accessible, ChedControlModel Ched);
 
-public record ResetResponse(string? FixtureSet, int ChedCount);
+public record ResetResponse(int ChedCount);
 
-public record FixtureSetsResponse(IReadOnlyList<string> FixtureSets, IReadOnlyList<string> Templates);

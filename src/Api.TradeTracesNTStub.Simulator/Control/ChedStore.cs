@@ -1,23 +1,26 @@
 using System.Collections.Concurrent;
+using Api.TradeTracesNTStub.Simulator.Control.Models;
 using TracesNT.WebServices;
 
 namespace Api.TradeTracesNTStub.Simulator.Control;
 
 /// <summary>
-/// The CHEDs the simulator is currently serving.
+/// The CHEDs the simulator is currently serving. In memory, so a restart is a reset.
 /// </summary>
-/// <remarks>
-/// In memory, and deliberately so: a test resets it rather than cleaning up after itself, and a
-/// restart is a reset. Certificates are held as the deserialised TRACES graph rather than the control
-/// model they were built from, which is what keeps the SOAP face the only way to read state back.
-/// </remarks>
-public sealed class ChedStore
+public sealed class ChedStore(string countryCode = "XI")
 {
     private readonly ConcurrentDictionary<string, StoredChed> _cheds = new(StringComparer.OrdinalIgnoreCase);
 
+    private int _serial;
+
     public IReadOnlyCollection<string> Ids => [.. _cheds.Keys];
 
+    public IReadOnlyCollection<StoredChed> All => [.. _cheds.Values];
+
     public int Count => _cheds.Count;
+
+    public string NextId(string chedType) =>
+        $"CHED{chedType}.{countryCode}.{DateTime.UtcNow.Year}.{Interlocked.Increment(ref _serial):D7}";
 
     public void Put(StoredChed ched) => _cheds[ched.Id] = ched;
 
@@ -25,12 +28,16 @@ public sealed class ChedStore
 
     public bool Remove(string id) => _cheds.TryRemove(id, out _);
 
+    /// <summary>
+    /// Leaves the serial where it is. Test classes run in parallel, so rewinding it would re-issue
+    /// an ID another test still holds, and a CHED it expects to be gone would answer instead.
+    /// </summary>
     public void Clear() => _cheds.Clear();
 }
 
 /// <summary>
-/// One stored CHED. <paramref name="Accessible"/> is simulator state rather than part of the
-/// certificate: it decides whether the SOAP face serves this CHED or refuses it, which is how a test
-/// covers the permission-denied path without a magic ID.
+/// <paramref name="Accessible"/> is simulator state, not certificate content: it decides whether the
+/// SOAP face serves this CHED or refuses it. <paramref name="Source"/> is what the client sent, kept
+/// so a PATCH has something to merge into, and never served.
 /// </summary>
-public record StoredChed(string Id, SPSCertificateType Certificate, bool Accessible);
+public record StoredChed(string Id, SPSCertificateType Certificate, bool Accessible, ChedControlModel Source);

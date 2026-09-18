@@ -30,14 +30,10 @@ public static class SimulatorRegistrationExtensions
 
         // Simulator state is a singleton: the SOAP face reads exactly what the control API wrote.
         services.AddSingleton<ChedStore>();
-        services.AddSingleton<ChedIds>();
         services.AddSingleton(CodeLists.Seeded);
-        services.AddSingleton<ChedCertificateFactory>();
-        // Resolved against the app directory, not the working directory, so it behaves the same
-        // under `dotnet run` and in the container.
-        var fixtureRoot =
-            configuration["Simulator:FixtureRoot"] ?? Path.Combine(AppContext.BaseDirectory, "fixtures");
-        services.AddSingleton(new FixtureSets(fixtureRoot));
+        services.AddSingleton(Registry<OperatorEntry>.Load("operators.json"));
+        services.AddSingleton(Registry<AuthorityEntry>.Load("authorities.json"));
+        services.AddSingleton<ChedCertificateBuilder>();
 
         // CoreWCF only falls back to a parameterless constructor; a port with dependencies has to be
         // registered. The other four ports are stateless and still use that fallback.
@@ -89,10 +85,6 @@ public static class SimulatorRegistrationExtensions
             .Urls.Concat((app.Configuration["urls"] ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries))
             .Concat(app.Configuration.GetSection("Kestrel:Endpoints").GetChildren().Select(e => e["Url"] ?? ""));
 
-    /// <summary>
-    /// Hosts one port. Message size limits match the gateway's client bindings — anything smaller
-    /// truncates large certificate responses.
-    /// </summary>
     private static IServiceBuilder AddPort<TService, TContract>(
         this IServiceBuilder builder,
         string servicePath,

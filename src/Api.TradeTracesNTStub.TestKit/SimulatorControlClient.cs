@@ -6,13 +6,9 @@ using Api.TradeTracesNTStub.Simulator.Control.Models;
 namespace Api.TradeTracesNTStub.TestKit;
 
 /// <summary>
-/// Drives the simulator's control API from a test.
+/// Drives the simulator's control API from a test. Thin on purpose: it saves repeating the URL, the
+/// JSON options and the status check, and throws with the simulator's own message.
 /// </summary>
-/// <remarks>
-/// Thin on purpose. It exists so a test does not repeat the URL, the JSON options and the
-/// status-code check, not to add behaviour of its own. Failures throw with the simulator's own
-/// message, which is written to say what to fix.
-/// </remarks>
 public class SimulatorControlClient(HttpClient client)
 {
     private static readonly JsonSerializerOptions s_json = new(JsonSerializerDefaults.Web)
@@ -45,19 +41,28 @@ public class SimulatorControlClient(HttpClient client)
         await Ensure(response, $"update CHED '{id}'", cancellationToken);
     }
 
+    /// <summary>
+    /// Merges a partial CHED into a stored one. This is how a decision is applied: build a CHED
+    /// carrying only the clearance block and the new status, and send that.
+    /// </summary>
+    public async Task PatchChed(string id, ChedBuilder patch, CancellationToken cancellationToken = default)
+    {
+        var response = await client.PatchAsJsonAsync($"/control/cheds/{id}", patch.Build(), s_json, cancellationToken);
+        await Ensure(response, $"patch CHED '{id}'", cancellationToken);
+    }
+
     public async Task DeleteChed(string id, CancellationToken cancellationToken = default)
     {
         var response = await client.DeleteAsync($"/control/cheds/{id}", cancellationToken);
         await Ensure(response, $"delete CHED '{id}'", cancellationToken);
     }
 
-    /// <summary>Empties the simulator, or loads a named fixture set. Call it before a test, not after.</summary>
-    public async Task Reset(string? fixtureSet = null, CancellationToken cancellationToken = default)
+    /// <summary>Empties the simulator. Call it before a test, not after.</summary>
+    public async Task Reset(CancellationToken cancellationToken = default)
     {
-        var url = fixtureSet is null ? "/control/reset" : $"/control/reset?fixtureSet={Uri.EscapeDataString(fixtureSet)}";
-        var response = await client.PostAsync(url, null, cancellationToken);
+        var response = await client.PostAsync("/control/reset", null, cancellationToken);
 
-        await Ensure(response, fixtureSet is null ? "reset the simulator" : $"load fixture set '{fixtureSet}'", cancellationToken);
+        await Ensure(response, "reset the simulator", cancellationToken);
     }
 
     private static async Task Ensure(HttpResponseMessage response, string what, CancellationToken cancellationToken)

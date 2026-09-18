@@ -3,113 +3,214 @@ using System.ComponentModel.DataAnnotations;
 namespace Api.TradeTracesNTStub.Simulator.Control.Models;
 
 /// <summary>
-/// What a test supplies to create or update a CHED.
+/// A CHED as a submitter would send it: everything DG SANTE mark <c>Issue=M/O/C</c> in the CHED
+/// mapping workbook, and nothing they mark <c>N</c>. Property names follow Trade Gateway's JSON model.
 /// </summary>
-/// <remarks>
-/// Deliberately not a copy of the TRACES XML schema, and deliberately not exhaustive. Everything
-/// except <see cref="Type"/> is optional: anything left unset keeps the value from the baseline
-/// template, so a test states only what its scenario actually turns on. Keeping this independent of
-/// the generated types is what lets the control surface stay small while the SOAP surface grows.
-/// </remarks>
 public record ChedControlModel
 {
-    /// <summary>Which CHED this is. Selects the baseline template unless <see cref="Template"/> overrides it.</summary>
-    [Required]
-    public ChedType Type { get; init; }
-
-    /// <summary>The certificate ID. Generated in the TRACES format when omitted.</summary>
+    /// <summary>Generated when omitted. Settable because a test needs to pin it; TRACES assigns its own.</summary>
     public string? Id { get; init; }
 
-    /// <summary>A named baseline to start from. Defaults to the one for <see cref="Type"/>.</summary>
-    public string? Template { get; init; }
-
-    /// <summary>TRACES status, by name (<c>NEW</c>) or raw code (<c>1</c>).</summary>
+    /// <summary>
+    /// By name (<c>NEW</c>) or code (<c>1</c>). Simulator state, not submitted content: TRACES derives
+    /// status from the operation invoked, so do not "correct" this to match.
+    /// </summary>
     public string? Status { get; init; }
 
+    /// <summary>When false the SOAP face returns a permission-denied fault. Simulator state; no TRACES equivalent.</summary>
+    public bool? Accessible { get; init; }
+
+    [Required]
+    public ExchangedDocumentModel ExchangedDocument { get; init; } = new();
+
+    [Required]
+    public ConsignmentModel SpecifiedConsignment { get; init; } = new();
+}
+
+public record ExchangedDocumentModel
+{
     /// <summary>
-    /// When false the SOAP face returns a permission-denied fault for this CHED instead of serving it.
-    /// Lets a test cover the 403 path without a magic ID or a global fault-injection switch.
+    /// Keyed by <c>SubjectCode</c>. <c>CHED_TYPE</c> is required — it is what makes this a CHED-A.
+    /// The seed entry decides whether a value lands as a code or as free text.
     /// </summary>
-    public bool Accessible { get; init; } = true;
+    public IReadOnlyDictionary<string, string> IncludedNote { get; init; } =
+        new Dictionary<string, string>();
 
-    public PartyModel? Consignor { get; init; }
+    /// <summary>
+    /// The one deliberate exception to the no-defaulting rule: every retrieved CHED carries one, so
+    /// the simulator fabricates a default when this is omitted.
+    /// </summary>
+    public IReadOnlyList<ReferencedDocumentModel>? ReferenceDocument { get; init; }
 
-    public PartyModel? Consignee { get; init; }
+    /// <summary>The applicant's declaration — <c>SignatorySPSAuthentication</c> with TypeCode 4.</summary>
+    public AuthenticationModel? Declaration { get; init; }
+
+    /// <summary>The inspector's decision — TypeCode 1. Absent until the CHED has been decided.</summary>
+    public AuthenticationModel? Clearance { get; init; }
+}
+
+public record AuthenticationModel
+{
+    public DateTimeOffset? ActualDateTime { get; init; }
+
+    /// <summary>
+    /// Keyed by clause ID — <c>PURPOSE</c>, <c>DECISION_CONCLUSION</c>. The value is the code; the
+    /// display text beside it on the wire is TRACES's to add.
+    /// </summary>
+    public IReadOnlyDictionary<string, string> IncludedClause { get; init; } =
+        new Dictionary<string, string>();
+}
+
+public record ReferencedDocumentModel
+{
+    public string? DocumentTypeCode { get; init; }
+
+    /// <summary>How the document relates to the CHED — <c>ZZZ</c> for a supporting document.</summary>
+    public string? RelationshipTypeCode { get; init; }
+
+    public string? Identifier { get; init; }
+
+    /// <summary>Issuing country, written as the reference's <c>schemeAgencyID</c>.</summary>
+    public string? IssuingCountry { get; init; }
+}
+
+public record ConsignmentModel
+{
+    public DateTimeOffset? AvailabilityDueDateTime { get; init; }
+
+    /// <summary>ISO 3166-1 alpha-2. The simulator supplies the country name.</summary>
+    public string? ExportCountry { get; init; }
+
+    public string? ImportCountry { get; init; }
+
+    public PartyModel? ConsignorParty { get; init; }
+
+    public PartyModel? ConsigneeParty { get; init; }
 
     public PartyModel? DeliveryParty { get; init; }
 
-    /// <summary>The BCP the consignment arrives at, by its TRACES activity code or UN/LOCODE.</summary>
-    public string? BorderControlPost { get; init; }
+    public PartyModel? CustomsTransitAgentParty { get; init; }
 
-    /// <summary>Replaces the template's commodities outright when given. An empty list clears them.</summary>
-    public IReadOnlyList<CommodityModel>? Commodities { get; init; }
+    public LocationModel? UnloadingBaseportLocation { get; init; }
 
-    /// <summary>The official inspector's decision. Absent means the CHED has not been decided.</summary>
-    public DecisionModel? Decision { get; init; }
-}
+    public TransportMovementModel? MainCarriageLogisticsTransportMovement { get; init; }
 
-public enum ChedType
-{
-    A,
-    P,
-    PP,
-    D,
+    public ConsignmentItemModel? IncludedConsignmentItem { get; init; }
 }
 
 /// <summary>
-/// An operator on the consignment. Give <see cref="OperatorId"/> alone to have the simulator fill in
-/// the name and address the way TRACES does; give the other fields to override that.
+/// Either an <see cref="Identifier"/> alone, whose name is looked up, or a <see cref="Name"/> alone —
+/// TRACES's operator created on the fly, and the way past the registry for an unseeded operator.
 /// </summary>
 public record PartyModel
 {
-    public string? OperatorId { get; init; }
+    public string? Identifier { get; init; }
 
+    /// <summary>Which identifier scheme, e.g. <c>national_registry_number</c>.</summary>
+    public string? SchemeId { get; init; }
+
+    /// <summary>Only for an unregistered operator. Supplying it alongside an identifier overrides the lookup.</summary>
     public string? Name { get; init; }
 
-    public string? CountryCode { get; init; }
+    public AddressModel? PostalAddress { get; init; }
 }
 
-public record CommodityModel
+public record AddressModel
 {
-    /// <summary>Combined Nomenclature code. The simulator supplies the description hierarchy.</summary>
-    public string? CnCode { get; init; }
+    /// <summary>ISO 3166-1 alpha-2. The simulator supplies <c>CountryName</c>.</summary>
+    public string? CountryId { get; init; }
 
-    public string? Description { get; init; }
+    public string? PostcodeCode { get; init; }
+
+    public string? LineOne { get; init; }
+
+    public string? CityName { get; init; }
+
+    public string? CountrySubDivisionName { get; init; }
+}
+
+/// <summary>
+/// The border control post of arrival. The client gives the code and country; the five further
+/// <c>Name</c> elements are looked up.
+/// </summary>
+public record LocationModel
+{
+    public string? Identifier { get; init; }
+
+    public string? SchemeId { get; init; }
+
+    /// <summary>Country of entry — the first <c>Name</c> on the location, and the only one submitted.</summary>
+    public string? CountryId { get; init; }
+}
+
+public record TransportMovementModel
+{
+    /// <summary>UNECE Recommendation 19 mode — <c>3</c> is road.</summary>
+    public string? ModeCode { get; init; }
+
+    /// <summary>Vehicle registration, flight number or vessel name.</summary>
+    public string? Identifier { get; init; }
+
+    public string? SchemeId { get; init; }
+
+    /// <summary>Country that issued the registration, written as <c>schemeAgencyID</c>.</summary>
+    public string? SchemeAgencyId { get; init; }
+}
+
+public record ConsignmentItemModel
+{
+    /// <summary>UNECE cargo type — <c>12</c> is general cargo.</summary>
+    public string? NatureIdCargo { get; init; }
+
+    /// <summary>
+    /// Written as the sequence-0 trade line item, ahead of the real commodities, with the fixed
+    /// description TRACES puts there.
+    /// </summary>
+    public TradeLineItemModel? ConsignmentTotals { get; init; }
+
+    /// <summary>The commodities, numbered from 1 in the order given.</summary>
+    public IReadOnlyList<TradeLineItemModel> IncludedTradeLineItem { get; init; } = [];
+}
+
+public record TradeLineItemModel
+{
+    /// <summary>
+    /// Keyed by system — <c>CN</c>, <c>IDENTIFICATION_SYSTEM</c>. The value is the class code; the
+    /// system name and description hierarchy are looked up, and one CN code can expand to four levels.
+    /// </summary>
+    public IReadOnlyDictionary<string, string> ApplicableClassification { get; init; } =
+        new Dictionary<string, string>();
 
     /// <summary>ISO 3166-1 alpha-2. The simulator supplies the country name.</summary>
     public string? OriginCountry { get; init; }
 
-    public decimal? NetWeightKg { get; init; }
-
-    public decimal? GrossWeightKg { get; init; }
-
-    /// <summary>UNECE package type code, e.g. <c>BX</c> for a box.</summary>
-    public string? PackageType { get; init; }
-
-    public decimal? PackageCount { get; init; }
-
     public string? ScientificName { get; init; }
+
+    public MeasureModel? NetWeight { get; init; }
+
+    public MeasureModel? GrossWeight { get; init; }
+
+    public MeasureModel? NetVolume { get; init; }
+
+    public PackageModel? PhysicalReferencedLogisticsPackage { get; init; }
+
+    /// <summary>Commodity notes keyed by <c>SubjectCode</c>, e.g. <c>INDIVIDUAL_IDENTIFICATION_NUMBER</c>.</summary>
+    public IReadOnlyDictionary<string, string> AdditionalInformationNote { get; init; } =
+        new Dictionary<string, string>();
 }
 
-/// <summary>
-/// The clearance decision, written as the official-inspector authentication block TRACES adds when a
-/// CHED is decided.
-/// </summary>
-public record DecisionModel
+public record MeasureModel
 {
-    /// <summary>e.g. <c>ACCEPTABLE_FOR_FREE_CIRCULATION</c> or <c>NOT_ACCEPTABLE</c>.</summary>
-    [Required]
-    public string Conclusion { get; init; } = "";
+    public decimal Value { get; init; }
 
-    public string? DocumentaryCheck { get; init; }
+    /// <summary>UNECE unit code — <c>KGM</c> kilograms, <c>H87</c> pieces.</summary>
+    public string? UnitCode { get; init; }
+}
 
-    public string? IdentityCheck { get; init; }
+public record PackageModel
+{
+    /// <summary>UNECE package type — <c>BX</c> box, <c>NA</c> none.</summary>
+    public string? TypeCode { get; init; }
 
-    public string? PhysicalCheck { get; init; }
-
-    /// <summary>Only meaningful when <see cref="Conclusion"/> is a refusal.</summary>
-    public IReadOnlyList<string>? RefusalReasons { get; init; }
-
-    /// <summary>The measure taken on a refused consignment, e.g. <c>DESTRUCTION</c>.</summary>
-    public string? NotAcceptableMeasure { get; init; }
+    public decimal? ItemQuantity { get; init; }
 }

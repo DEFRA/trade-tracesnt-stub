@@ -1,54 +1,13 @@
 {
-  "1B": {
-    "name": "[en] (PACKAGE_TYPE) DRUM_ALUMINIUM"
-  },
-  "1D": {
-    "name": "[en] (PACKAGE_TYPE) DRUM_PLYWOOD"
-  },
-  "1F": {
-    "name": "[en] (PACKAGE_TYPE) CONTAINER_FLEXIBLE"
-  },
-  "1G": {
-    "name": "[en] (PACKAGE_TYPE) DRUM_FIBRE"
-  },
-  "1W": {
-    "name": "[en] (PACKAGE_TYPE) DRUM_WOODEN"
-  },
-  "2C": {
-    "name": "[en] (PACKAGE_TYPE) BARREL_WOODEN"
-  },
-  "43": {
-    "name": "[en] (PACKAGE_TYPE) BAG_SUPER_BULK"
-  },
-  "44": {
-    "name": "[en] (PACKAGE_TYPE) BAG_POLYBAG"
-  },
-  "4A": {
-    "name": "[en] (PACKAGE_TYPE) BOX_STEEL"
-  },
-  "4F": {
-    "name": "[en] (PACKAGE_TYPE) BOX_WOOD"
-  },
-  "4G": {
-    "name": "[en] (PACKAGE_TYPE) BOX_FIBRE"
-  },
-  "5H": {
-    "name": "[en] (PACKAGE_TYPE) BAG_PLASTIC"
-  },
-  "5L": {
-    "name": "[en] (PACKAGE_TYPE) BAG_TEXTILE"
-  },
-  "5M": {
-    "name": "[en] (PACKAGE_TYPE) BAG_PAPER"
-  },
+  // UNECE 7065 package types, from a captured TRACES reference-data response.
+  // An empty name means the code genuinely has no display label: retrieved TRACES documents
+  // write <TypeCode listID="7065">NA</TypeCode> with no name attribute, and so does the simulator.
+
   "8B": {
     "name": "Wood crate"
   },
   "8C": {
     "name": "Wood Bundle"
-  },
-  "AJ": {
-    "name": "[en] (PACKAGE_TYPE) CONE"
   },
   "BA": {
     "name": "Barrel"
@@ -71,18 +30,6 @@
   "BL": {
     "name": "Bale"
   },
-  "BN": {
-    "name": "[en] (PACKAGE_TYPE) BALLE_NON_COMPRESSED"
-  },
-  "BQ": {
-    "name": "[en] (PACKAGE_TYPE) BOTTLE_PROTECTED"
-  },
-  "BS": {
-    "name": "[en] (PACKAGE_TYPE) BOTTLE_NON_PROTECTED"
-  },
-  "BT": {
-    "name": "[en] (PACKAGE_TYPE) PIECE"
-  },
   "BX": {
     "name": "Box"
   },
@@ -95,9 +42,6 @@
   "CF": {
     "name": "Coffer"
   },
-  "CG": {
-    "name": "[en] (PACKAGE_TYPE) CAGE"
-  },
   "CH": {
     "name": "Chest"
   },
@@ -106,9 +50,6 @@
   },
   "CK": {
     "name": "Cask"
-  },
-  "CL": {
-    "name": "[en] (PACKAGE_TYPE) COIL"
   },
   "CN": {
     "name": "Container"
@@ -122,35 +63,14 @@
   "CT": {
     "name": "Carton"
   },
-  "CU": {
-    "name": "[en] (PACKAGE_TYPE) CUP"
-  },
-  "CV": {
-    "name": "[en] (PACKAGE_TYPE) COVER"
-  },
-  "CW": {
-    "name": "[en] (PACKAGE_TYPE) CAGE_ROLL"
-  },
-  "CZ": {
-    "name": "[en] (PACKAGE_TYPE) CANVAS"
-  },
   "DK": {
     "name": "Crate, Bulk, Cardboard (Combo)"
-  },
-  "DL": {
-    "name": "[en] (PACKAGE_TYPE) CRATE_BULK_PLASTIC"
   },
   "DR": {
     "name": "Drum"
   },
-  "EC": {
-    "name": "[en] (PACKAGE_TYPE) BAG_PLASTICS"
-  },
   "EE": {
     "name": "Wooden case with pallet base"
-  },
-  "EF": {
-    "name": "[en] (PACKAGE_TYPE) CASE_PALLET_BASE"
   },
   "EN": {
     "name": "Envelope"
@@ -158,23 +78,11 @@
   "FB": {
     "name": "Flexibag"
   },
-  "FX": {
-    "name": "[en] (PACKAGE_TYPE) BAG_FLEXIBLE"
-  },
-  "GB": {
-    "name": "[en] (PACKAGE_TYPE) BOTTLE_GAS"
-  },
   "GR": {
     "name": "Bottle, flask and other glass packages"
   },
-  "GY": {
-    "name": "[en] (PACKAGE_TYPE) BAG_GUNNY"
-  },
   "IA": {
     "name": "Wood package display"
-  },
-  "JB": {
-    "name": "[en] (PACKAGE_TYPE) BAG_JUMBO"
   },
   "JR": {
     "name": "Jar"
@@ -188,14 +96,11 @@
   "LZ": {
     "name": "Logs"
   },
-  "MB": {
-    "name": "[en] (PACKAGE_TYPE) BAG_MULTIPLY"
+  "NA": {
+    "name": ""
   },
   "NE": {
     "name": "Unpacked or unpackaged"
-  },
-  "NT": {
-    "name": "[en] (PACKAGE_TYPE) NET"
   },
   "O2": {
     "name": "Trolley"
@@ -218,9 +123,6 @@
   "PO": {
     "name": "Pouch/ foil pouch"
   },
-  "PP": {
-    "name": "[en] (PACKAGE_TYPE) PIECES"
-  },
   "PT": {
     "name": "Pot"
   },
@@ -229,9 +131,6 @@
   },
   "PX": {
     "name": "Pallet"
-  },
-  "QC": {
-    "name": "[en] (PACKAGE_TYPE) DRUM_ALUMINIUM_NON_REMOVABLE"
   },
   "QH": {
     "name": "Wooden barrel"
@@ -260,14 +159,8 @@
   "SI": {
     "name": "Skid"
   },
-  "SS": {
-    "name": "[en] (PACKAGE_TYPE) CASE_STEEL"
-  },
   "ST": {
     "name": "Sheet"
-  },
-  "TC": {
-    "name": "[en] (PACKAGE_TYPE) TEA_CHEST"
   },
   "TK": {
     "name": "Tank, rectangular"
@@ -281,17 +174,8 @@
   "TU": {
     "name": "Tube"
   },
-  "TW": {
-    "name": "[en] (PACKAGE_TYPE) PELLET_TRIWALL"
-  },
   "TY": {
     "name": "Tank, cylindrical"
-  },
-  "UN": {
-    "name": "[en] (PACKAGE_TYPE) UNIT"
-  },
-  "VG": {
-    "name": "[en] (PACKAGE_TYPE) BULK_GAS"
   },
   "VI": {
     "name": "Vial"
@@ -302,40 +186,10 @@
   "VR": {
     "name": "Bulk"
   },
-  "VY": {
-    "name": "[en] (PACKAGE_TYPE) BULK_SOLID"
-  },
   "WA": {
     "name": "Intermediate bulk container"
   },
-  "XA": {
-    "name": "[en] (PACKAGE_TYPE) BAG_PLASTIC_WITHOUT_COAT"
-  },
-  "XB": {
-    "name": "[en] (PACKAGE_TYPE) BAG_PLASTIC_SIFT_PROOF"
-  },
-  "XC": {
-    "name": "[en] (PACKAGE_TYPE) BAG_PLASTIC_WATER_RESISTANT"
-  },
   "XD": {
     "name": "Plastics film"
-  },
-  "XF": {
-    "name": "[en] (PACKAGE_TYPE) BAG_TEXTILE_WITHOUT_COAT"
-  },
-  "XG": {
-    "name": "[en] (PACKAGE_TYPE) BAG_TEXTILE_SIFT_PROOF"
-  },
-  "XH": {
-    "name": "[en] (PACKAGE_TYPE) BAG_TEXTILE_WATER_RESISTANT"
-  },
-  "XJ": {
-    "name": "[en] (PACKAGE_TYPE) BAG_PAPER_WALL"
-  },
-  "XK": {
-    "name": "[en] (PACKAGE_TYPE) BAG_PAPER_WALL_WATER_RESISTANT"
-  },
-  "ZB": {
-    "name": "[en] (PACKAGE_TYPE) BAG_LARGE"
   }
 }

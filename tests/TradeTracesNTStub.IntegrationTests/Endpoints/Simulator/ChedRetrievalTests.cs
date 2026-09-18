@@ -9,15 +9,9 @@ using TracesNT.WebServices;
 namespace TradeTracesNTStub.IntegrationTests.Endpoints.Simulator;
 
 /// <summary>
-/// The round trip the control API and CHED retrieval exist to make possible: a CHED created through
-/// plain JSON, then read back through the gateway's own generated SOAP client.
+/// A CHED created through plain JSON, read back through the gateway's own SOAP client. With no
+/// read-back endpoint on the control API, this is the only proof data is persisted, not echoed.
 /// </summary>
-/// <remarks>
-/// There is no read-back endpoint on the control API by design, so this is the only test that proves
-/// data was actually persisted rather than merely echoed. It drives the SOAP side with the gateway's
-/// clients for the same reason <see cref="GatewayClientTests"/> does — a binding mismatch shows up
-/// here as a transport error rather than a fault.
-/// </remarks>
 [Trait("Category", "IntegrationTest")]
 public class ChedRetrievalTests
 {
@@ -34,32 +28,56 @@ public class ChedRetrievalTests
 
     private static HttpClient Control() => new() { BaseAddress = new Uri(BaseUrl) };
 
+    /// <summary>
+    /// A CHED-A carrying what a submitter carries. Written out rather than built so these tests
+    /// exercise the HTTP contract directly; the TestKit builders are covered in <see cref="TestKitTests"/>.
+    /// </summary>
+    private static object AChedA(bool accessible = true, string cnCode = "0101") =>
+        new
+        {
+            status = "VALIDATED",
+            accessible,
+            exchangedDocument = new
+            {
+                includedNote = new Dictionary<string, string> { ["CHED_TYPE"] = "A" },
+                declaration = new
+                {
+                    includedClause = new Dictionary<string, string>
+                    {
+                        ["PURPOSE"] = "FREE_CIRCULATION",
+                        ["GOODS_CERTIFIED_AS"] = "FATTENING",
+                    },
+                },
+            },
+            specifiedConsignment = new
+            {
+                exportCountry = "AF",
+                importCountry = "XI",
+                consignorParty = new { identifier = "770198", postalAddress = new { countryId = "XI" } },
+                unloadingBaseportLocation = new { identifier = "GBBEL", countryId = "XI" },
+                includedConsignmentItem = new
+                {
+                    natureIdCargo = "12",
+                    includedTradeLineItem = new[]
+                    {
+                        new
+                        {
+                            applicableClassification = new Dictionary<string, string> { ["CN"] = cnCode },
+                            originCountry = "AF",
+                            physicalReferencedLogisticsPackage = new { typeCode = "BX", itemQuantity = 2 },
+                        },
+                    },
+                },
+            },
+        };
+
     [Fact]
     public async Task ACheddCreatedThroughTheControlApiIsServedOverSoap()
     {
         var token = TestContext.Current.CancellationToken;
         using var control = Control();
 
-        var id = await CreateChed(
-            control,
-            new
-            {
-                type = "A",
-                status = "VALIDATED",
-                borderControlPost = "GBBEL",
-                commodities = new[]
-                {
-                    new
-                    {
-                        cnCode = "0101",
-                        originCountry = "AF",
-                        packageType = "BX",
-                        packageCount = 2,
-                    },
-                },
-            },
-            token
-        );
+        var id = await CreateChed(control, AChedA(), token);
 
         var certificate = await GetCertificate(id);
 
@@ -76,16 +94,7 @@ public class ChedRetrievalTests
         var token = TestContext.Current.CancellationToken;
         using var control = Control();
 
-        var id = await CreateChed(
-            control,
-            new
-            {
-                type = "A",
-                status = "VALIDATED",
-                commodities = new[] { new { cnCode = "0101", originCountry = "AF" } },
-            },
-            token
-        );
+        var id = await CreateChed(control, AChedA(), token);
 
         var document = (await GetCertificate(id))!.SPSExchangedDocument;
         var line = (await GetCertificate(id))!
@@ -117,7 +126,7 @@ public class ChedRetrievalTests
         var token = TestContext.Current.CancellationToken;
         using var control = Control();
 
-        var id = await CreateChed(control, new { type = "A", accessible = false }, token);
+        var id = await CreateChed(control, AChedA(accessible: false), token);
 
         var act = () => GetCertificate(id);
 
@@ -133,30 +142,13 @@ public class ChedRetrievalTests
         var token = TestContext.Current.CancellationToken;
         using var control = Control();
 
-        var id = await CreateChed(control, new { type = "A" }, token);
+        var id = await CreateChed(control, AChedA(), token);
 
         (await control.PostAsync("/control/reset", null, token)).EnsureSuccessStatusCode();
 
         var act = () => GetCertificate(id);
 
         await act.Should().ThrowAsync<FaultException<ChedCertificateNotFoundExceptionType>>();
-    }
-
-    [Fact]
-    public async Task ResetToAFixtureSetLoadsIt()
-    {
-        var token = TestContext.Current.CancellationToken;
-        using var control = Control();
-
-        var response = await control.PostAsync("/control/reset?fixtureSet=baseline", null, token);
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        // The set deliberately contains a CHED that cannot be read, standing in for the FORBIDDEN
-        // magic ID the gateway's own CHED tests use.
-        var act = () => GetCertificate("FORBIDDEN");
-
-        await act.Should().ThrowAsync<FaultException<ChedCertificatePermissionDeniedExceptionType>>();
     }
 
     [Fact]
@@ -167,7 +159,7 @@ public class ChedRetrievalTests
 
         var response = await control.PostAsJsonAsync(
             "/control/cheds",
-            new { type = "A", commodities = new[] { new { cnCode = "9999999999" } } },
+            AChedA(cnCode: "9999999999"),
             token
         );
 
@@ -176,6 +168,56 @@ public class ChedRetrievalTests
             .Should()
             .Contain("cn_code")
             .And.Contain("SeedData");
+    }
+
+    [Fact]
+    public async Task FindReturnsWhatWasStoredAndSkipsWhatIsNotAccessible()
+    {
+        var token = TestContext.Current.CancellationToken;
+        using var control = Control();
+
+        // No reset: it would empty the store under whichever test class is running beside this one.
+        var visible = await CreateChed(control, AChedA(), token);
+        var hidden = await CreateChed(control, AChedA(accessible: false), token);
+
+        var results = await Find(pageSize: 100);
+
+        results.Select(result => result.ID).Should().Contain(visible).And.NotContain(hidden);
+        results.Single(result => result.ID == visible).Status.name.Should().Be("Issued (Validated)");
+    }
+
+    [Fact]
+    public async Task FindPagesWithOneBasedOffsets()
+    {
+        // Deliberately no assertion on the total: test classes run in parallel, so another class may
+        // be creating CHEDs while this one runs. What is asserted is the page size as a cap, and that
+        // an offset moves the window — offsets being 1-based, as the generated clients assume.
+        var token = TestContext.Current.CancellationToken;
+        using var control = Control();
+
+        await CreateChed(control, AChedA(), token);
+        await CreateChed(control, AChedA(), token);
+
+        var firstPage = await Find(pageSize: 1);
+        var secondPage = await Find(pageSize: 1, offset: 2);
+
+        firstPage.Should().ContainSingle();
+        secondPage.Should().ContainSingle();
+        secondPage[0].ID.Should().NotBe(firstPage[0].ID);
+    }
+
+    private static async Task<IReadOnlyList<ChedCertificateQueryResultType>> Find(int pageSize = 10, int offset = 1)
+    {
+        var response = await Client()
+            .findChedCertificateAsync(
+                new SecurityHeaderType(),
+                s_credentials.WebServiceClientId,
+                ISO2AlphaLanguageCodeContentType.en,
+                [],
+                new FindChedCertificateRequestType { pageSize = pageSize, offset = offset }
+            );
+
+        return response.FindChedCertificateResponse1?.ChedCertificateResult ?? [];
     }
 
     private static async Task<string> CreateChed(HttpClient control, object model, CancellationToken token)
@@ -189,8 +231,8 @@ public class ChedRetrievalTests
         return created.GetProperty("id").GetString()!;
     }
 
-    /// <summary>Shared with <see cref="TestKitTests"/> so the client setup lives in one place.</summary>
-    internal static async Task<SPSCertificateType?> GetCertificate(string id)
+    /// <summary>The gateway's own client, bound exactly as the gateway binds it.</summary>
+    private static ChedCertificatePortClient Client()
     {
         var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
         {
@@ -204,7 +246,13 @@ public class ChedRetrievalTests
         );
         client.Endpoint.EndpointBehaviors.Add(new WsSecurityEndpointBehavior(s_credentials));
 
-        var response = await client.getChedCertificateAsync(
+        return client;
+    }
+
+    /// <summary>Shared with <see cref="TestKitTests"/> so the client setup lives in one place.</summary>
+    internal static async Task<SPSCertificateType?> GetCertificate(string id)
+    {
+        var response = await Client().getChedCertificateAsync(
             new SecurityHeaderType(),
             s_credentials.WebServiceClientId,
             ISO2AlphaLanguageCodeContentType.en,

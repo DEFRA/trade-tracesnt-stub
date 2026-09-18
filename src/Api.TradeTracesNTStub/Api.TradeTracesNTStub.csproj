@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <!-- Fixture sets are plain files so a scenario can be added and reviewed without a rebuild. -->
-    <Content Update="fixtures\**\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
