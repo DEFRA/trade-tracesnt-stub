@@ -211,7 +211,32 @@ public class ChedRetrievalTests
     private static async Task Reset(HttpClient control, CancellationToken token) =>
         (await control.PostAsync("/control/reset", null, token)).EnsureSuccessStatusCode();
 
-    private static async Task<IReadOnlyList<ChedCertificateQueryResultType>> Find(int pageSize = 10, int offset = 1)
+    [Fact]
+    public async Task FindNarrowsToTheUpdateDateRange()
+    {
+        // The simulator stamps the update time as it stores, so the moment between the two creates
+        // is a boundary the test knows without the control API having to expose one. A range opening
+        // there must hold the second CHED and not the first.
+        var token = TestContext.Current.CancellationToken;
+        using var control = Control();
+
+        var before = await CreateChed(control, AChedA(), token);
+        var between = DateTime.UtcNow;
+        var after = await CreateChed(control, AChedA(), token);
+
+        var matching = await Find(pageSize: 100, from: between);
+        var missing = await Find(pageSize: 100, from: between.AddYears(1), to: between.AddYears(2));
+
+        matching.Select(result => result.ID).Should().Contain(after).And.NotContain(before);
+        missing.Should().BeEmpty();
+    }
+
+    private static async Task<IReadOnlyList<ChedCertificateQueryResultType>> Find(
+        int pageSize = 10,
+        int offset = 1,
+        DateTime from = default,
+        DateTime to = default
+    )
     {
         var response = await Client()
             .findChedCertificateAsync(
@@ -219,7 +244,12 @@ public class ChedRetrievalTests
                 s_credentials.WebServiceClientId,
                 ISO2AlphaLanguageCodeContentType.en,
                 [],
-                new FindChedCertificateRequestType { pageSize = pageSize, offset = offset }
+                new FindChedCertificateRequestType
+                {
+                    UpdateDateTimeRange = new DateTimeRange { From = from, To = to },
+                    pageSize = pageSize,
+                    offset = offset,
+                }
             );
 
         return response.FindChedCertificateResponse1?.ChedCertificateResult ?? [];
