@@ -30,12 +30,17 @@ public static class ChedControlEndpoints
                 "Stores exactly the certificate described, filling in only what TRACES itself fills "
                     + "in — display names, registry lookups and schema scaffolding. Read it back "
                     + "through the SOAP face with getChedCertificate."
-            );
+            )
+            .Produces<StoredChedResponse>(StatusCodes.Status201Created)
+            .ProducesProblem(StatusCodes.Status400BadRequest);
 
         control
             .MapPut("/cheds/{id}", Update)
             .WithSummary("Replace a CHED")
-            .WithDescription("Rebuilds the CHED from the supplied model, keeping its ID.");
+            .WithDescription("Rebuilds the CHED from the supplied model, keeping its ID.")
+            .Produces<StoredChedResponse>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         control
             .MapPatch("/cheds/{id}", Patch)
@@ -44,14 +49,22 @@ public static class ChedControlEndpoints
                 "Merges the supplied fields into the stored CHED. Notes and clauses merge key by key, "
                     + "so submitting a decision means sending just the clearance block and the new "
                     + "status. Absent fields are left alone; use PUT to clear one."
-            );
+            )
+            .Produces<StoredChedResponse>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
-        control.MapDelete("/cheds/{id}", Delete).WithSummary("Delete a CHED");
+        control
+            .MapDelete("/cheds/{id}", Delete)
+            .WithSummary("Delete a CHED")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         control
             .MapPost("/reset", Reset)
             .WithSummary("Reset simulator state")
-            .WithDescription("Clears every CHED. A test states the CHEDs it needs rather than resetting to a set.");
+            .WithDescription("Clears every CHED. A test states the CHEDs it needs rather than resetting to a set.")
+            .Produces<ResetResponse>();
 
         return app;
     }
