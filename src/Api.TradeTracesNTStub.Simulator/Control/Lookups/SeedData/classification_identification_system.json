@@ -1,0 +1,23 @@
+{
+  "BRAND": {
+    "name": "Brand"
+  },
+  "EAR_TAG": {
+    "name": "Ear tag"
+  },
+  "LEG_RING": {
+    "name": "Leg-ring"
+  },
+  "PASSPORT": {
+    "name": "Passport"
+  },
+  "TATTOO": {
+    "name": "Tattoo"
+  },
+  "TRANSPONDER": {
+    "name": "Transponder"
+  },
+  "UNIQUE_CODE": {
+    "name": "Unique code"
+  }
+}

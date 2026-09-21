@@ -1,0 +1,26 @@
+{
+  "ANIMAL_ESTABLISHMENT": {
+    "name": "Animal establishment",
+    "listName": "Operator activity type"
+  },
+  "ANIMAL_EXPORTER": {
+    "name": "Animal exporter",
+    "listName": "Operator activity type"
+  },
+  "IMPORTER": {
+    "name": "Importer",
+    "listName": "Operator activity type"
+  },
+  "PROFESSIONAL_OPERATOR": {
+    "name": "Professional operator",
+    "listName": "Operator activity type"
+  },
+  "REGISTERED_PROFESSIONAL_OPERATOR": {
+    "name": "Professional operators referred to in Article 45(1)(l) IMSOC",
+    "listName": "Operator activity type"
+  },
+  "RESPONSIBLE_FOR_THE_LOAD": {
+    "name": "Responsible for the load",
+    "listName": "Operator activity type"
+  }
+}

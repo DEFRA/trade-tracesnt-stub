@@ -73,8 +73,14 @@ static void ConfigureBuilder(WebApplicationBuilder builder)
     // Set up WireMock Hosted Service
     builder.Services.AddWireMockHostedService();
 
-    // Set up the CoreWCF TRACES NT simulator.
+    // Set up the CoreWCF TRACES NT simulator and its REST control API.
     builder.Services.AddTracesNtSimulator(builder.Configuration);
+    builder.Services.AddOpenApi();
+
+    // The control API's enums read far better as names than as numbers.
+    builder.Services.ConfigureHttpJsonOptions(options =>
+        options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter())
+    );
 }
 
 [ExcludeFromCodeCoverage]
@@ -85,6 +91,10 @@ static WebApplication SetupApplication(WebApplication app)
     app.MapHealthChecks("/health");
     
     app.UseSampleEndpoints();
+
+    // The control API is the simulator's simple face: JSON fixtures in, SOAP out.
+    app.UseChedControlApi();
+    app.MapOpenApi();
 
     // The simulator owns the five TRACES service paths; the WireMock stub owns /mock and /proxy.
     app.UseTracesNtSimulator();
