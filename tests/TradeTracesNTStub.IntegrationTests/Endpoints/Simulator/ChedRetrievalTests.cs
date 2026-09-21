@@ -13,6 +13,7 @@ namespace TradeTracesNTStub.IntegrationTests.Endpoints.Simulator;
 /// read-back endpoint on the control API, this is the only proof data is persisted, not echoed.
 /// </summary>
 [Trait("Category", "IntegrationTest")]
+[Collection(SimulatorStateCollection.Name)]
 public class ChedRetrievalTests
 {
     private const string BaseUrl = "http://localhost:8085";
@@ -144,7 +145,7 @@ public class ChedRetrievalTests
 
         var id = await CreateChed(control, AChedA(), token);
 
-        (await control.PostAsync("/control/reset", null, token)).EnsureSuccessStatusCode();
+        await Reset(control, token);
 
         var act = () => GetCertificate(id);
 
@@ -176,35 +177,39 @@ public class ChedRetrievalTests
         var token = TestContext.Current.CancellationToken;
         using var control = Control();
 
-        // No reset: it would empty the store under whichever test class is running beside this one.
+        await Reset(control, token);
+
         var visible = await CreateChed(control, AChedA(), token);
-        var hidden = await CreateChed(control, AChedA(accessible: false), token);
+        await CreateChed(control, AChedA(accessible: false), token);
 
         var results = await Find(pageSize: 100);
 
-        results.Select(result => result.ID).Should().Contain(visible).And.NotContain(hidden);
-        results.Single(result => result.ID == visible).Status.name.Should().Be("Issued (Validated)");
+        results.Select(result => result.ID).Should().Equal(visible);
+        results.Single().Status.name.Should().Be("Issued (Validated)");
     }
 
     [Fact]
     public async Task FindPagesWithOneBasedOffsets()
     {
-        // Deliberately no assertion on the total: test classes run in parallel, so another class may
-        // be creating CHEDs while this one runs. What is asserted is the page size as a cap, and that
-        // an offset moves the window — offsets being 1-based, as the generated clients assume.
         var token = TestContext.Current.CancellationToken;
         using var control = Control();
 
-        await CreateChed(control, AChedA(), token);
-        await CreateChed(control, AChedA(), token);
+        await Reset(control, token);
+
+        var older = await CreateChed(control, AChedA(), token);
+        var newer = await CreateChed(control, AChedA(), token);
 
         var firstPage = await Find(pageSize: 1);
         var secondPage = await Find(pageSize: 1, offset: 2);
 
-        firstPage.Should().ContainSingle();
-        secondPage.Should().ContainSingle();
-        secondPage[0].ID.Should().NotBe(firstPage[0].ID);
+        // Newest first, and offset 2 is the second result rather than the third — 1-based, as the
+        // generated clients assume. An off-by-one here would silently skip a CHED on every page.
+        firstPage.Select(result => result.ID).Should().Equal(newer);
+        secondPage.Select(result => result.ID).Should().Equal(older);
     }
+
+    private static async Task Reset(HttpClient control, CancellationToken token) =>
+        (await control.PostAsync("/control/reset", null, token)).EnsureSuccessStatusCode();
 
     private static async Task<IReadOnlyList<ChedCertificateQueryResultType>> Find(int pageSize = 10, int offset = 1)
     {

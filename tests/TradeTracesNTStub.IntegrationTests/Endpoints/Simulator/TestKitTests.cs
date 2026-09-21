@@ -9,6 +9,7 @@ namespace TradeTracesNTStub.IntegrationTests.Endpoints.Simulator;
 /// client, rather than reaching past them into the HTTP API.
 /// </summary>
 [Trait("Category", "IntegrationTest")]
+[Collection(SimulatorStateCollection.Name)]
 public class TestKitTests
 {
     private static readonly SimulatorControlClient s_simulator = SimulatorControlClient.At("http://localhost:8085");

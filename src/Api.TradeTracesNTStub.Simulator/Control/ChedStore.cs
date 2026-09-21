@@ -29,8 +29,8 @@ public sealed class ChedStore(string countryCode = "XI")
     public bool Remove(string id) => _cheds.TryRemove(id, out _);
 
     /// <summary>
-    /// Leaves the serial where it is. Test classes run in parallel, so rewinding it would re-issue
-    /// an ID another test still holds, and a CHED it expects to be gone would answer instead.
+    /// Leaves the serial where it is. One simulator serves every client pointed at it, so rewinding
+    /// would re-issue an ID a caller still holds, and a CHED it expects to be gone would answer instead.
     /// </summary>
     public void Clear() => _cheds.Clear();
 }
