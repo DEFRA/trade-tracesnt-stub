@@ -48,11 +48,6 @@ POST   /control/reset            empty the simulator
 in.** Nothing is defaulted on your behalf, so a request is the certificate — you can read one
 and know what comes back.
 
-That boundary is not guesswork. DG SANTE publish it per element in the CHED mapping workbook
-(`TNT-UN-CEFACT-Mappings-CHED-V2.xlsx`, sheet `CHED`, column `Issue`): `M`/`O`/`C` are the
-submitter's, `N` is TRACES's. The control model covers the first set; `Control/Mapping` derives the
-second.
-
 What that means in practice — you send a code, and the simulator supplies what TRACES would:
 
 | You send | The simulator adds |
@@ -62,9 +57,6 @@ What that means in practice — you send a code, and the simulator supplies what
 | a CN code | its full description hierarchy, up to four levels |
 | a clause code | the display text beside it |
 | any code | `name=`, `listName=`, `schemeName=` |
-
-Worked examples are in `tickets/create-update-ched-examples/` — `1.submitForDecision.http` creates a
-CHED, `4.submitInspectionDecision.http` decides it.
 
 ### Creating and deciding
 
