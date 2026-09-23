@@ -3,16 +3,29 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>Defra.Trade.TracesNtStub.TestKit</PackageId>
+    <!-- Bump on every change you want consumers to receive: the publish workflow skips a version
+         already on the feed. -->
+    <VersionPrefix>0.1.0</VersionPrefix>
     <Description>
       Builders and a client for the TRACES NT simulator's control API, so a test can set up CHED
       fixtures without hand-writing JSON.
     </Description>
+    <Company>DEFRA</Company>
+    <RepositoryUrl>https://github.com/DEFRA/trade-tracesnt-stub</RepositoryUrl>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeSimulatorInPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Reuses the simulator's own control models rather than mirroring them. That couples the two
-         projects, which is the point: a mirrored copy would drift silently from the API it targets. -->
-    <ProjectReference Include="..\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj" />
+    <!-- Reuses the simulator's control models so they can't drift from the API. Its dll ships inside
+         this package; the models need only the BCL, so its dependencies don't. -->
+    <ProjectReference Include="..\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj"
+                      PrivateAssets="all" />
   </ItemGroup>
+
+  <Target Name="IncludeSimulatorInPackage" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+    </ItemGroup>
+  </Target>
 
 </Project>

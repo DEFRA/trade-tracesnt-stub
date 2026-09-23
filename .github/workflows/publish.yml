@@ -9,7 +9,7 @@ permissions:
   id-token: write
   contents: write
   pull-requests: write
-  packages: read
+  packages: write
 
 env:
   AWS_REGION: eu-west-2
@@ -37,6 +37,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           build-secrets: |
             nuget_pat=${{ secrets.GITHUB_TOKEN }}
+      # Only the TestKit is published; the simulator ships inside it.
+      - name: Pack TestKit
+        run: dotnet pack src/Api.TradeTracesNTStub.TestKit --configuration Release -o ./nupkg
+      - name: Publish TestKit
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate
   ## SonarCloud
   ## Uncomment to unable SonarCloud scan
   ## Requires project to be set up in SonarCloud
