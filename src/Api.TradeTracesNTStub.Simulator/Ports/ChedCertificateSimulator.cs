@@ -53,9 +53,10 @@ public class ChedCertificateSimulator(ChedStore store) : ChedCertificatePort
     ) => throw SimulatorFaults.NotImplemented("getChedSignedXmlCertificate");
 
     /// <summary>
-    /// Every stored CHED, newest first, paged with 1-based offsets. Deliberately unfiltered: the
-    /// request carries two dozen criteria, and honouring some but not others would leave a caller
-    /// unable to tell which applied. A test that wants one CHED asks for it by ID.
+    /// The stored CHEDs a caller may see, narrowed to an update-date range, newest first, paged with
+    /// 1-based offsets. Update date is the only criterion honoured: the request carries two dozen
+    /// more, and honouring some but not others would leave a caller unable to tell which applied. A
+    /// test that wants one CHED asks for it by ID.
     /// </summary>
     public Task<FindChedCertificateResponse> findChedCertificateAsync(FindChedCertificateRequest request)
     {
@@ -67,7 +68,11 @@ public class ChedCertificateSimulator(ChedStore store) : ChedCertificatePort
         var results = store
             .All.Where(ched => ched.Accessible)
             .Select(ched => ChedSummary.Of(ched.Certificate))
+            .Where(summary => UpdatedWithin(query?.UpdateDateTimeRange, summary.UpdateDateTime))
             .OrderByDescending(summary => summary.UpdateDateTime)
+            // The ID breaks ties. Two CHEDs stamped in the same tick could otherwise swap places
+            // between two calls, and a caller paging through would see one twice and the other never.
+            .ThenByDescending(summary => summary.ID, StringComparer.Ordinal)
             .Skip(skip)
             .Take(pageSize);
 
@@ -82,6 +87,35 @@ public class ChedCertificateSimulator(ChedStore store) : ChedCertificatePort
             )
         );
     }
+
+    /// <summary>
+    /// Both bounds are inclusive, and a bound left at its default is no bound — <c>From</c> and
+    /// <c>To</c> are plain datetimes with no companion <c>Specified</c> flag, so an omitted one
+    /// arrives as <c>0001-01-01</c> and a <c>To</c> read literally would match nothing. Nothing DG
+    /// SANTE publish makes the range half-open, and inventing an exclusive end here would hide a
+    /// gateway paging bug rather than expose it.
+    /// </summary>
+    private static bool UpdatedWithin(DateTimeRange? range, DateTime updated)
+    {
+        if (range is null)
+        {
+            return true;
+        }
+
+        var moment = Utc(updated);
+
+        return (range.From == default || moment >= Utc(range.From))
+            && (range.To == default || moment <= Utc(range.To));
+    }
+
+    /// <summary>
+    /// The search bounds arrive at the host's offset while stored update times are UTC, and comparing
+    /// the two unconverted compares wall-clock readings from different clocks.
+    /// </summary>
+    private static DateTime Utc(DateTime value) =>
+        value.Kind == DateTimeKind.Unspecified
+            ? DateTime.SpecifyKind(value, DateTimeKind.Utc)
+            : value.ToUniversalTime();
 
     public Task<GetChedCertificateStatusResponse> getChedCertificateStatusAsync(
         GetChedCertificateStatusRequest request
