@@ -13,7 +13,7 @@ on:
 
 permissions:
   contents: read
-  packages: read
+  packages: write
 
 jobs:
   pr-validator:
@@ -57,6 +57,22 @@ jobs:
             --ignore-unfixed \
             --exit-code 1 \
             trade-tracesnt-stub:latest
+      # Dependabot's token can't write packages.
+      - name: Pack TestKit
+        if: github.actor != 'dependabot[bot]'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          dotnet pack src/Api.TradeTracesNTStub.TestKit --configuration Release -o ./nupkg \
+            /p:VersionSuffix="pr-$PR_NUMBER.$BUILD_NUMBER"
+      - name: Publish TestKit
+        if: github.actor != 'dependabot[bot]'
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate
     ## SonarCloud
     ## Uncomment to unable SonarCloud scan
     ## Requires project to be set up in SonarCloud

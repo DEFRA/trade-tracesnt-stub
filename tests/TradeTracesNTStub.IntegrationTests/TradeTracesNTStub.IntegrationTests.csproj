@@ -12,6 +12,9 @@
   <ItemGroup>
     <!-- Consumes the TestKit exactly as the journey tests will. -->
     <ProjectReference Include="..\..\src\Api.TradeTracesNTStub.TestKit\Api.TradeTracesNTStub.TestKit.csproj" />
+    <!-- The package carries the simulator's dll for its control models, but a project reference
+         doesn't flow it on, so it's referenced directly here. -->
+    <ProjectReference Include="..\..\src\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj" />
   </ItemGroup>
 
   <ItemGroup>
