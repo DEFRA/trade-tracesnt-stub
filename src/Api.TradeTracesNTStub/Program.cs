@@ -93,7 +93,7 @@ static WebApplication SetupApplication(WebApplication app)
     app.UseSampleEndpoints();
 
     // The control API is the simulator's simple face: JSON fixtures in, SOAP out.
-    app.UseChedControlApi();
+    app.UseControlApi();
     app.MapOpenApi();
 
     // The simulator owns the five TRACES service paths; the WireMock stub owns /mock and /proxy.

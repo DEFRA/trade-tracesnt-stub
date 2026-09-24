@@ -13,13 +13,13 @@ namespace TradeTracesNTStub.Test.Simulator;
 /// </summary>
 public class ChedSummaryTests
 {
-    private static readonly ChedCertificateBuilder s_builder = new(
+    private static readonly SpsCertificateBuilder s_builder = new(
         CodeLists.Seeded,
         Registry<OperatorEntry>.Load("operators.json"),
         Registry<AuthorityEntry>.Load("authorities.json")
     );
 
-    private static ChedControlModel AChedA =>
+    private static CertificateControlModel AChedA =>
         new()
         {
             Status = "VALIDATED",
@@ -66,8 +66,8 @@ public class ChedSummaryTests
             },
         };
 
-    private static ChedCertificateQueryResultType Summary(ChedControlModel model) =>
-        ChedSummary.Of(s_builder.Build(model, "CHEDA.XI.2026.0000001"));
+    private static ChedCertificateQueryResultType Summary(CertificateControlModel model) =>
+        ChedSummary.Of(s_builder.Build(CertificateKind.Ched, model, "CHEDA.XI.2026.0000001"));
 
     [Fact]
     public void TheTypeAndStatusCarryTheirDisplayNames()

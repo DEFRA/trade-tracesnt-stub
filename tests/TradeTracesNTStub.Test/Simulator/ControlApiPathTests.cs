@@ -16,7 +16,7 @@ public class ControlApiPathTests
         TracesNtServices
             .CredentialKeyByPath.Keys.Should()
             .AllSatisfy(path =>
-                path.StartsWith(ChedControlEndpoints.Prefix, StringComparison.OrdinalIgnoreCase)
+                path.StartsWith(ControlEndpoints.Prefix, StringComparison.OrdinalIgnoreCase)
                     .Should()
                     .BeFalse($"{path} must not sit under the control API prefix")
             );
@@ -30,10 +30,10 @@ public class ControlApiPathTests
         taken
             .Should()
             .AllSatisfy(path =>
-                path.StartsWith(ChedControlEndpoints.Prefix, StringComparison.OrdinalIgnoreCase).Should().BeFalse()
+                path.StartsWith(ControlEndpoints.Prefix, StringComparison.OrdinalIgnoreCase).Should().BeFalse()
             );
 
-        taken.Should().NotContain(ChedControlEndpoints.Prefix);
-        ChedControlEndpoints.Prefix.Should().StartWith("/");
+        taken.Should().NotContain(ControlEndpoints.Prefix);
+        ControlEndpoints.Prefix.Should().StartWith("/");
     }
 }

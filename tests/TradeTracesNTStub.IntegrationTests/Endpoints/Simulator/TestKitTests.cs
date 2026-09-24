@@ -14,7 +14,7 @@ public class TestKitTests
 {
     private static readonly SimulatorControlClient s_simulator = SimulatorControlClient.At("http://localhost:8085");
 
-    private static ChedBuilder AChedA() =>
+    private static CertificateBuilder AChedA() =>
         Ched.ChedA()
             .WithStatus("NEW")
             .WithDeclaration(declaration => declaration.Declaring("FREE_CIRCULATION", "FATTENING"))

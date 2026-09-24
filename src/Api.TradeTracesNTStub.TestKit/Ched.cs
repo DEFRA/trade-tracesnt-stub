@@ -8,52 +8,63 @@ namespace Api.TradeTracesNTStub.TestKit;
 /// </summary>
 public static class Ched
 {
-    public static ChedBuilder ChedA() => OfType("A");
+    public static CertificateBuilder ChedA() => OfType("A");
 
-    public static ChedBuilder ChedP() => OfType("P");
+    public static CertificateBuilder ChedP() => OfType("P");
 
-    public static ChedBuilder ChedPP() => OfType("PP");
+    public static CertificateBuilder ChedPP() => OfType("PP");
 
-    public static ChedBuilder ChedD() => OfType("D");
+    public static CertificateBuilder ChedD() => OfType("D");
 
-    public static ChedBuilder OfType(string chedType) => new(chedType);
+    // The type is a note, not a field — the same place TRACES keeps it.
+    public static CertificateBuilder OfType(string chedType) => new(new() { ["CHED_TYPE"] = chedType });
 }
 
-public class ChedBuilder
+/// <summary>
+/// An INTRA is built exactly like a CHED — the schema is the same. What it needs instead of a CHED
+/// type is its certificate model, which becomes the document's name.
+/// </summary>
+public static class Intra
+{
+    /// <summary>E.g. <c>Intra.OfModel("64/432 (2016/2008) F1 Bovine")</c>.</summary>
+    public static CertificateBuilder OfModel(string certificateModel) => new([], certificateModel);
+}
+
+/// <summary>A CHED or INTRA fixture. Created by <see cref="Ched"/> or <see cref="Intra"/>.</summary>
+public class CertificateBuilder
 {
     private readonly Dictionary<string, string> _notes;
-    private ChedControlModel _model;
+    private CertificateControlModel _model;
 
-    internal ChedBuilder(string chedType)
+    internal CertificateBuilder(Dictionary<string, string> notes, string? name = null)
     {
-        // The type is a note, not a field — the same place TRACES keeps it.
-        _notes = new Dictionary<string, string> { ["CHED_TYPE"] = chedType };
-        _model = new ChedControlModel();
+        _notes = notes;
+        _model = new CertificateControlModel { ExchangedDocument = new ExchangedDocumentModel { Name = name } };
     }
 
-    public ChedBuilder WithId(string id) => Set(model => model with { Id = id });
+    public CertificateBuilder WithId(string id) => Set(model => model with { Id = id });
 
     /// <summary>Status by TRACES code (<c>1</c>) or alias (<c>NEW</c>, <c>VALIDATED</c>).</summary>
-    public ChedBuilder WithStatus(string status) => Set(model => model with { Status = status });
+    public CertificateBuilder WithStatus(string status) => Set(model => model with { Status = status });
 
     /// <summary>Makes the SOAP face refuse this CHED with a permission-denied fault.</summary>
-    public ChedBuilder NotAccessible() => Set(model => model with { Accessible = false });
+    public CertificateBuilder NotAccessible() => Set(model => model with { Accessible = false });
 
-    public ChedBuilder WithNote(string subjectCode, string value)
+    public CertificateBuilder WithNote(string subjectCode, string value)
     {
         _notes[subjectCode] = value;
         return this;
     }
 
     /// <summary>The applicant's declaration — purpose, what the goods are certified as.</summary>
-    public ChedBuilder WithDeclaration(Action<AuthenticationBuilder> build) =>
+    public CertificateBuilder WithDeclaration(Action<AuthenticationBuilder> build) =>
         Document(document => document with { Declaration = Authentication(build) });
 
     /// <summary>The official inspector's decision. Adding it is what "deciding" a CHED means.</summary>
-    public ChedBuilder WithClearance(Action<AuthenticationBuilder> build) =>
+    public CertificateBuilder WithClearance(Action<AuthenticationBuilder> build) =>
         Document(document => document with { Clearance = Authentication(build) });
 
-    public ChedBuilder WithSupportingDocument(string typeCode, string reference, string issuingCountry) =>
+    public CertificateBuilder WithSupportingDocument(string typeCode, string reference, string issuingCountry) =>
         Document(document =>
             document with
             {
@@ -71,7 +82,7 @@ public class ChedBuilder
             }
         );
 
-    public ChedBuilder WithConsignment(Action<ConsignmentBuilder> build)
+    public CertificateBuilder WithConsignment(Action<ConsignmentBuilder> build)
     {
         var builder = new ConsignmentBuilder(_model.SpecifiedConsignment);
         build(builder);
@@ -79,7 +90,7 @@ public class ChedBuilder
         return Set(model => model with { SpecifiedConsignment = builder.Build() });
     }
 
-    public ChedControlModel Build() =>
+    public CertificateControlModel Build() =>
         _model with
         {
             ExchangedDocument = _model.ExchangedDocument with { IncludedNote = _notes },
@@ -92,10 +103,10 @@ public class ChedBuilder
         return builder.Build();
     }
 
-    private ChedBuilder Document(Func<ExchangedDocumentModel, ExchangedDocumentModel> change) =>
+    private CertificateBuilder Document(Func<ExchangedDocumentModel, ExchangedDocumentModel> change) =>
         Set(model => model with { ExchangedDocument = change(model.ExchangedDocument) });
 
-    private ChedBuilder Set(Func<ChedControlModel, ChedControlModel> change)
+    private CertificateBuilder Set(Func<CertificateControlModel, CertificateControlModel> change)
     {
         _model = change(_model);
         return this;
@@ -163,6 +174,9 @@ public class ConsignmentBuilder(ConsignmentModel model)
     public ConsignmentBuilder ArrivingOn(DateTimeOffset when) =>
         Set(consignment => consignment with { AvailabilityDueDateTime = when });
 
+    public ConsignmentBuilder LeavingOn(DateTimeOffset when) =>
+        Set(consignment => consignment with { ExportExitDateTime = when });
+
     public ConsignmentBuilder ExportedFrom(string countryCode) =>
         Set(consignment => consignment with { ExportCountry = countryCode });
 
@@ -177,6 +191,9 @@ public class ConsignmentBuilder(ConsignmentModel model)
 
     public ConsignmentBuilder WithDeliveryParty(Action<PartyBuilder> build) =>
         Set(consignment => consignment with { DeliveryParty = Party(build) });
+
+    public ConsignmentBuilder WithDespatchParty(Action<PartyBuilder> build) =>
+        Set(consignment => consignment with { DespatchParty = Party(build) });
 
     public ConsignmentBuilder WithCustomsTransitAgent(Action<PartyBuilder> build) =>
         Set(consignment => consignment with { CustomsTransitAgentParty = Party(build) });

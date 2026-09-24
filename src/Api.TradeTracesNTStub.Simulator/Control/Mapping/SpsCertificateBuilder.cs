@@ -5,66 +5,40 @@ using TracesNT.WebServices;
 namespace Api.TradeTracesNTStub.Simulator.Control.Mapping;
 
 /// <summary>
-/// Builds the TRACES certificate the SOAP face serves. Everything is copied from the control model or
-/// derived the way TRACES derives it; nothing is invented on the client's behalf. Deriving is not
-/// cosmetic — Trade Gateway copies every <c>name=</c> and never looks one up, so a code written
-/// without its display name reaches a consumer as a blank.
+/// Builds the TRACES certificate the SOAP face serves, CHED or INTRA — the schema is the same, and
+/// <see cref="CertificateKind"/> holds the few labels that differ. Everything is copied from the
+/// control model or derived the way TRACES derives it; nothing is invented on the client's behalf.
+/// Deriving is not cosmetic — Trade Gateway copies every <c>name=</c> and never looks one up, so a
+/// code written without its display name reaches a consumer as a blank.
 /// </summary>
-public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> operators, Registry<AuthorityEntry> authorities)
+public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> operators, Registry<AuthorityEntry> authorities)
 {
-    private const string ChedUrlPrefix = "https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/ched/";
-
     private const string TracesAgencyId = "ec_sante_traces";
     private const string TracesAgencyName = "European commission - DG SANTE - Traces";
-
-    /// <summary>Every CHED is UNECE document type 636.</summary>
-    private const string ChedDocumentTypeCode = "636";
 
     /// <summary>Note subjects the simulator reads back as well as writes.</summary>
     public const string ChedTypeNoteSubject = "CHED_TYPE";
     public const string LastUpdateNoteSubject = "LAST_UPDATE_DATETIME";
 
-    /// <summary>
-    /// Party role is fixed by the slot the operator sits in, not by the operator — TRACES overwrites
-    /// whatever a submission sends here, so the simulator does the same.
-    /// </summary>
-    private static readonly IReadOnlyDictionary<string, string> s_roleBySlot = new Dictionary<string, string>
-    {
-        ["consignor"] = "EX",
-        ["consignee"] = "CN",
-        ["delivery"] = "DP",
-        ["customsTransitAgent"] = "CB",
-    };
-
-    public SPSCertificateType Build(ChedControlModel model, string id) =>
+    public SPSCertificateType Build(CertificateKind kind, CertificateControlModel model, string id) =>
         new()
         {
-            SPSExchangedDocument = BuildDocument(model, id),
-            SPSConsignment = BuildConsignment(model.SpecifiedConsignment),
+            SPSExchangedDocument = BuildDocument(kind, model, id),
+            SPSConsignment = BuildConsignment(kind, model.SpecifiedConsignment),
         };
 
-    /// <summary>The CHED type, which lives in the mandatory <c>CHED_TYPE</c> note rather than a field of its own.</summary>
-    public static string ChedTypeOf(ChedControlModel model) =>
-        model.ExchangedDocument.IncludedNote.TryGetValue(ChedTypeNoteSubject, out var type)
-            ? type
-            : throw new UnknownCodeException(
-                "exchangedDocument.includedNote must contain CHED_TYPE — it is what makes this a CHED-A rather than a CHED-P."
-            );
-
-    private SPSExchangedDocumentType BuildDocument(ChedControlModel model, string id)
+    private SPSExchangedDocumentType BuildDocument(CertificateKind kind, CertificateControlModel model, string id)
     {
-        var chedType = ChedTypeOf(model);
         var (statusCode, status) = codeLists.Resolve("status_code", model.Status ?? "NEW");
 
         var document = new SPSExchangedDocumentType
         {
-            // The document's own name is the CHED type's display name — derived, never submitted.
-            Name = [Text(codeLists.Get("ched_type", chedType).Name, "en")],
+            Name = [Text(kind.DocumentName(model, codeLists), "en")],
             ID = new IDType { Value = id },
             TypeCode = new DocumentCodeType
             {
-                Value = XmlEnums.Parse<DocumentNameCodeContentType>(ChedDocumentTypeCode),
-                name = "Health certificate (CHED - Common Health Entry Document)",
+                Value = XmlEnums.Parse<DocumentNameCodeContentType>(kind.DocumentTypeCode),
+                name = kind.DocumentTypeName,
             },
             StatusCode = new StatusCodeType
             {
@@ -73,17 +47,18 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
             },
             IssueDateTime = DateTime(DateTimeOffset.UtcNow),
             IssuerSPSParty = BuildIssuer(model.SpecifiedConsignment.UnloadingBaseportLocation?.Identifier),
-            IncludedSPSNote = [.. BuildNotes(model.ExchangedDocument.IncludedNote, "ched_note_subject_code")],
+            IncludedSPSNote = [.. BuildNotes(model.ExchangedDocument.IncludedNote, kind.NoteSubjectList)],
             ReferenceSPSReferencedDocument =
             [
-                SelfReference(id),
-                .. (model.ExchangedDocument.ReferenceDocument ?? [DefaultSupportingDocument]).Select(
-                    SupportingDocument
-                ),
+                SelfReference(kind, id),
+                .. (
+                    model.ExchangedDocument.ReferenceDocument
+                    ?? (kind.DefaultSupportingDocument is { } fallback ? [fallback] : [])
+                ).Select(document => SupportingDocument(kind, document)),
             ],
             SignatorySPSAuthentication =
             [
-                .. Authentications(model.ExchangedDocument, model.SpecifiedConsignment.UnloadingBaseportLocation?.Identifier),
+                .. Authentications(kind, model.ExchangedDocument, model.SpecifiedConsignment.UnloadingBaseportLocation?.Identifier),
             ],
         };
 
@@ -91,33 +66,20 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
         document.IncludedSPSNote =
         [
             .. document.IncludedSPSNote,
-            Note(LastUpdateNoteSubject, DateTimeOffset.UtcNow.ToString("O"), "ched_note_subject_code"),
+            Note(LastUpdateNoteSubject, DateTimeOffset.UtcNow.ToString("O"), kind.NoteSubjectList),
         ];
 
         return document;
     }
 
     /// <summary>
-    /// The default TRACES itself never sends but every retrieved CHED carries. Deliberately a
-    /// stand-in so a fixture need not spell out a supporting document to look realistic.
+    /// The certificate pointing at itself. Retrieval-only: submissions never carry it, so it is built
+    /// rather than copied, URL included.
     /// </summary>
-    private static ReferencedDocumentModel DefaultSupportingDocument =>
+    private SPSReferencedDocumentType SelfReference(CertificateKind kind, string id) =>
         new()
         {
-            DocumentTypeCode = ChedDocumentTypeCode,
-            RelationshipTypeCode = "ZZZ",
-            Identifier = "SIMULATOR-SUPPORTING-DOC",
-            IssuingCountry = "GB",
-        };
-
-    /// <summary>
-    /// The CHED pointing at itself. Retrieval-only: submissions never carry it, so it is built rather
-    /// than copied, URL included.
-    /// </summary>
-    private SPSReferencedDocumentType SelfReference(string id) =>
-        new()
-        {
-            TypeCode = DocumentType(ChedDocumentTypeCode),
+            TypeCode = DocumentType(kind.DocumentTypeCode),
             RelationshipTypeCode = RelationshipType("CAW"),
             ID = new IDType { Value = id },
             AttachmentBinaryObject =
@@ -126,15 +88,15 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
                 {
                     format = "url",
                     mimeCode = "text/url",
-                    uri = ChedUrlPrefix + id,
+                    uri = kind.UrlPrefix + id,
                 },
             ],
         };
 
-    private SPSReferencedDocumentType SupportingDocument(ReferencedDocumentModel model) =>
+    private SPSReferencedDocumentType SupportingDocument(CertificateKind kind, ReferencedDocumentModel model) =>
         new()
         {
-            TypeCode = DocumentType(model.DocumentTypeCode ?? ChedDocumentTypeCode),
+            TypeCode = DocumentType(model.DocumentTypeCode ?? kind.DocumentTypeCode),
             RelationshipTypeCode = RelationshipType(model.RelationshipTypeCode ?? "ZZZ"),
             ID = new IDType { Value = model.Identifier, schemeAgencyID = model.IssuingCountry },
         };
@@ -157,16 +119,20 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
     /// The applicant's declaration and, once decided, the inspector's clearance. Keeping them as two
     /// named blocks on the model is what lets a decision be applied without restating the certificate.
     /// </summary>
-    private IEnumerable<SPSAuthenticationType> Authentications(ExchangedDocumentModel document, string? authorityId)
+    private IEnumerable<SPSAuthenticationType> Authentications(
+        CertificateKind kind,
+        ExchangedDocumentModel document,
+        string? authorityId
+    )
     {
         if (document.Declaration is { } declaration)
         {
-            yield return Authentication(declaration, "4", "Inspection (Identification of Applicant)", "ched_consignment_clause", authorityId);
+            yield return Authentication(declaration, "4", "Inspection (Identification of Applicant)", kind.DeclarationClauses, authorityId);
         }
 
         if (document.Clearance is { } clearance)
         {
-            yield return Authentication(clearance, "1", "Clearance (Official inspector)", "ched_decision_clause", authorityId);
+            yield return Authentication(clearance, "1", kind.ClearanceTypeName, kind.ClearanceClauses, authorityId);
         }
     }
 
@@ -174,7 +140,7 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
         AuthenticationModel model,
         string typeCode,
         string typeName,
-        string clauseList,
+        Scheme clauseList,
         string? authorityId
     ) =>
         new()
@@ -194,18 +160,18 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
     /// A clause is its ID, the code, and the code's display text. The second <c>Content</c> is
     /// TRACES's — submissions send one, retrieved documents carry two.
     /// </summary>
-    private SPSClauseType Clause(string id, string content, string clauseList) =>
+    private SPSClauseType Clause(string id, string content, Scheme clauseList) =>
         new()
         {
             ID = new IDType
             {
                 Value = id,
-                schemeID = clauseList,
-                schemeName = clauseList == "ched_decision_clause" ? "CHED decision's clauses" : "CHED consignment's clauses",
+                schemeID = clauseList.Id,
+                schemeName = clauseList.Name,
                 schemeAgencyID = TracesAgencyId,
                 schemeAgencyName = TracesAgencyName,
             },
-            Content = codeLists.TryGet(clauseList, content, out var entry)
+            Content = codeLists.TryGet(clauseList.Id, content, out var entry)
                 ? [Text(content), Text(entry.Name, "en")]
                 // Free text, such as a signatory's email address: no display twin to add.
                 : [Text(content)],
@@ -265,19 +231,21 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
         };
     }
 
-    private SPSConsignmentType BuildConsignment(ConsignmentModel model) =>
+    private SPSConsignmentType BuildConsignment(CertificateKind kind, ConsignmentModel model) =>
         new()
         {
             AvailabilityDueDateTime = model.AvailabilityDueDateTime is { } due ? DateTime(due) : null,
+            ExportExitDateTime = model.ExportExitDateTime is { } exit ? DateTime(exit) : null,
             ExportSPSCountry = Country(model.ExportCountry),
             ImportSPSCountry = Country(model.ImportCountry),
-            ConsignorSPSParty = Party(model.ConsignorParty, "consignor"),
-            ConsigneeSPSParty = Party(model.ConsigneeParty, "consignee"),
-            DeliverySPSParty = Party(model.DeliveryParty, "delivery"),
-            CustomsTransitAgentSPSParty = Party(model.CustomsTransitAgentParty, "customsTransitAgent"),
+            ConsignorSPSParty = Party(kind, model.ConsignorParty, "consignor"),
+            ConsigneeSPSParty = Party(kind, model.ConsigneeParty, "consignee"),
+            DeliverySPSParty = Party(kind, model.DeliveryParty, "delivery"),
+            DespatchSPSParty = Party(kind, model.DespatchParty, "despatch"),
+            CustomsTransitAgentSPSParty = Party(kind, model.CustomsTransitAgentParty, "customsTransitAgent"),
             UnloadingBaseportSPSLocation = Baseport(model.UnloadingBaseportLocation),
             MainCarriageSPSTransportMovement = Transport(model.MainCarriageLogisticsTransportMovement),
-            IncludedSPSConsignmentItem = ConsignmentItems(model.IncludedConsignmentItem),
+            IncludedSPSConsignmentItem = ConsignmentItems(kind, model.IncludedConsignmentItem),
         };
 
     /// <summary>
@@ -285,7 +253,7 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
     /// TRACES resolves. Sending a name instead of an identifier is how TRACES models an operator
     /// created on the fly, and it is the way past the registry when a test needs an unknown operator.
     /// </summary>
-    private SPSPartyType? Party(PartyModel? model, string slot)
+    private SPSPartyType? Party(CertificateKind kind, PartyModel? model, string slot)
     {
         if (model is null)
         {
@@ -303,13 +271,13 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
                 : new IDType
                 {
                     Value = model.Identifier,
-                    schemeID = model.SchemeId ?? "operator_internal_activity_id",
-                    schemeName = "Operator internal activity ID",
+                    schemeID = model.SchemeId ?? kind.OperatorScheme.Id,
+                    schemeName = kind.OperatorScheme.Name,
                     schemeAgencyID = TracesAgencyId,
                     schemeAgencyName = TracesAgencyName,
                 },
             Name = Text(model.Name ?? registered?.Name ?? ""),
-            RoleCode = s_roleBySlot.TryGetValue(slot, out var role)
+            RoleCode = kind.RoleBySlot.TryGetValue(slot, out var role)
                 ? new PartyRoleCodeType
                 {
                     Value = XmlEnums.Parse<PartyRoleCodeContentType>(role),
@@ -436,7 +404,7 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
     /// TRACES keeps a sequence-0 "totals and summary" line ahead of the real commodities. The client
     /// supplies the totals; the fixed description and the numbering are the simulator's.
     /// </summary>
-    private SPSConsignmentItemType[]? ConsignmentItems(ConsignmentItemModel? model)
+    private SPSConsignmentItemType[]? ConsignmentItems(CertificateKind kind, ConsignmentItemModel? model)
     {
         if (model is null)
         {
@@ -447,12 +415,12 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
 
         if (model.ConsignmentTotals is { } totals)
         {
-            var summary = TradeLine(totals, 0);
+            var summary = TradeLine(kind, totals, 0);
             summary.Description = [Text("Consignment totals and summary")];
             lines.Add(summary);
         }
 
-        lines.AddRange(model.IncludedTradeLineItem.Select((line, index) => TradeLine(line, index + 1)));
+        lines.AddRange(model.IncludedTradeLineItem.Select((line, index) => TradeLine(kind, line, index + 1)));
 
         return
         [
@@ -476,7 +444,7 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
         ];
     }
 
-    private SPSTradeLineItemType TradeLine(TradeLineItemModel model, int sequence) =>
+    private SPSTradeLineItemType TradeLine(CertificateKind kind, TradeLineItemModel model, int sequence) =>
         new()
         {
             SequenceNumeric = new NumericType { Value = sequence },
@@ -489,7 +457,7 @@ public class ChedCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry>
             PhysicalSPSPackage = Package(model.PhysicalReferencedLogisticsPackage),
             AdditionalInformationSPSNote =
             [
-                .. BuildNotes(model.AdditionalInformationNote, "ched_commodity_note_subject_code"),
+                .. BuildNotes(model.AdditionalInformationNote, kind.CommodityNoteSubjectList),
             ],
         };
 
