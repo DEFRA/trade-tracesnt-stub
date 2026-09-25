@@ -67,14 +67,14 @@ public static class ChedSummary
     private static CodeType? ChedType(SPSExchangedDocumentType document) =>
         document
             .IncludedSPSNote?.FirstOrDefault(note =>
-                note.SubjectCode?.Value == ChedCertificateBuilder.ChedTypeNoteSubject
+                note.SubjectCode?.Value == SpsCertificateBuilder.ChedTypeNoteSubject
             )
             ?.ContentCode?.FirstOrDefault();
 
     private static DateTime? LastUpdated(SPSExchangedDocumentType document)
     {
         var note = document
-            .IncludedSPSNote?.FirstOrDefault(note => note.SubjectCode?.Value == ChedCertificateBuilder.LastUpdateNoteSubject)
+            .IncludedSPSNote?.FirstOrDefault(note => note.SubjectCode?.Value == SpsCertificateBuilder.LastUpdateNoteSubject)
             ?.Content?.FirstOrDefault()
             ?.Value;
 

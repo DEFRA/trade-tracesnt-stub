@@ -13,14 +13,14 @@ public class ChedCertificateBuilderTests
 {
     private const string Id = "CHEDA.XI.2026.0000001";
 
-    private static readonly ChedCertificateBuilder s_builder = new(
+    private static readonly SpsCertificateBuilder s_builder = new(
         CodeLists.Seeded,
         Registry<OperatorEntry>.Load("operators.json"),
         Registry<AuthorityEntry>.Load("authorities.json")
     );
 
     /// <summary>The least a CHED can be: the type note, and a border post to resolve the authority from.</summary>
-    private static ChedControlModel Minimal =>
+    private static CertificateControlModel Minimal =>
         new()
         {
             ExchangedDocument = new ExchangedDocumentModel
@@ -33,7 +33,7 @@ public class ChedCertificateBuilderTests
             },
         };
 
-    private static SPSCertificateType Build(ChedControlModel model) => s_builder.Build(model, Id);
+    private static SPSCertificateType Build(CertificateControlModel model) => s_builder.Build(CertificateKind.Ched, model, Id);
 
     [Fact]
     public void TheDocumentNameAndTypeComeFromTheChedTypeNote()
@@ -297,7 +297,7 @@ public class ChedCertificateBuilderTests
         return Build(model).SPSConsignment.IncludedSPSConsignmentItem[0].IncludedSPSTradeLineItem.Single();
     }
 
-    private static ChedControlModel WithItem(ConsignmentItemModel item) =>
+    private static CertificateControlModel WithItem(ConsignmentItemModel item) =>
         Minimal with
         {
             SpecifiedConsignment = Minimal.SpecifiedConsignment with { IncludedConsignmentItem = item },

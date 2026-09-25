@@ -15,7 +15,7 @@ namespace TradeTracesNTStub.Test.Simulator;
 /// </summary>
 public class ChedSearchTests
 {
-    private static readonly ChedCertificateBuilder s_builder = new(
+    private static readonly SpsCertificateBuilder s_builder = new(
         CodeLists.Seeded,
         Registry<OperatorEntry>.Load("operators.json"),
         Registry<AuthorityEntry>.Load("authorities.json")
@@ -86,7 +86,7 @@ public class ChedSearchTests
         }
 
         walked.Should().HaveCount(5).And.OnlyHaveUniqueItems();
-        walked.Should().BeEquivalentTo(store.Ids);
+        walked.Should().BeEquivalentTo(store.All.Select(ched => ched.Id));
     }
 
     [Fact]
@@ -198,23 +198,23 @@ public class ChedSearchTests
         return store;
     }
 
-    private static StoredChed AChed(string id, DateTime updated, bool accessible)
+    private static StoredCertificate AChed(string id, DateTime updated, bool accessible)
     {
-        var certificate = s_builder.Build(AChedA, id);
+        var certificate = s_builder.Build(CertificateKind.Ched, AChedA, id);
 
         // The builder stamps the update time with the clock, as TRACES does. Rewriting the note is
         // the only way to place a certificate at a chosen moment, and a range test needs that.
         certificate
             .SPSExchangedDocument.IncludedSPSNote.Single(note =>
-                note.SubjectCode?.Value == ChedCertificateBuilder.LastUpdateNoteSubject
+                note.SubjectCode?.Value == SpsCertificateBuilder.LastUpdateNoteSubject
             )
             .Content[0]
             .Value = updated.ToString("O");
 
-        return new StoredChed(id, certificate, accessible, AChedA);
+        return new StoredCertificate(id, certificate, accessible, AChedA);
     }
 
-    private static ChedControlModel AChedA =>
+    private static CertificateControlModel AChedA =>
         new()
         {
             Status = "VALIDATED",

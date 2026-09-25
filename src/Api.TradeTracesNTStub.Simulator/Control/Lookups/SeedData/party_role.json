@@ -2,8 +2,10 @@
   // UNECE 3035 party roles. TRACES sets these from the slot the party occupies, not from anything
   // the submitter sends, so the simulator does the same.
   "EX": { "name": "Exporter" },
+  "CZ": { "name": "Consignor" },
   "CN": { "name": "Consignee (Importer)" },
   "DP": { "name": "Delivery party (Place of destination)" },
+  "PW": { "name": "Despatch party (Place of dispatch)" },
   "CB": { "name": "Customs broker (Responsible for consignment)" },
   "VJ": { "name": "Officer (Identification of Applicant)" }
 }

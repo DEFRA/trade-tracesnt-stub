@@ -7,12 +7,11 @@ namespace TradeTracesNTStub.Test.Simulator;
 /// be sending a clearance block and a status, not restating the certificate — these tests pin that,
 /// and pin what a patch must not quietly discard.
 /// </summary>
-public class ChedControlModelMergeTests
+public class CertificateControlModelMergeTests
 {
-    private static ChedControlModel Stored =>
+    private static CertificateControlModel Stored =>
         new()
         {
-            Id = "CHEDA.XI.2026.0000001",
             Status = "NEW",
             ExchangedDocument = new ExchangedDocumentModel
             {
@@ -32,7 +31,7 @@ public class ChedControlModelMergeTests
     [Fact]
     public void ADecisionIsJustAClearanceBlockAndAStatus()
     {
-        var patch = new ChedControlModel
+        var patch = new CertificateControlModel
         {
             Status = "VALIDATED",
             ExchangedDocument = new ExchangedDocumentModel
@@ -64,7 +63,7 @@ public class ChedControlModelMergeTests
     {
         // Flipping one check result should not drop the rest of the decision.
         var decided = Stored.Merge(
-            new ChedControlModel
+            new CertificateControlModel
             {
                 ExchangedDocument = new ExchangedDocumentModel
                 {
@@ -81,7 +80,7 @@ public class ChedControlModelMergeTests
         );
 
         var amended = decided.Merge(
-            new ChedControlModel
+            new CertificateControlModel
             {
                 ExchangedDocument = new ExchangedDocumentModel
                 {
@@ -105,7 +104,7 @@ public class ChedControlModelMergeTests
         // it leaves a deliberately unreadable CHED unreadable.
         var hidden = Stored with { Accessible = false };
 
-        hidden.Merge(new ChedControlModel { Status = "VALIDATED" }).Accessible.Should().BeFalse();
+        hidden.Merge(new CertificateControlModel { Status = "VALIDATED" }).Accessible.Should().BeFalse();
     }
 
     [Fact]
@@ -125,7 +124,7 @@ public class ChedControlModelMergeTests
         };
 
         var merged = stored.Merge(
-            new ChedControlModel
+            new CertificateControlModel
             {
                 SpecifiedConsignment = new ConsignmentModel
                 {

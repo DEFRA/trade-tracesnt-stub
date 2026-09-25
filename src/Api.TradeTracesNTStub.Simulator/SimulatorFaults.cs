@@ -30,6 +30,25 @@ public static class SimulatorFaults
             )
         );
 
+    /// <summary>The INTRA does not exist. Typed for the same reason as <see cref="ChedNotFound"/>.</summary>
+    public static FaultException<EuIntraCertificateNotFoundExceptionType> IntraNotFound(string id) =>
+        new(
+            new EuIntraCertificateNotFoundExceptionType { CertificateIdentifier = id },
+            new FaultReason("Certificate not found"),
+            FaultCode.CreateSenderFaultCode("EuIntraCertificateNotFoundException", TracesNtServices.EuIntraV1Namespace)
+        );
+
+    /// <summary>The caller may not see this INTRA. Typed for the same reason as <see cref="ChedPermissionDenied"/>.</summary>
+    public static FaultException<EuIntraCertificatePermissionDeniedExceptionType> IntraPermissionDenied(string id) =>
+        new(
+            new EuIntraCertificatePermissionDeniedExceptionType { CertificateIdentifier = id },
+            new FaultReason("Permission denied"),
+            FaultCode.CreateSenderFaultCode(
+                "EuIntraCertificatePermissionDeniedException",
+                TracesNtServices.EuIntraV1Namespace
+            )
+        );
+
     /// <summary>
     /// The fault returned by every operation the simulator has a contract for but no behaviour behind.
     /// Deliberately a receiver fault naming the operation, so it cannot be confused with an

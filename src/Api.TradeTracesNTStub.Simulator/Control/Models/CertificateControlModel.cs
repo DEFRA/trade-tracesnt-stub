@@ -3,14 +3,12 @@ using System.ComponentModel.DataAnnotations;
 namespace Api.TradeTracesNTStub.Simulator.Control.Models;
 
 /// <summary>
-/// A CHED as a submitter would send it: everything DG SANTE mark <c>Issue=M/O/C</c> in the CHED
-/// mapping workbook, and nothing they mark <c>N</c>. Property names follow Trade Gateway's JSON model.
+/// A CHED or INTRA as a submitter would send it: everything DG SANTE mark <c>Issue=M/O/C</c> in the
+/// CHED mapping workbook, and nothing they mark <c>N</c>. Both are the same SPSCertificate schema, so
+/// one model serves both. Property names follow Trade Gateway's JSON model.
 /// </summary>
-public record ChedControlModel
+public record CertificateControlModel
 {
-    /// <summary>Generated when omitted. Settable because a test needs to pin it; TRACES assigns its own.</summary>
-    public string? Id { get; init; }
-
     /// <summary>
     /// By name (<c>NEW</c>) or code (<c>1</c>). Simulator state, not submitted content: TRACES derives
     /// status from the operation invoked, so do not "correct" this to match.
@@ -30,7 +28,13 @@ public record ChedControlModel
 public record ExchangedDocumentModel
 {
     /// <summary>
-    /// Keyed by <c>SubjectCode</c>. <c>CHED_TYPE</c> is required — it is what makes this a CHED-A.
+    /// INTRA only: the certificate model, e.g. <c>64/432 (2016/2008) F1 Bovine</c>. A CHED's name is
+    /// derived from its <c>CHED_TYPE</c> note, so it is not sent.
+    /// </summary>
+    public string? Name { get; init; }
+
+    /// <summary>
+    /// Keyed by <c>SubjectCode</c>. On a CHED, <c>CHED_TYPE</c> is required — it is what makes this a CHED-A.
     /// The seed entry decides whether a value lands as a code or as free text.
     /// </summary>
     public IReadOnlyDictionary<string, string> IncludedNote { get; init; } =
@@ -78,6 +82,8 @@ public record ConsignmentModel
 {
     public DateTimeOffset? AvailabilityDueDateTime { get; init; }
 
+    public DateTimeOffset? ExportExitDateTime { get; init; }
+
     /// <summary>ISO 3166-1 alpha-2. The simulator supplies the country name.</summary>
     public string? ExportCountry { get; init; }
 
@@ -88,6 +94,9 @@ public record ConsignmentModel
     public PartyModel? ConsigneeParty { get; init; }
 
     public PartyModel? DeliveryParty { get; init; }
+
+    /// <summary>The place of dispatch.</summary>
+    public PartyModel? DespatchParty { get; init; }
 
     public PartyModel? CustomsTransitAgentParty { get; init; }
 

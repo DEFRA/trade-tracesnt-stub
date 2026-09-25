@@ -79,8 +79,10 @@ public class GatewayClientTests
     }
 
     [Fact]
-    public async Task EuIntraPort_IsReachable_AndReportsNotImplemented()
+    public async Task EuIntraPort_IsReachable_AndServesIntras()
     {
+        // As for the CHED port: a typed not-found fault for an INTRA nobody created proves the port
+        // is wired up. The round trip itself is in IntraRetrievalTests.
         var client = Client<EuIntraCertificatePortClient, EuIntraCertificatePort>(
             "EuIntraCertificateServiceV1",
             s_default,
@@ -96,7 +98,28 @@ public class GatewayClientTests
                 new GetEuIntraCertificateRequestType { ID = "INTRA.GB.2026.0000001" }
             );
 
-        await ShouldReportNotImplemented(act, "getEuIntraCertificate");
+        await act.Should().ThrowAsync<FaultException<EuIntraCertificateNotFoundExceptionType>>();
+    }
+
+    [Fact]
+    public async Task EuIntraPort_StillReportsNotImplemented_ForOperationsWithNoBehaviour()
+    {
+        var client = Client<EuIntraCertificatePortClient, EuIntraCertificatePort>(
+            "EuIntraCertificateServiceV1",
+            s_default,
+            (binding, address) => new EuIntraCertificatePortClient(binding, address)
+        );
+
+        var act = () =>
+            client.getEuIntraPdfCertificateAsync(
+                new SecurityHeaderType(),
+                s_default.WebServiceClientId,
+                ISO2AlphaLanguageCodeContentType.en,
+                [],
+                new GetEuIntraPdfCertificateRequestType { ID = "INTRA.GB.2026.0000001" }
+            );
+
+        await ShouldReportNotImplemented(act, "getEuIntraPdfCertificate");
     }
 
     [Fact]

@@ -1,16 +1,16 @@
 namespace Api.TradeTracesNTStub.Simulator.Control.Models;
 
 /// <summary>
-/// Applies a partial CHED onto a stored one. Absent fields are left alone — JSON cannot tell absent
+/// Applies a partial certificate onto a stored one. Absent fields are left alone — JSON cannot tell absent
 /// from null here, so a patch cannot clear one; use <c>PUT</c>.
 /// </summary>
 /// <remarks>
 /// Hand-written rather than reflected over because the cases are not uniform: notes and clauses merge
 /// key by key, parties and commodity lists replace wholesale. A generic deep merge would hide that.
 /// </remarks>
-public static class ChedControlModelMerge
+public static class CertificateControlModelMerge
 {
-    public static ChedControlModel Merge(this ChedControlModel stored, ChedControlModel patch) =>
+    public static CertificateControlModel Merge(this CertificateControlModel stored, CertificateControlModel patch) =>
         stored with
         {
             Status = patch.Status ?? stored.Status,
@@ -22,6 +22,7 @@ public static class ChedControlModelMerge
     private static ExchangedDocumentModel MergeDocument(ExchangedDocumentModel stored, ExchangedDocumentModel patch) =>
         stored with
         {
+            Name = patch.Name ?? stored.Name,
             IncludedNote = MergeEntries(stored.IncludedNote, patch.IncludedNote),
             ReferenceDocument = patch.ReferenceDocument ?? stored.ReferenceDocument,
             Declaration = MergeAuthentication(stored.Declaration, patch.Declaration),
@@ -55,11 +56,13 @@ public static class ChedControlModelMerge
         stored with
         {
             AvailabilityDueDateTime = patch.AvailabilityDueDateTime ?? stored.AvailabilityDueDateTime,
+            ExportExitDateTime = patch.ExportExitDateTime ?? stored.ExportExitDateTime,
             ExportCountry = patch.ExportCountry ?? stored.ExportCountry,
             ImportCountry = patch.ImportCountry ?? stored.ImportCountry,
             ConsignorParty = patch.ConsignorParty ?? stored.ConsignorParty,
             ConsigneeParty = patch.ConsigneeParty ?? stored.ConsigneeParty,
             DeliveryParty = patch.DeliveryParty ?? stored.DeliveryParty,
+            DespatchParty = patch.DespatchParty ?? stored.DespatchParty,
             CustomsTransitAgentParty = patch.CustomsTransitAgentParty ?? stored.CustomsTransitAgentParty,
             UnloadingBaseportLocation = patch.UnloadingBaseportLocation ?? stored.UnloadingBaseportLocation,
             MainCarriageLogisticsTransportMovement =

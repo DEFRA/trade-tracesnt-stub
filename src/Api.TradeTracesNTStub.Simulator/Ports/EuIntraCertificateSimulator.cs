@@ -1,11 +1,32 @@
+using Api.TradeTracesNTStub.Simulator.Control;
 using TracesNT.WebServices;
 
 namespace Api.TradeTracesNTStub.Simulator.Ports;
 
-public class EuIntraCertificateSimulator : EuIntraCertificatePort
+public class EuIntraCertificateSimulator(IntraStore store) : EuIntraCertificatePort
 {
-    public Task<GetEuIntraCertificateResponse> getEuIntraCertificateAsync(GetEuIntraCertificateRequest request) =>
-        throw SimulatorFaults.NotImplemented("getEuIntraCertificate");
+    /// <summary>
+    /// Serves an INTRA the control API stored. The language argument is ignored — the simulator holds
+    /// one language per certificate.
+    /// </summary>
+    public Task<GetEuIntraCertificateResponse> getEuIntraCertificateAsync(GetEuIntraCertificateRequest request)
+    {
+        var id = request.GetEuIntraCertificateRequest1?.ID ?? "";
+
+        if (!store.TryGet(id, out var intra))
+        {
+            throw SimulatorFaults.IntraNotFound(id);
+        }
+
+        if (!intra.Accessible)
+        {
+            throw SimulatorFaults.IntraPermissionDenied(id);
+        }
+
+        return Task.FromResult(
+            new GetEuIntraCertificateResponse(new EuIntraCertificateType { SPSCertificate = intra.Certificate })
+        );
+    }
 
     public Task<GetEuIntraPdfCertificateResponse> getEuIntraPdfCertificateAsync(
         GetEuIntraPdfCertificateRequest request

@@ -28,8 +28,8 @@ this repository.
 `scripts/update-webservices.sh`, publish a new package version, then bump the `PackageReference` in
 `src/Api.TradeTracesNTStub.Simulator` and in `tests/TradeTracesNTStub.IntegrationTests`.
 
-`getChedCertificate` serves CHEDs the control API created. Every other operation still returns a SOAP
-fault naming itself as not implemented.
+`getChedCertificate`, `findChedCertificate` and `getEuIntraCertificate` serve certificates the control
+API created. Every other operation still returns a SOAP fault naming itself as not implemented.
 
 ## Control API
 
@@ -41,8 +41,12 @@ POST   /control/cheds            create
 PUT    /control/cheds/{id}       replace
 PATCH  /control/cheds/{id}       merge a partial update
 DELETE /control/cheds/{id}       remove
+POST   /control/intras           the same four, for INTRAs
 POST   /control/reset            empty the simulator
 ```
+
+An INTRA is the same schema as a CHED and takes the same body. Instead of a `CHED_TYPE` note it
+needs its certificate model as `exchangedDocument.name`, e.g. `"64/432 (2016/2008) F1 Bovine"`.
 
 **The client specifies everything a submitter would. The simulator fills in only what TRACES fills
 in.** Nothing is defaulted on your behalf, so a request is the certificate — you can read one

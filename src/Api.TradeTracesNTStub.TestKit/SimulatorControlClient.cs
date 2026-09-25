@@ -11,6 +11,9 @@ namespace Api.TradeTracesNTStub.TestKit;
 /// </summary>
 public class SimulatorControlClient(HttpClient client)
 {
+    private const string Cheds = "/control/cheds";
+    private const string Intras = "/control/intras";
+
     private static readonly JsonSerializerOptions s_json = new(JsonSerializerDefaults.Web)
     {
         Converters = { new JsonStringEnumConverter() },
@@ -22,47 +25,72 @@ public class SimulatorControlClient(HttpClient client)
         new(new HttpClient { BaseAddress = new Uri(baseUrl) });
 
     /// <summary>Creates a CHED and returns the ID it was stored under.</summary>
-    public async Task<string> CreateChed(ChedBuilder ched, CancellationToken cancellationToken = default) =>
-        await CreateChed(ched.Build(), cancellationToken);
+    public Task<string> CreateChed(CertificateBuilder ched, CancellationToken cancellationToken = default) =>
+        Create(Cheds, ched.Build(), "a CHED", cancellationToken);
 
-    public async Task<string> CreateChed(ChedControlModel ched, CancellationToken cancellationToken = default)
-    {
-        var response = await client.PostAsJsonAsync("/control/cheds", ched, s_json, cancellationToken);
-        await Ensure(response, "create a CHED", cancellationToken);
+    public Task<string> CreateChed(CertificateControlModel ched, CancellationToken cancellationToken = default) =>
+        Create(Cheds, ched, "a CHED", cancellationToken);
 
-        var created = await response.Content.ReadFromJsonAsync<StoredChed>(s_json, cancellationToken);
-
-        return created!.Id;
-    }
-
-    public async Task UpdateChed(string id, ChedBuilder ched, CancellationToken cancellationToken = default)
-    {
-        var response = await client.PutAsJsonAsync($"/control/cheds/{id}", ched.Build(), s_json, cancellationToken);
-        await Ensure(response, $"update CHED '{id}'", cancellationToken);
-    }
+    public Task UpdateChed(string id, CertificateBuilder ched, CancellationToken cancellationToken = default) =>
+        Send(HttpMethod.Put, $"{Cheds}/{id}", ched.Build(), $"update CHED '{id}'", cancellationToken);
 
     /// <summary>
     /// Merges a partial CHED into a stored one. This is how a decision is applied: build a CHED
     /// carrying only the clearance block and the new status, and send that.
     /// </summary>
-    public async Task PatchChed(string id, ChedBuilder patch, CancellationToken cancellationToken = default)
+    public Task PatchChed(string id, CertificateBuilder patch, CancellationToken cancellationToken = default) =>
+        Send(HttpMethod.Patch, $"{Cheds}/{id}", patch.Build(), $"patch CHED '{id}'", cancellationToken);
+
+    public Task DeleteChed(string id, CancellationToken cancellationToken = default) =>
+        Send(HttpMethod.Delete, $"{Cheds}/{id}", null, $"delete CHED '{id}'", cancellationToken);
+
+    /// <summary>Creates an INTRA and returns the ID it was stored under.</summary>
+    public Task<string> CreateIntra(CertificateBuilder intra, CancellationToken cancellationToken = default) =>
+        Create(Intras, intra.Build(), "an INTRA", cancellationToken);
+
+    public Task UpdateIntra(string id, CertificateBuilder intra, CancellationToken cancellationToken = default) =>
+        Send(HttpMethod.Put, $"{Intras}/{id}", intra.Build(), $"update INTRA '{id}'", cancellationToken);
+
+    public Task PatchIntra(string id, CertificateBuilder patch, CancellationToken cancellationToken = default) =>
+        Send(HttpMethod.Patch, $"{Intras}/{id}", patch.Build(), $"patch INTRA '{id}'", cancellationToken);
+
+    public Task DeleteIntra(string id, CancellationToken cancellationToken = default) =>
+        Send(HttpMethod.Delete, $"{Intras}/{id}", null, $"delete INTRA '{id}'", cancellationToken);
+
+    /// <summary>Empties the simulator of CHEDs and INTRAs alike. Call it before a test, not after.</summary>
+    public Task Reset(CancellationToken cancellationToken = default) =>
+        Send(HttpMethod.Post, "/control/reset", null, "reset the simulator", cancellationToken);
+
+    private async Task<string> Create(
+        string collection,
+        CertificateControlModel certificate,
+        string what,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await client.PatchAsJsonAsync($"/control/cheds/{id}", patch.Build(), s_json, cancellationToken);
-        await Ensure(response, $"patch CHED '{id}'", cancellationToken);
+        var response = await client.PostAsJsonAsync(collection, certificate, s_json, cancellationToken);
+        await Ensure(response, $"create {what}", cancellationToken);
+
+        var created = await response.Content.ReadFromJsonAsync<StoredCertificate>(s_json, cancellationToken);
+
+        return created!.Id;
     }
 
-    public async Task DeleteChed(string id, CancellationToken cancellationToken = default)
+    private async Task Send(
+        HttpMethod method,
+        string path,
+        CertificateControlModel? body,
+        string what,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await client.DeleteAsync($"/control/cheds/{id}", cancellationToken);
-        await Ensure(response, $"delete CHED '{id}'", cancellationToken);
-    }
+        using var request = new HttpRequestMessage(method, path)
+        {
+            Content = body is null ? null : JsonContent.Create(body, options: s_json),
+        };
 
-    /// <summary>Empties the simulator. Call it before a test, not after.</summary>
-    public async Task Reset(CancellationToken cancellationToken = default)
-    {
-        var response = await client.PostAsync("/control/reset", null, cancellationToken);
-
-        await Ensure(response, "reset the simulator", cancellationToken);
+        var response = await client.SendAsync(request, cancellationToken);
+        await Ensure(response, what, cancellationToken);
     }
 
     private static async Task Ensure(HttpResponseMessage response, string what, CancellationToken cancellationToken)
@@ -78,5 +106,5 @@ public class SimulatorControlClient(HttpClient client)
         throw new InvalidOperationException($"The simulator refused to {what} ({(int)response.StatusCode}): {body}");
     }
 
-    private record StoredChed(string Id);
+    private record StoredCertificate(string Id);
 }
