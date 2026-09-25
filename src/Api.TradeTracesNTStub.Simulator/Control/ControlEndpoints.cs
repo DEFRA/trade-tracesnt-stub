@@ -56,7 +56,8 @@ public static class ControlEndpoints
             .WithDescription(
                 "Stores exactly the certificate described, filling in only what TRACES itself fills "
                     + "in — display names, registry lookups and schema scaffolding. Read it back "
-                    + $"through the SOAP face with {soapOperation}."
+                    + $"through the SOAP face with {soapOperation}. The simulator issues the ID, as "
+                    + "TRACES does; it is in the response."
             )
             .Produces<StoredCertificateResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest);
@@ -111,7 +112,7 @@ public static class ControlEndpoints
         {
             // The prefix can come out of a note, so reading it can fail the same way any other
             // lookup fails — inside the guard, not before it.
-            var id = string.IsNullOrWhiteSpace(model.Id) ? store.NextId(kind.IdPrefix(model)) : model.Id;
+            var id = store.NextId(kind.IdPrefix(model));
 
             store.Put(Stored(kind, id, model, builder));
 
@@ -199,7 +200,7 @@ public static class ControlEndpoints
     }
 
     private static StoredCertificateResponse Describe(CertificateControlModel model, string id) =>
-        new(id, model.Accessible ?? true, model with { Id = id });
+        new(id, model.Accessible ?? true, model);
 }
 
 /// <summary>What the control API returns for a stored certificate. The certificate itself is read back over SOAP.</summary>

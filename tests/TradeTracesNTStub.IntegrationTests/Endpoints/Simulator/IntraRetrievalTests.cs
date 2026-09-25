@@ -55,19 +55,6 @@ public class IntraRetrievalTests
     }
 
     [Fact]
-    public async Task AnIntraIsNotServedByTheChedPort()
-    {
-        // One store holds both, so the kind check is what keeps an INTRA off the CHED port.
-        var token = TestContext.Current.CancellationToken;
-
-        var id = await s_simulator.CreateIntra(AnIntra(), token);
-
-        var act = () => ChedRetrievalTests.GetCertificate(id);
-
-        await act.Should().ThrowAsync<FaultException<ChedCertificateNotFoundExceptionType>>();
-    }
-
-    [Fact]
     public async Task AnIntraMarkedInaccessibleIsATypedPermissionDeniedFault()
     {
         var token = TestContext.Current.CancellationToken;

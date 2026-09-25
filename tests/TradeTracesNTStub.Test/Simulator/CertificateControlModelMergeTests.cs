@@ -12,7 +12,6 @@ public class CertificateControlModelMergeTests
     private static CertificateControlModel Stored =>
         new()
         {
-            Id = "CHEDA.XI.2026.0000001",
             Status = "NEW",
             ExchangedDocument = new ExchangedDocumentModel
             {

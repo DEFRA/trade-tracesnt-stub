@@ -42,8 +42,6 @@ public class CertificateBuilder
         _model = new CertificateControlModel { ExchangedDocument = new ExchangedDocumentModel { Name = name } };
     }
 
-    public CertificateBuilder WithId(string id) => Set(model => model with { Id = id });
-
     /// <summary>Status by TRACES code (<c>1</c>) or alias (<c>NEW</c>, <c>VALIDATED</c>).</summary>
     public CertificateBuilder WithStatus(string status) => Set(model => model with { Status = status });
 

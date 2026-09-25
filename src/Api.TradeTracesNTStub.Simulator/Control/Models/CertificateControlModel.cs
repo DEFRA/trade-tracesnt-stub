@@ -9,9 +9,6 @@ namespace Api.TradeTracesNTStub.Simulator.Control.Models;
 /// </summary>
 public record CertificateControlModel
 {
-    /// <summary>Generated when omitted. Settable because a test needs to pin it; TRACES assigns its own.</summary>
-    public string? Id { get; init; }
-
     /// <summary>
     /// By name (<c>NEW</c>) or code (<c>1</c>). Simulator state, not submitted content: TRACES derives
     /// status from the operation invoked, so do not "correct" this to match.
