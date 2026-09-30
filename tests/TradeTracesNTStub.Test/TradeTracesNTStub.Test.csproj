@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Simulator\Captures\**\*.xml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Api.TradeTracesNTStub\Api.TradeTracesNTStub.csproj" />
   </ItemGroup>
 </Project>

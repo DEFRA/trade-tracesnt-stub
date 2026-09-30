@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>24f00493-57b4-40c9-b70e-970b71f0d805</Message>
+    </Message>
+    <ns0:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns0="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-09-29T16:41:15.780+02:00</ns1:Created>
+        <ns1:Expires>2026-09-29T16:41:20.780+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns0:Security>
+    <ns0:CertexHeader xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03" xmlns:ns0="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+      <MessageId>4d12ac901e994b2c8c57487c40734aea</MessageId>
+      <UniqRequesterPrefix>XI000002</UniqRequesterPrefix>
+    </ns0:CertexHeader>
+  </S:Header>
+  <S:Body>
+    <ns6:ProcessedChedInformationResponse xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03" xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v3" xmlns:ns3="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns4="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:ns6="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06" xmlns:ns7="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns8="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns9="http://www.w3.org/2000/09/xmldsig#" xmlns:ns10="http://ec.europa.eu/tracesnt/body/v1" xmlns:ns11="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns12="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns13="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns14="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns15="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2">
+      <!-- ChedCertificate removed: real acceptance certificate data -->
+      <ns6:QuantityManagementSummary>
+        <AvailableQuantity>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>0401</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>KGM</UnitOfMeasure>
+            <Quantity>399.997</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+        </AvailableQuantity>
+        <ReservedQuantity>
+          <GoodsItemNumber>1</GoodsItemNumber>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>040100</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>KGM</UnitOfMeasure>
+            <Quantity>0.001</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+          <EventDateTime>2026-09-29T14:41:15.086Z</EventDateTime>
+          <CompetentCustomsOffice>
+            <ReferenceNumber>XI000002</ReferenceNumber>
+          </CompetentCustomsOffice>
+          <MRN>26GB1669CAPTUREC01</MRN>
+        </ReservedQuantity>
+        <ConsumedQuantity>
+          <GoodsItemNumber>1</GoodsItemNumber>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>040100</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>KGM</UnitOfMeasure>
+            <Quantity>600</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+          <EventDateTime>2026-09-28T16:28:40.000+02:00</EventDateTime>
+          <CompetentCustomsOffice>
+            <ReferenceNumber>XI000002</ReferenceNumber>
+          </CompetentCustomsOffice>
+          <MRN>24GBBGBKCDMS640103</MRN>
+        </ConsumedQuantity>
+        <ConsumedQuantity>
+          <GoodsItemNumber>1</GoodsItemNumber>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>040100</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>KGM</UnitOfMeasure>
+            <Quantity>0.002</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+          <EventDateTime>2026-09-29T16:12:53.000+02:00</EventDateTime>
+          <CompetentCustomsOffice>
+            <ReferenceNumber>XI000002</ReferenceNumber>
+          </CompetentCustomsOffice>
+          <MRN>26GB1669CAPTUREA01</MRN>
+        </ConsumedQuantity>
+      </ns6:QuantityManagementSummary>
+      <ns6:OperationCode>0</ns6:OperationCode>
+      <ns6:ReservationResult>1</ns6:ReservationResult>
+      <ns6:PushActive>false</ns6:PushActive>
+    </ns6:ProcessedChedInformationResponse>
+  </S:Body>
+</S:Envelope>

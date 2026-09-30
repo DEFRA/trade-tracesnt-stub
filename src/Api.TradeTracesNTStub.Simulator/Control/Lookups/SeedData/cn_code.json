@@ -70,5 +70,18 @@
         "languageId": "en"
       }
     ]
+  },
+  "0401": {
+    "name": "Milk and cream, not concentrated nor containing added sugar or other sweetening matter",
+    "names": [
+      {
+        "value": "DAIRY PRODUCE; BIRDS' EGGS; NATURAL HONEY; EDIBLE PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED",
+        "languageId": "en"
+      },
+      {
+        "value": "Milk and cream, not concentrated nor containing added sugar or other sweetening matter",
+        "languageId": "en"
+      }
+    ]
   }
 }

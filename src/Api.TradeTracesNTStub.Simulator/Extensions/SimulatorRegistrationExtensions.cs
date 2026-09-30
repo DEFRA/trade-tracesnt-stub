@@ -31,15 +31,17 @@ public static class SimulatorRegistrationExtensions
         // Simulator state is a singleton: the SOAP face reads exactly what the control API wrote.
         services.AddSingleton<ChedStore>();
         services.AddSingleton<IntraStore>();
+        services.AddSingleton<CustomsLedger>();
         services.AddSingleton(CodeLists.Seeded);
         services.AddSingleton(Registry<OperatorEntry>.Load("operators.json"));
         services.AddSingleton(Registry<AuthorityEntry>.Load("authorities.json"));
         services.AddSingleton<SpsCertificateBuilder>();
 
         // CoreWCF only falls back to a parameterless constructor; a port with dependencies has to be
-        // registered. The other three ports are stateless and still use that fallback.
+        // registered. The other two ports are stateless and still use that fallback.
         services.AddTransient<ChedCertificateSimulator>();
         services.AddTransient<EuIntraCertificateSimulator>();
+        services.AddTransient<CustomsCertexChedSimulator>();
 
         services.AddServiceModelServices();
 

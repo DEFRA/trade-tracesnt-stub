@@ -1,5 +1,6 @@
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using Api.TradeTracesNTStub.TestKit;
 using TracesNT;
 using TracesNT.ClientBehaviours;
 using TracesNT.WebServices;
@@ -16,9 +17,11 @@ namespace TradeTracesNTStub.IntegrationTests.Endpoints.Simulator;
 /// SOAP fault, so asserting that a well-formed fault comes back is what makes the test meaningful.
 /// </remarks>
 [Trait("Category", "IntegrationTest")]
+[Collection(SimulatorStateCollection.Name)]
 public class GatewayClientTests
 {
     private const string BaseUrl = "http://localhost:8085";
+    private const string Mrn = "26GB00000000000001";
 
     private static readonly TracesNtCredentials s_default = new()
     {
@@ -164,25 +167,56 @@ public class GatewayClientTests
     }
 
     [Fact]
-    public async Task CustomsPort_IsReachable_AndReportsNotImplemented()
+    public async Task CustomsPort_ReservesReadsAndReleases()
     {
+        var token = TestContext.Current.CancellationToken;
+        var chedId = await SimulatorControlClient
+            .At(BaseUrl)
+            .CreateChed(
+                Ched.ChedA()
+                    .WithStatus("VALIDATED")
+                    .WithConsignment(consignment =>
+                        consignment
+                            .ArrivingAt("GBBEL", "XI")
+                            .ExportedFrom("AF")
+                            .ImportedTo("XI")
+                            .WithCommodity(commodity => commodity.CnCode("0101").OriginCountry("AF").NetWeightKg(900))
+                    ),
+                token
+            );
         var client = Client<CustomsCertexChedPortClient, CustomsCertexChedPort>(
             "CustomsCertexChedServiceV06",
             s_customs,
             (binding, address) => new CustomsCertexChedPortClient(binding, address)
         );
 
-        var act = () =>
-            client.processedChedRequestAsync(
-                new SecurityHeaderType(),
-                s_customs.WebServiceClientId,
-                ISO2AlphaLanguageCodeContentType.en,
-                "GBTEST01",
-                new CertexHeaderType(),
-                new ProcessedChedRequestType()
-            );
+        var reserved = await Processed(client, chedId, "1", Mrn, [Item(300)]);
+        var read = await Processed(client, chedId, "0", "", null);
+        var released = await client.chedClearanceRequestAsync(
+            new SecurityHeaderType(),
+            s_customs.WebServiceClientId,
+            ISO2AlphaLanguageCodeContentType.en,
+            "GBTEST01",
+            Header,
+            new ChedClearanceRequestType
+            {
+                ChedCertificateId = chedId,
+                CustomsDocumentReference = Mrn,
+                CompetentCustomsOffice = new CompetentCustomsOfficeType { ReferenceNumber = "GBTEST01" },
+                GoodsClearanceInformation = GoodsClearanceInformationType.Item01,
+                SendingDate = DateTime.UtcNow,
+            }
+        );
 
-        await ShouldReportNotImplemented(act, "ProcessedChedRequest");
+        reserved.ProcessedChedInformationResponse1.ReservationResult.Should().BeTrue();
+        reserved.CertexHeader.MessageId.Should().Be(Header.MessageId);
+        read.ProcessedChedInformationResponse1.QuantityManagementSummary.AvailableQuantity.Single()
+            .SwSupportingDocument.Quantity.Should()
+            .Be(600m);
+        read.ProcessedChedInformationResponse1.QuantityManagementSummary.ReservedQuantity.Single()
+            .Item.Should()
+            .Be(Mrn);
+        released.ChedClearanceResponse1.QuantityManagementOutcome.Should().Be("01");
     }
 
     [Fact]
@@ -230,6 +264,48 @@ public class GatewayClientTests
 
         (await act.Should().ThrowAsync<FaultException>()).Which.Message.Should().Contain("UnauthenticatedException");
     }
+
+    private static CertexHeaderType Header =>
+        new() { MessageId = "0123456789abcdef0123456789abcdef", UniqRequesterPrefix = "GBTEST01" };
+
+    /// <summary>Shaped as the gateway's <c>CustomsChedService</c> shapes it, read or reserve alike.</summary>
+    private static Task<ProcessedChedInformationResponse> Processed(
+        CustomsCertexChedPortClient client,
+        string chedId,
+        string indication,
+        string declaration,
+        ConsignmentItemR6ForReservationType[]? items
+    ) =>
+        client.processedChedRequestAsync(
+            new SecurityHeaderType(),
+            s_customs.WebServiceClientId,
+            ISO2AlphaLanguageCodeContentType.en,
+            "GBTEST01",
+            Header,
+            new ProcessedChedRequestType
+            {
+                SendingDate = DateTime.UtcNow,
+                ChedCertificateId = chedId,
+                CompetentCustomsOffice = new CompetentCustomsOfficeType { ReferenceNumber = "GBTEST01" },
+                QuantityManagementIndication = indication,
+                CustomsDeclarationReferenceNumber = declaration == ""
+                    ? new()
+                    : new() { Item = declaration, ItemElementName = ItemChoiceType1.MRN },
+                CommodityDescriptionForChed = items,
+            }
+        );
+
+    private static ConsignmentItemR6ForReservationType Item(decimal kilograms) =>
+        new()
+        {
+            GoodsItemNumber = "1",
+            CertificateLineNumber = "1",
+            ClassCode = "0101",
+            NetWeightQuantity = kilograms,
+            NetWeightQuantitySpecified = true,
+            NetWeightUnitOfMeasure = UniversalUnitOfMeasureType.KGM,
+            NetWeightUnitOfMeasureSpecified = true,
+        };
 
     private static async Task ShouldReportNotImplemented(Func<Task> act, string operation)
     {
