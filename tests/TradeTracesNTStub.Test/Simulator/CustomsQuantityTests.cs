@@ -16,6 +16,7 @@ namespace TradeTracesNTStub.Test.Simulator;
 public class CustomsQuantityTests
 {
     private const string ChedId = "CHEDA.XI.2026.0000001";
+    private const string PiecesChedId = "CHEDA.XI.2026.0000002";
     private const string MrnA = "26GB00000000000001";
     private const string MrnB = "26GB00000000000002";
     private const string Office = "GBTEST01";
@@ -32,7 +33,78 @@ public class CustomsQuantityTests
     public CustomsQuantityTests()
     {
         WithStatus("VALIDATED");
+        _cheds.Put(
+            new StoredCertificate(
+                PiecesChedId,
+                s_builder.Build(CertificateKind.Ched, TenHorses, PiecesChedId),
+                true,
+                TenHorses
+            )
+        );
         _port = new CustomsCertexChedSimulator(_cheds, new CustomsLedger());
+    }
+
+    [Fact]
+    public async Task GramsAndTonnesComeOffAKilogramLineConverted()
+    {
+        var inGrams = await Reservation(MrnA, Item(line: 1, quantity: 500, unit: "GRM"));
+
+        Available(inGrams).Should().Equal(99.5m, 50m);
+        var allocation = inGrams.QuantityManagementSummary.ReservedQuantity.Single().SwSupportingDocument;
+        allocation.UnitOfMeasure.Should().Be(UniversalUnitOfMeasureType.GRM, "acceptance reports the unit as declared");
+        allocation.Quantity.Value.Should().Be(500m);
+
+        var inTonnes = await Reservation(MrnA, Item(line: 1, quantity: 0.01m, unit: "TNE"));
+
+        Available(inTonnes).Should().Equal(90m, 50m);
+    }
+
+    [Fact]
+    public async Task ItemsInDifferentMassUnitsOnOneDeclarationAddUp()
+    {
+        await Reservation(MrnA, Item(line: 1, quantity: 50, unit: "KGM"), Item(line: 1, quantity: 40000, unit: "GRM"));
+
+        Available(await Read()).Should().Equal(10m, 50m);
+    }
+
+    [Fact]
+    public async Task ARequestOverTheLineOnceConvertedIsRefused()
+    {
+        var refused = await Reservation(MrnA, Item(line: 1, quantity: 0.101m, unit: "TNE"));
+
+        refused.ReservationFailureReason.Should().Be("05", "0.101 t is 101 kg, and the line holds 100 kg");
+    }
+
+    [Fact]
+    public async Task PiecesComeOffAPiecesLine()
+    {
+        var reserved = await ReservationAgainst(PiecesChedId, MrnA, PiecesItem(3));
+
+        reserved.ReservationResult.Should().BeTrue();
+        Available(await Read(PiecesChedId)).Should().Equal(7m);
+    }
+
+    [Fact]
+    public async Task KilogramsCannotBeReservedAgainstPieces()
+    {
+        await ReservationAgainst(PiecesChedId, MrnA, PiecesItem(3));
+
+        var refused = await ReservationAgainst(PiecesChedId, MrnA, Item(line: 1, quantity: 1, classCode: "0101"));
+
+        refused.ReservationFailureReason.Should().Be("10");
+        refused
+            .QuantityManagementSummary.ReservedQuantity.Should()
+            .ContainSingle("a unit mismatch leaves the declaration's hold alone")
+            .Which.SwSupportingDocument.Quantity.Value.Should()
+            .Be(3m);
+    }
+
+    [Fact]
+    public async Task PiecesCannotBeReservedAgainstKilograms()
+    {
+        var refused = await Reservation(MrnA, PiecesItem(1, classCode: "01062000"));
+
+        refused.ReservationFailureReason.Should().Be("10");
     }
 
     [Fact]
@@ -102,7 +174,9 @@ public class CustomsQuantityTests
         var refused = await Reservation(MrnA, Item(line: 1, quantity: 101));
 
         refused.ReservationFailureReason.Should().Be("05");
-        refused.QuantityManagementSummary.ReservedQuantity.Should().BeEmpty("the refusal is the declaration's new position");
+        refused
+            .QuantityManagementSummary.ReservedQuantity.Should()
+            .BeEmpty("the refusal is the declaration's new position");
         Available(await Read()).Should().Equal(100m, 50m);
     }
 
@@ -112,22 +186,38 @@ public class CustomsQuantityTests
         await Reservation(MrnA, Item(line: 1, quantity: 30));
         await Reservation(MrnB, Item(line: 1, quantity: 20));
 
-        await Reservation(MrnA, Item(line: 9, quantity: 1));
+        await Reservation(MrnA, Item(line: 1, quantity: 81));
 
         var ledger = await Read();
         ledger.QuantityManagementSummary.ReservedQuantity.Should().ContainSingle().Which.Item.Should().Be(MrnB);
         Available(ledger).Should().Equal(80m, 50m);
     }
 
-    [Fact]
-    public async Task AReplacementRefusedForTheChedsStatusAlsoEndsTheHold()
+    [Theory]
+    [InlineData(1, "08051022", "KGM")] // 03: the other line's commodity
+    [InlineData(9, "01062000", "KGM")] // 07: no such line
+    [InlineData(1, "01062000", "MTQ")] // 10: a unit that does not convert
+    public async Task AReplacementRefusedOnACheckKeepsTheHold(int line, string classCode, string unit)
     {
+        await Reservation(MrnA, Item(line: 1, quantity: 30));
+
+        await Reservation(MrnA, Item(line, quantity: 1, classCode: classCode, unit: unit));
+
+        var ledger = await Read();
+        ledger.QuantityManagementSummary.ReservedQuantity.Should().ContainSingle().Which.Item.Should().Be(MrnA);
+        Available(ledger).Should().Equal(70m, 50m);
+    }
+
+    [Fact]
+    public async Task AReplacementRefusedForTheChedsStatusKeepsTheHold()
+    {
+        // Not captured: a status refusal is taken to act like the other checks, not like 05.
         await Reservation(MrnA, Item(line: 1, quantity: 30));
         WithStatus("CANCELLED");
 
         (await Reservation(MrnA, Item(line: 1, quantity: 10))).ReservationFailureReason.Should().Be("04");
 
-        (await Read()).QuantityManagementSummary.ReservedQuantity.Should().BeEmpty();
+        (await Read()).QuantityManagementSummary.ReservedQuantity.Should().ContainSingle();
     }
 
     [Fact]
@@ -140,27 +230,28 @@ public class CustomsQuantityTests
         allocation.ItemElementName.Should().Be(ItemChoiceType2.MRN);
         allocation.GoodsItemNumber.Should().Be("3");
         allocation.SwSupportingDocument.CertificateLineNumber.Should().Be("2");
-        allocation.CommodityCode.HarmonizedSystemSubheadingcode.Should().Be("08051022");
+        allocation.CommodityCode.HarmonizedSystemSubheadingcode.Should().Be("080510");
         allocation.CompetentCustomsOffice.ReferenceNumber.Should().Be(Office);
         allocation.EventDateTimeSpecified.Should().BeTrue();
     }
 
     [Fact]
-    public async Task ATaricCodeUnderTheLinesCnCodeMatchesAndIsReportedAsDeclared()
+    public async Task ATaricCodeUnderTheLinesCnCodeMatchesAndIsReportedAsASixDigitSubheading()
     {
-        (await Reservation(MrnA, Item(line: 1, quantity: 1, classCode: "0106200010"))).ReservationResult.Should().BeTrue();
+        var reserved = await Reservation(MrnA, Item(line: 1, quantity: 1, classCode: "0106200010"));
+        reserved.ReservationResult.Should().BeTrue();
 
         var summary = (await Read()).QuantityManagementSummary;
 
         summary.AvailableQuantity[0].CommodityCode.HarmonizedSystemSubheadingcode.Should().Be("01062000");
-        summary.ReservedQuantity.Single().CommodityCode.HarmonizedSystemSubheadingcode.Should().Be("0106200010");
+        summary.ReservedQuantity.Single().CommodityCode.HarmonizedSystemSubheadingcode.Should().Be("010620");
     }
 
     [Theory]
     [InlineData(1, 101, "01062000", "KGM", "05")] // more than the line holds
     [InlineData(1, 1, "08051022", "KGM", "03")] // the other line's commodity
     [InlineData(9, 1, "01062000", "KGM", "07")] // no such line
-    [InlineData(1, 1, "01062000", "TNE", "10")] // the line is in kilograms
+    [InlineData(1, 1, "01062000", "MTQ", "10")] // cubic metres do not convert to kilograms
     public async Task AReservationThatFailsACheckIsRefusedAndTakesNothing(
         int line,
         decimal quantity,
@@ -176,7 +267,9 @@ public class CustomsQuantityTests
         refused.ReservationFailureReason.Should().Be(reason);
         refused.ReservationFailureConsignmentItem.GoodsItemNumber.Should().Be("4");
         // Acceptance names the CHED line only when there is one.
-        refused.ReservationFailureConsignmentItem.DocumentLineItemNumber.Should().Be(reason == "07" ? null : line.ToString());
+        refused
+            .ReservationFailureConsignmentItem.DocumentLineItemNumber.Should()
+            .Be(reason == "07" ? null : line.ToString());
 
         var ledger = await Read();
         Available(ledger).Should().Equal(100m, 50m);
@@ -213,7 +306,9 @@ public class CustomsQuantityTests
     [Theory]
     [InlineData(GoodsClearanceInformationType.Item01)]
     [InlineData(GoodsClearanceInformationType.Item02)]
-    public async Task ClearingADeclarationThatHasAlreadyBeenReleasedIsAlreadyConsumed(GoodsClearanceInformationType mode)
+    public async Task ClearingADeclarationThatHasAlreadyBeenReleasedIsAlreadyConsumed(
+        GoodsClearanceInformationType mode
+    )
     {
         await Reservation(MrnA, Item(line: 1, quantity: 10));
         await Clearance(MrnA, GoodsClearanceInformationType.Item01);
@@ -295,7 +390,7 @@ public class CustomsQuantityTests
     [Fact]
     public async Task AReservationWithNoItemsIsRejected()
     {
-        var act = () => _port.processedChedRequestAsync(ReserveRequest(MrnA));
+        var act = () => _port.processedChedRequestAsync(Request(ChedId, "1", Mrn(MrnA), []));
 
         await act.Should().ThrowAsync<FaultException<ExceptionWithUniqueInfoType>>();
     }
@@ -322,10 +417,19 @@ public class CustomsQuantityTests
     private async Task<ProcessedChedInformationResponseType> Read(string chedId = ChedId) =>
         (await _port.processedChedRequestAsync(ReadRequest(chedId))).ProcessedChedInformationResponse1;
 
-    private async Task<ProcessedChedInformationResponseType> Reservation(
+    private Task<ProcessedChedInformationResponseType> Reservation(
         string mrn,
         params ConsignmentItemR6ForReservationType[] items
-    ) => (await _port.processedChedRequestAsync(ReserveRequest(mrn, items))).ProcessedChedInformationResponse1;
+    ) => ReservationAgainst(ChedId, mrn, items);
+
+    private async Task<ProcessedChedInformationResponseType> ReservationAgainst(
+        string chedId,
+        string mrn,
+        params ConsignmentItemR6ForReservationType[] items
+    ) =>
+        (
+            await _port.processedChedRequestAsync(Request(chedId, "1", Mrn(mrn), items))
+        ).ProcessedChedInformationResponse1;
 
     private async Task<ChedQuantityManagementOutcomeType> Clearance(string mrn, GoodsClearanceInformationType mode) =>
         (
@@ -350,8 +454,6 @@ public class CustomsQuantityTests
     private static ProcessedChedRequest ReadRequest(string chedId) =>
         Request(chedId, "0", new CustomsDeclarationReferenceNumber4CoiChedR51InputType(), null);
 
-    private static ProcessedChedRequest ReserveRequest(string mrn, params ConsignmentItemR6ForReservationType[] items) =>
-        Request(ChedId, "1", Mrn(mrn), items);
 
     private static ProcessedChedRequest Request(
         string chedId,
@@ -379,6 +481,19 @@ public class CustomsQuantityTests
 
     private static CustomsDeclarationReferenceNumber4CoiChedR51InputType Mrn(string mrn) =>
         new() { Item = mrn, ItemElementName = ItemChoiceType1.MRN };
+
+    /// <summary>Pieces travel as a net volume, as a CHED-A carries them.</summary>
+    private static ConsignmentItemR6ForReservationType PiecesItem(decimal count, string classCode = "0101") =>
+        new()
+        {
+            GoodsItemNumber = "1",
+            CertificateLineNumber = "1",
+            ClassCode = classCode,
+            NetVolumeQuantity = count,
+            NetVolumeQuantitySpecified = true,
+            NetVolumeUnitOfMeasure = UniversalUnitOfMeasureType.H87,
+            NetVolumeUnitOfMeasureSpecified = true,
+        };
 
     private static ConsignmentItemR6ForReservationType Item(
         int line,
@@ -422,6 +537,31 @@ public class CustomsQuantityTests
                     [
                         Line("01062000", 100m),
                         Line("08051022", 50m),
+                    ],
+                },
+            },
+        };
+
+    /// <summary>
+    /// One line of ten animals, shaped as a real CHED-A carries it: pieces beside a unitless weight of 0.
+    /// </summary>
+    private static CertificateControlModel TenHorses =>
+        AChedA with
+        {
+            SpecifiedConsignment = AChedA.SpecifiedConsignment with
+            {
+                IncludedConsignmentItem = new ConsignmentItemModel
+                {
+                    ConsignmentTotals = new TradeLineItemModel(),
+                    IncludedTradeLineItem =
+                    [
+                        new TradeLineItemModel
+                        {
+                            ApplicableClassification = new Dictionary<string, string> { ["CN"] = "0101" },
+                            OriginCountry = "AF",
+                            NetWeight = new MeasureModel { Value = 0 },
+                            NetVolume = new MeasureModel { Value = 10, UnitCode = "H87" },
+                        },
                     ],
                 },
             },

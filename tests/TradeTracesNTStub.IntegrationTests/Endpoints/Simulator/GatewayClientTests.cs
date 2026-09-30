@@ -220,6 +220,39 @@ public class GatewayClientTests
     }
 
     [Fact]
+    public async Task CustomsPort_ReservesAnimalsInPieces()
+    {
+        var token = TestContext.Current.CancellationToken;
+        var chedId = await SimulatorControlClient
+            .At(BaseUrl)
+            .CreateChed(
+                Ched.ChedA()
+                    .WithStatus("VALIDATED")
+                    .WithConsignment(consignment =>
+                        consignment
+                            .ArrivingAt("GBBEL", "XI")
+                            .ExportedFrom("AF")
+                            .ImportedTo("XI")
+                            .WithCommodity(commodity => commodity.CnCode("0102").OriginCountry("AF").Pieces(2))
+                    ),
+                token
+            );
+        var client = Client<CustomsCertexChedPortClient, CustomsCertexChedPort>(
+            "CustomsCertexChedServiceV06",
+            s_customs,
+            (binding, address) => new CustomsCertexChedPortClient(binding, address)
+        );
+
+        var reserved = await Processed(client, chedId, "1", Mrn, [Pieces(1)]);
+        var read = await Processed(client, chedId, "0", "", null);
+
+        reserved.ProcessedChedInformationResponse1.ReservationResult.Should().BeTrue();
+        var line = read.ProcessedChedInformationResponse1.QuantityManagementSummary.AvailableQuantity.Single();
+        line.SwSupportingDocument.UnitOfMeasure.Should().Be(UniversalUnitOfMeasureType.H87);
+        line.SwSupportingDocument.Quantity.Should().Be(1m);
+    }
+
+    [Fact]
     public async Task CustomsPort_RejectsTheDefaultAccount()
     {
         // The customs port authenticates as its own account. Nothing in the response surface reveals
@@ -294,6 +327,18 @@ public class GatewayClientTests
                 CommodityDescriptionForChed = items,
             }
         );
+
+    private static ConsignmentItemR6ForReservationType Pieces(decimal count) =>
+        new()
+        {
+            GoodsItemNumber = "1",
+            CertificateLineNumber = "1",
+            ClassCode = "0102",
+            NetVolumeQuantity = count,
+            NetVolumeQuantitySpecified = true,
+            NetVolumeUnitOfMeasure = UniversalUnitOfMeasureType.H87,
+            NetVolumeUnitOfMeasureSpecified = true,
+        };
 
     private static ConsignmentItemR6ForReservationType Item(decimal kilograms) =>
         new()

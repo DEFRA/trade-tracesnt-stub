@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Header>
+    <h:LanguageCode xmlns:h="http://ec.europa.eu/sanco/tracesnt/base/v3" xmlns="http://ec.europa.eu/sanco/tracesnt/base/v3">en</h:LanguageCode>
+    <h:WebServiceClientId xmlns:h="http://ec.europa.eu/sanco/tracesnt/base/v3" xmlns="http://ec.europa.eu/sanco/tracesnt/base/v3">REDACTED</h:WebServiceClientId>
+    <h:CertexHeader xmlns:h="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06" xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+      <MessageId xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03">9b4e044d6af34186882943045e6ab392</MessageId>
+      <UniqRequesterPrefix xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03">XI000002</UniqRequesterPrefix>
+    </h:CertexHeader>
+    <h:CustomsOfficeReferenceNumber xmlns:h="http://ec.europa.eu/tracesnt/body/v1" xmlns="http://ec.europa.eu/tracesnt/body/v1">XI000002</h:CustomsOfficeReferenceNumber>
+    <Security>REDACTED</Security>
+  </s:Header>
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ChedClearanceRequest xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+      <CompetentCustomsOffice>
+        <ReferenceNumber xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03">XI000002</ReferenceNumber>
+      </CompetentCustomsOffice>
+      <SendingDate>2026-09-30T09:46:30.165925Z</SendingDate>
+      <CustomsDocumentReference>26GB1669CAPTUREE01</CustomsDocumentReference>
+      <ChedCertificateId>CHEDA.XI.2026.0000159</ChedCertificateId>
+      <GoodsClearanceInformation>02</GoodsClearanceInformation>
+    </ChedClearanceRequest>
+  </s:Body>
+</s:Envelope>

@@ -12,6 +12,19 @@
       }
     ]
   },
+  "0102": {
+    "name": "Live bovine animals",
+    "names": [
+      {
+        "value": "LIVE ANIMALS",
+        "languageId": "en"
+      },
+      {
+        "value": "Live bovine animals",
+        "languageId": "en"
+      }
+    ]
+  },
   "0103": {
     "name": "Live swine",
     "names": [

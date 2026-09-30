@@ -171,7 +171,10 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
             _ => throw SimulatorFaults.Customs(header, "Each item needs a net weight or net volume with its unit"),
         };
 
-        if (!int.TryParse(item.GoodsItemNumber, out var goodsItem) || !int.TryParse(item.CertificateLineNumber, out var line))
+        if (
+            !int.TryParse(item.GoodsItemNumber, out var goodsItem)
+            || !int.TryParse(item.CertificateLineNumber, out var line)
+        )
         {
             throw SimulatorFaults.Customs(header, "GoodsItemNumber and CertificateLineNumber must be numbers");
         }
@@ -222,7 +225,10 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
                 .. position.Available.Select(line => new ProductQuantityEnhancedPlusPlusType
                 {
                     // TRACES reports the CHED's CN code in the HS subheading field, whatever its length.
-                    CommodityCode = new CommodityCodeEnhanced4AvailableType { HarmonizedSystemSubheadingcode = line.CnCode },
+                    CommodityCode = new CommodityCodeEnhanced4AvailableType
+                    {
+                        HarmonizedSystemSubheadingcode = line.CnCode,
+                    },
                     SwSupportingDocument = new SWSupportingDocumentType
                     {
                         UnitOfMeasure = Unit(line.UnitOfMeasure),
@@ -239,10 +245,14 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
         new()
         {
             GoodsItemNumber = allocation.GoodsItemNumber.ToString(),
-            CommodityCode = new CommodityCodeEnhancedType { HarmonizedSystemSubheadingcode = allocation.ClassCode },
+            CommodityCode = new CommodityCodeEnhancedType
+            {
+                HarmonizedSystemSubheadingcode = HsSubheading(allocation.ClassCode),
+            },
             SwSupportingDocument = new SWSupportingWRoundingDocumentType
             {
-                UnitOfMeasure = Unit(allocation.Line.UnitOfMeasure),
+                // As declared, not the line's unit: acceptance lists 1 g against a kilogram line as 1 GRM.
+                UnitOfMeasure = Unit(allocation.UnitOfMeasure),
                 Quantity = new SWSupportingWRoundingDocumentTypeQuantity { Value = allocation.Quantity },
                 CertificateLineNumber = allocation.Line.Number.ToString(),
             },
@@ -252,6 +262,12 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
             Item = allocation.Mrn,
             ItemElementName = ItemChoiceType2.MRN,
         };
+
+    /// <summary>
+    /// The declared code as a six-digit HS subheading: acceptance reports <c>0102</c> as <c>010200</c>,
+    /// and a longer code keeps its first six digits.
+    /// </summary>
+    private static string HsSubheading(string classCode) => classCode.PadRight(6, '0')[..6];
 
     private static UniversalUnitOfMeasureType Unit(string code) => Enum.Parse<UniversalUnitOfMeasureType>(code);
 

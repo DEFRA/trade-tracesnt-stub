@@ -26,9 +26,12 @@ public class CustomsCaptureReplayTests
     private const string V06 = "http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06";
     private const string Validated = "CHEDP.XI.2026.0000875";
     private const string New = "CHEDP.XI.2026.0000877";
+    private const string Animal = "CHEDA.XI.2026.0000159";
     private const string MrnA = "26GB1669CAPTUREA01";
     private const string MrnB = "26GB1669CAPTUREB01";
     private const string MrnC = "26GB1669CAPTUREC01";
+    private const string MrnD = "26GB1669CAPTURED01";
+    private const string MrnE = "26GB1669CAPTUREE01";
     private const string MrnConsumed = "24GBBGBKCDMS640103";
     private const string Office = "XI000002";
 
@@ -43,8 +46,9 @@ public class CustomsCaptureReplayTests
     public CustomsCaptureReplayTests()
     {
         var cheds = new ChedStore();
-        Store(cheds, Validated, "VALIDATED", 1000m);
-        Store(cheds, New, "NEW", 1100m);
+        Store(cheds, Validated, "VALIDATED", "P", Kilograms("0401", 1000m));
+        Store(cheds, New, "NEW", "P", Kilograms("0401", 1100m));
+        Store(cheds, Animal, "VALIDATED", "A", Animals("0102", 2), Animals("0103", 1));
         _port = new CustomsCertexChedSimulator(cheds, new CustomsLedger());
     }
 
@@ -80,6 +84,25 @@ public class CustomsCaptureReplayTests
         Matches("21-reserveC", await Reserve(Validated, MrnC, 0.001m));
         Matches("22-replaceC-over", await Reserve(Validated, MrnC, 99999999m));
         Matches("23-read", await Read(Validated));
+
+        // Grams and tonnes against a kilogram line: reported as declared, taken from the line converted.
+        Matches("24-reserveD-grams", await Reserve(Validated, MrnD, 1m, unit: UniversalUnitOfMeasureType.GRM));
+        Matches("25-read", await Read(Validated));
+        Matches(
+            "26-replaceD-tonnes",
+            await Reserve(Validated, MrnD, 0.000002m, unit: UniversalUnitOfMeasureType.TNE)
+        );
+        Matches("27-deleteD", await Clear(Validated, MrnD, GoodsClearanceInformationType.Item02));
+
+        // A CHED-A counts in pieces, which never mix with mass. Only a refusal for want of quantity
+        // ends a declaration's hold, so each of these leaves MRN E's piece reserved.
+        Matches("28-read-ched-a", await Read(Animal));
+        Matches("29-reserveE-pieces", await ReservePieces(Animal, MrnE, 1m, classCode: "0102"));
+        Matches("30-replaceE-kilograms", await Reserve(Animal, MrnE, 1m, classCode: "0102"));
+        Matches("31-read-ched-a", await Read(Animal));
+        Matches("32-replaceE-wrong-code", await ReservePieces(Animal, MrnE, 1m, classCode: "99999999"));
+        Matches("33-replaceE-unknown-line", await ReservePieces(Animal, MrnE, 1m, classCode: "0102", line: 999));
+        Matches("34-deleteE", await Clear(Animal, MrnE, GoodsClearanceInformationType.Item02));
     }
 
     private static void Matches(string step, ProcessedChedInformationResponseType simulated)
@@ -132,7 +155,9 @@ public class CustomsCaptureReplayTests
             Consumed = Allocations(response.QuantityManagementSummary?.ConsumedQuantity),
         };
 
-    private static List<object> Allocations(AllocatedProductQuantityByCustomsOfficeEnhanced4ChedR51Type[]? allocations) =>
+    private static List<object> Allocations(
+        AllocatedProductQuantityByCustomsOfficeEnhanced4ChedR51Type[]? allocations
+    ) =>
         [
             .. (allocations ?? []).Select(allocation => new
             {
@@ -165,13 +190,14 @@ public class CustomsCaptureReplayTests
     private async Task<ProcessedChedInformationResponseType> Read(string chedId) =>
         (await _port.processedChedRequestAsync(Request(chedId, "0", new(), null))).ProcessedChedInformationResponse1;
 
-    /// <summary>Reserves as the capture did: goods item 1 against line 1, as milk (<c>040100</c>), in kilograms.</summary>
+    /// <summary>Reserves as the capture did: goods item 1 against line 1, as milk (<c>040100</c>).</summary>
     private async Task<ProcessedChedInformationResponseType> Reserve(
         string chedId,
         string mrn,
         decimal kilograms,
         int line = 1,
-        string classCode = "040100"
+        string classCode = "040100",
+        UniversalUnitOfMeasureType unit = UniversalUnitOfMeasureType.KGM
     ) =>
         (
             await _port.processedChedRequestAsync(
@@ -187,8 +213,38 @@ public class CustomsCaptureReplayTests
                             ClassCode = classCode,
                             NetWeightQuantity = kilograms,
                             NetWeightQuantitySpecified = true,
-                            NetWeightUnitOfMeasure = UniversalUnitOfMeasureType.KGM,
+                            NetWeightUnitOfMeasure = unit,
                             NetWeightUnitOfMeasureSpecified = true,
+                        },
+                    ]
+                )
+            )
+        ).ProcessedChedInformationResponse1;
+
+    /// <summary>Reserves a count of animals, sent as a net volume in pieces as a CHED-A carries it.</summary>
+    private async Task<ProcessedChedInformationResponseType> ReservePieces(
+        string chedId,
+        string mrn,
+        decimal count,
+        string classCode,
+        int line = 1
+    ) =>
+        (
+            await _port.processedChedRequestAsync(
+                Request(
+                    chedId,
+                    "1",
+                    new() { Item = mrn, ItemElementName = ItemChoiceType1.MRN },
+                    [
+                        new ConsignmentItemR6ForReservationType
+                        {
+                            GoodsItemNumber = "1",
+                            CertificateLineNumber = line.ToString(),
+                            ClassCode = classCode,
+                            NetVolumeQuantity = count,
+                            NetVolumeQuantitySpecified = true,
+                            NetVolumeUnitOfMeasure = UniversalUnitOfMeasureType.H87,
+                            NetVolumeUnitOfMeasureSpecified = true,
                         },
                     ]
                 )
@@ -242,14 +298,20 @@ public class CustomsCaptureReplayTests
     private static CertexHeaderType Header =>
         new() { MessageId = "0123456789abcdef0123456789abcdef", UniqRequesterPrefix = Office };
 
-    private static void Store(ChedStore cheds, string id, string status, decimal kilograms)
+    private static void Store(
+        ChedStore cheds,
+        string id,
+        string status,
+        string chedType,
+        params TradeLineItemModel[] lines
+    )
     {
         var model = new CertificateControlModel
         {
             Status = status,
             ExchangedDocument = new ExchangedDocumentModel
             {
-                IncludedNote = new Dictionary<string, string> { ["CHED_TYPE"] = "P" },
+                IncludedNote = new Dictionary<string, string> { ["CHED_TYPE"] = chedType },
             },
             SpecifiedConsignment = new ConsignmentModel
             {
@@ -259,19 +321,29 @@ public class CustomsCaptureReplayTests
                 IncludedConsignmentItem = new ConsignmentItemModel
                 {
                     ConsignmentTotals = new TradeLineItemModel(),
-                    IncludedTradeLineItem =
-                    [
-                        new TradeLineItemModel
-                        {
-                            ApplicableClassification = new Dictionary<string, string> { ["CN"] = "0401" },
-                            OriginCountry = "AF",
-                            NetWeight = new MeasureModel { Value = kilograms, UnitCode = "KGM" },
-                        },
-                    ],
+                    IncludedTradeLineItem = lines,
                 },
             },
         };
 
         cheds.Put(new StoredCertificate(id, s_builder.Build(CertificateKind.Ched, model, id), true, model));
     }
+
+    private static TradeLineItemModel Kilograms(string cnCode, decimal kilograms) =>
+        new()
+        {
+            ApplicableClassification = new Dictionary<string, string> { ["CN"] = cnCode },
+            OriginCountry = "AF",
+            NetWeight = new MeasureModel { Value = kilograms, UnitCode = "KGM" },
+        };
+
+    /// <summary>As acceptance carries animals: a count in pieces beside a unitless weight of 0.</summary>
+    private static TradeLineItemModel Animals(string cnCode, decimal count) =>
+        new()
+        {
+            ApplicableClassification = new Dictionary<string, string> { ["CN"] = cnCode },
+            OriginCountry = "AF",
+            NetWeight = new MeasureModel { Value = 0 },
+            NetVolume = new MeasureModel { Value = count, UnitCode = "H87" },
+        };
 }

@@ -26,7 +26,12 @@
 @mrnA = 26GB1669CAPTUREA01
 @mrnB = 26GB1669CAPTUREB01
 @mrnC = 26GB1669CAPTUREC01
+@mrnD = 26GB1669CAPTURED01
+@mrnE = 26GB1669CAPTUREE01
 @mrnConsumed = 24GBBGBKCDMS640103
+
+# A validated CHED-A counted in pieces (H87), for steps 28-32.
+@chedA = CHEDA.XI.2026.0000159
 
 # In the NEW status, for steps 17-18. Send 18 first to check its line and code match.
 @chedNotValidated = CHEDP.XI.2026.0000877
@@ -204,5 +209,89 @@ Authorization: Bearer {{token.response.body.access_token}}
 
 ### 23 Ledger after the refused replacement
 GET {{host}}/customs/cheds/{{chedId}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 24 Reserve 1 g against the kilogram line, MRN-D
+# Answers: are grams accepted, and which unit does the allocation report?
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnD}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": 1, "netWeightUnitOfMeasure": "GRM" } ] }
+
+### 25 Ledger after the grams reservation
+GET {{host}}/customs/cheds/{{chedId}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 26 Replace MRN-D's hold with 0.000002 t (2 g)
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnD}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": 0.000002, "netWeightUnitOfMeasure": "TNE" } ] }
+
+### 27 Delete MRN-D's reservation
+DELETE {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnD}}/reservation
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 28 Read the CHED-A
+# Answers: is the line in H87? A rerun copies its line number and code into steps 29-33.
+GET {{host}}/customs/cheds/{{chedA}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 29 Reserve 1 piece against the CHED-A, MRN-E
+PUT {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 1, "classCode": "0102",
+  "netVolumeQuantity": 1, "netVolumeUnitOfMeasure": "H87" } ] }
+
+### 30 Replace MRN-E's hold with 1 kg
+# Answers: is mixing mass and pieces refused, and with which reason?
+PUT {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 1, "classCode": "0102",
+  "netWeightQuantity": 1, "netWeightUnitOfMeasure": "KGM" } ] }
+
+### 31 Read the CHED-A
+# Answers: did the refusal end MRN-E's hold?
+GET {{host}}/customs/cheds/{{chedA}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 32 Replace MRN-E's hold with the wrong commodity code
+# Answers: does a refusal on a check (03) end the hold, as 05 did in step 22?
+PUT {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 1, "classCode": "99999999",
+  "netVolumeQuantity": 1, "netVolumeUnitOfMeasure": "H87" } ] }
+
+### 33 Replace MRN-E's hold against an unknown line
+PUT {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 999, "classCode": "0102",
+  "netVolumeQuantity": 1, "netVolumeUnitOfMeasure": "H87" } ] }
+
+### 34 Delete MRN-E's reservation
+DELETE {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
 Accept-Language: en
 Authorization: Bearer {{token.response.body.access_token}}
