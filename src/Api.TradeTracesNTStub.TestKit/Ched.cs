@@ -313,8 +313,18 @@ public class CommodityBuilder
 
     public CommodityBuilder ScientificName(string name) => Set(item => item with { ScientificName = name });
 
-    public CommodityBuilder NetWeightKg(decimal kilograms) =>
-        Set(item => item with { NetWeight = new MeasureModel { Value = kilograms, UnitCode = "KGM" } });
+    public CommodityBuilder NetWeightKg(decimal kilograms) => NetWeight(kilograms, "KGM");
+
+    /// <summary>Net weight in any UNECE mass unit — <c>GRM</c>, <c>KGM</c> or <c>TNE</c>.</summary>
+    public CommodityBuilder NetWeight(decimal value, string unitCode) =>
+        Set(item => item with { NetWeight = new MeasureModel { Value = value, UnitCode = unitCode } });
+
+    /// <summary>
+    /// A count of animals. TRACES carries it as a net volume in pieces (<c>H87</c>), which is what a
+    /// CHED-A's customs quantity is measured in.
+    /// </summary>
+    public CommodityBuilder Pieces(decimal count) =>
+        Set(item => item with { NetVolume = new MeasureModel { Value = count, UnitCode = "H87" } });
 
     public CommodityBuilder Packages(decimal count, string packageType) =>
         Set(item =>

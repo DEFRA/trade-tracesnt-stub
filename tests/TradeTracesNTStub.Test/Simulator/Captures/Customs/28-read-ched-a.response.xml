@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>b039d54b-0407-4612-9f35-cd18e3671dad</Message>
+    </Message>
+    <ns0:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns0="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-09-30T11:45:37.817+02:00</ns1:Created>
+        <ns1:Expires>2026-09-30T11:45:42.817+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns0:Security>
+    <ns0:CertexHeader xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03" xmlns:ns0="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+      <MessageId>f77ccbed2a354069a1b19a271af7da1a</MessageId>
+      <UniqRequesterPrefix>XI000002</UniqRequesterPrefix>
+    </ns0:CertexHeader>
+  </S:Header>
+  <S:Body>
+    <ns3:ProcessedChedInformationResponse xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03" xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v3" xmlns:ns3="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06" xmlns:ns4="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns6="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:ns7="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns8="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns9="http://www.w3.org/2000/09/xmldsig#" xmlns:ns10="http://ec.europa.eu/tracesnt/body/v1" xmlns:ns11="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns12="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns13="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns14="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns15="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns16="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2">
+      <!-- ChedCertificate removed: real acceptance certificate data -->
+      <ns3:QuantityManagementSummary>
+        <AvailableQuantity>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>0102</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>H87</UnitOfMeasure>
+            <Quantity>2</Quantity>
+            <CertificateLineNumber>1</CertificateLineNumber>
+          </SwSupportingDocument>
+        </AvailableQuantity>
+        <AvailableQuantity>
+          <CommodityCode>
+            <HarmonizedSystemSubheadingcode>0103</HarmonizedSystemSubheadingcode>
+          </CommodityCode>
+          <SwSupportingDocument>
+            <UnitOfMeasure>H87</UnitOfMeasure>
+            <Quantity>1</Quantity>
+            <CertificateLineNumber>2</CertificateLineNumber>
+          </SwSupportingDocument>
+        </AvailableQuantity>
+      </ns3:QuantityManagementSummary>
+      <ns3:OperationCode>0</ns3:OperationCode>
+      <ns3:PushActive>false</ns3:PushActive>
+    </ns3:ProcessedChedInformationResponse>
+  </S:Body>
+</S:Envelope>

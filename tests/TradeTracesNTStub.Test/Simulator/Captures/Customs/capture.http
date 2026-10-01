@@ -1,0 +1,297 @@
+### Customs capture against EU acceptance (CDMS-1669)
+#
+# The fixed sequence that produced the captures in this folder, sent through Trade Gateway's own
+# customs endpoints so every request goes out exactly as the gateway builds it. See README.md for
+# how to run it through trade-gateway-local-environment.
+#
+# RULES
+# - Send each request once, in order. No retries, no loops, nothing outside this file.
+# - Stop at the first unexpected 5xx or auth failure and look before going on.
+# - Release (steps 5, 7) CONSUMES quantity on acceptance for good. Keep quantities tiny.
+# - After each step, export the raw exchange from the stub's WireMock log, then clear it:
+#     curl -s http://localhost:3000/mock/__admin/requests > NN-name.json
+#     curl -s -X DELETE http://localhost:3000/mock/__admin/requests
+
+@host = http://localhost:8080
+@scope = trade-gateway-resource-srv/access
+
+# As run on 2026-09-29. CHEDP.XI.2026.0000875: validated, one commodity of 1000 kg milk, 600 kg
+# already consumed. A rerun needs a CHED with quantity left and MRNs that have not been used.
+@chedId = CHEDP.XI.2026.0000875
+@line = 1
+@classCode = 040100
+@unit = KGM
+@tiny = 0.001
+@larger = 0.002
+@mrnA = 26GB1669CAPTUREA01
+@mrnB = 26GB1669CAPTUREB01
+@mrnC = 26GB1669CAPTUREC01
+@mrnD = 26GB1669CAPTURED01
+@mrnE = 26GB1669CAPTUREE01
+@mrnConsumed = 24GBBGBKCDMS640103
+
+# A validated CHED-A counted in pieces (H87), for steps 28-32.
+@chedA = CHEDA.XI.2026.0000159
+
+# In the NEW status, for steps 17-18. Send 18 first to check its line and code match.
+@chedNotValidated = CHEDP.XI.2026.0000877
+
+### Token — customs quantity manager
+# @name token
+POST {{host}}/local/cognito/token
+Content-Type: application/x-www-form-urlencoded
+
+scope={{scope}}&sub=test-customs-quantity-manager
+
+### 01 Baseline ledger
+# Answers: is reserved/consumed populated on a "0" read?
+GET {{host}}/customs/cheds/{{chedId}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 02 Reserve against MRN-A
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnA}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": {{tiny}}, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 03 Ledger after reserve
+GET {{host}}/customs/cheds/{{chedId}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 04 Reserve MRN-A again with a different quantity
+# Answers: does a repeat reservation replace the hold or add to it?
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnA}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": {{larger}}, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 05 Release MRN-A (consumes quantity)
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnA}}/reservation/release
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 06 Ledger after release
+# Answers: does a release show as consumed?
+GET {{host}}/customs/cheds/{{chedId}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 07 Release MRN-A again
+# Double release.
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnA}}/reservation/release
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 08 Reserve against MRN-B
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnB}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": {{tiny}}, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 09 Delete MRN-B's reservation
+DELETE {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnB}}/reservation
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 10 Ledger after delete
+# Answers: does a delete restore the available quantity, and how does it differ from a release?
+GET {{host}}/customs/cheds/{{chedId}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 11 Delete MRN-B again
+# Delete after delete.
+DELETE {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnB}}/reservation
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 12 Release MRN-B
+# Releasing a deleted reservation.
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnB}}/reservation/release
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 13 Over-reservation
+# Answers: in-band refusal (409) or a fault (502)?
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnB}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": 99999999, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 14 Wrong commodity code for the line
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnB}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "99999999",
+  "netWeightQuantity": {{tiny}}, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 15 Unknown certificate line
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnB}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 999, "classCode": "{{classCode}}",
+  "netWeightQuantity": {{tiny}}, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 16 Unknown CHED
+GET {{host}}/customs/cheds/CHEDP.XI.2026.9999999/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 17 Reserve against a CHED that is not validated
+# Answers: is status checked, and how is it reported (refusal 04 "Inappropriate status" or a fault)?
+# Takes nothing if refused, as expected.
+PUT {{host}}/customs/cheds/{{chedNotValidated}}/declarations/{{mrnB}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 1, "classCode": "{{classCode}}",
+  "netWeightQuantity": {{tiny}}, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 18 Read a CHED that is not validated
+# Answers: can a ledger be read whatever the status?
+GET {{host}}/customs/cheds/{{chedNotValidated}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 19 Reserve against the MRN that is already consumed
+# Answers: refusal 06 "Write-off for this MRN and PCA document ID exists"? Takes nothing if refused.
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnConsumed}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": {{tiny}}, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 20 Delete the consumed MRN's reservation
+# Answers: outcome 03 "already consumed", or 02? Nothing is reserved, so nothing can change.
+DELETE {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnConsumed}}/reservation
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 21 Reserve against MRN-C
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnC}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": {{tiny}}, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 22 Replace MRN-C's reservation with more than is available
+# Answers: does a refused replacement keep the old hold, or end it?
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnC}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": 99999999, "netWeightUnitOfMeasure": "{{unit}}" } ] }
+
+### 23 Ledger after the refused replacement
+GET {{host}}/customs/cheds/{{chedId}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 24 Reserve 1 g against the kilogram line, MRN-D
+# Answers: are grams accepted, and which unit does the allocation report?
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnD}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": 1, "netWeightUnitOfMeasure": "GRM" } ] }
+
+### 25 Ledger after the grams reservation
+GET {{host}}/customs/cheds/{{chedId}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 26 Replace MRN-D's hold with 0.000002 t (2 g)
+PUT {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnD}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": {{line}}, "classCode": "{{classCode}}",
+  "netWeightQuantity": 0.000002, "netWeightUnitOfMeasure": "TNE" } ] }
+
+### 27 Delete MRN-D's reservation
+DELETE {{host}}/customs/cheds/{{chedId}}/declarations/{{mrnD}}/reservation
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 28 Read the CHED-A
+# Answers: is the line in H87? A rerun copies its line number and code into steps 29-33.
+GET {{host}}/customs/cheds/{{chedA}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 29 Reserve 1 piece against the CHED-A, MRN-E
+PUT {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 1, "classCode": "0102",
+  "netVolumeQuantity": 1, "netVolumeUnitOfMeasure": "H87" } ] }
+
+### 30 Replace MRN-E's hold with 1 kg
+# Answers: is mixing mass and pieces refused, and with which reason?
+PUT {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 1, "classCode": "0102",
+  "netWeightQuantity": 1, "netWeightUnitOfMeasure": "KGM" } ] }
+
+### 31 Read the CHED-A
+# Answers: did the refusal end MRN-E's hold?
+GET {{host}}/customs/cheds/{{chedA}}/quantities
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+### 32 Replace MRN-E's hold with the wrong commodity code
+# Answers: does a refusal on a check (03) end the hold, as 05 did in step 22?
+PUT {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 1, "classCode": "99999999",
+  "netVolumeQuantity": 1, "netVolumeUnitOfMeasure": "H87" } ] }
+
+### 33 Replace MRN-E's hold against an unknown line
+PUT {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Content-Type: application/json
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}
+
+{ "items": [ { "goodsItemNumber": 1, "certificateLineNumber": 999, "classCode": "0102",
+  "netVolumeQuantity": 1, "netVolumeUnitOfMeasure": "H87" } ] }
+
+### 34 Delete MRN-E's reservation
+DELETE {{host}}/customs/cheds/{{chedA}}/declarations/{{mrnE}}/reservation
+Accept-Language: en
+Authorization: Bearer {{token.response.body.access_token}}

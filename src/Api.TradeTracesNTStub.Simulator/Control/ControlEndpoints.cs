@@ -30,7 +30,7 @@ public static class ControlEndpoints
             .MapPost("/reset", Reset)
             .WithSummary("Reset simulator state")
             .WithDescription(
-                "Clears every CHED and INTRA. A test states the certificates it needs rather than resetting to a set."
+                "Clears every CHED and INTRA, and every customs reservation against them. A test states the certificates it needs rather than resetting to a set."
             )
             .Produces<ResetResponse>();
 
@@ -93,8 +93,12 @@ public static class ControlEndpoints
         control
             .MapDelete(
                 $"/{collection}/{{id}}",
-                (string id, TStore store) =>
-                    store.Remove(id) ? Results.NoContent() : NotFound(kind, id)
+                (string id, TStore store, CustomsLedger ledger) =>
+                {
+                    // A CHED issued again under this ID must not inherit the old one's reservations.
+                    ledger.Forget(id);
+                    return store.Remove(id) ? Results.NoContent() : NotFound(kind, id);
+                }
             )
             .WithSummary($"Delete a {kind.Name}")
             .Produces(StatusCodes.Status204NoContent)
@@ -161,10 +165,11 @@ public static class ControlEndpoints
         });
     }
 
-    private static IResult Reset(ChedStore cheds, IntraStore intras)
+    private static IResult Reset(ChedStore cheds, IntraStore intras, CustomsLedger ledger)
     {
         cheds.Clear();
         intras.Clear();
+        ledger.Clear();
 
         return Results.Ok(new ResetResponse(cheds.Count + intras.Count));
     }

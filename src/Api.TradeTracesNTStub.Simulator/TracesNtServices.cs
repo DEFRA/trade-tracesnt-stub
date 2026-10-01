@@ -18,6 +18,9 @@ public static class TracesNtServices
     /// <summary>Where the INTRA typed faults live.</summary>
     public const string EuIntraV1Namespace = "http://ec.europa.eu/tracesnt/certificate/euintra/v1";
 
+    /// <summary>Where the customs port's one fault lives, for every operation.</summary>
+    public const string CustomsCertexChedV06Namespace = "http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06";
+
     public const string Ched = "ChedCertificateServiceV2";
     public const string EuIntra = "EuIntraCertificateServiceV1";
     public const string Docom = "DocomCertificateRetrievalServiceV1";

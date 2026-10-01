@@ -12,6 +12,19 @@
       }
     ]
   },
+  "0102": {
+    "name": "Live bovine animals",
+    "names": [
+      {
+        "value": "LIVE ANIMALS",
+        "languageId": "en"
+      },
+      {
+        "value": "Live bovine animals",
+        "languageId": "en"
+      }
+    ]
+  },
   "0103": {
     "name": "Live swine",
     "names": [
@@ -67,6 +80,19 @@
       },
       {
         "value": "Navel oranges",
+        "languageId": "en"
+      }
+    ]
+  },
+  "0401": {
+    "name": "Milk and cream, not concentrated nor containing added sugar or other sweetening matter",
+    "names": [
+      {
+        "value": "DAIRY PRODUCE; BIRDS' EGGS; NATURAL HONEY; EDIBLE PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED",
+        "languageId": "en"
+      },
+      {
+        "value": "Milk and cream, not concentrated nor containing added sugar or other sweetening matter",
         "languageId": "en"
       }
     ]

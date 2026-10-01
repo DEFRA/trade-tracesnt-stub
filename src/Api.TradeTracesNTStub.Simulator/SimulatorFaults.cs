@@ -50,6 +50,23 @@ public static class SimulatorFaults
         );
 
     /// <summary>
+    /// The customs port's only fault. It is untyped in all but name, so the gateway can say nothing
+    /// more than 502 about it. It carries the request's <c>MessageId</c> back, which is what the
+    /// gateway logs to correlate with DG SANTE.
+    /// </summary>
+    public static FaultException<ExceptionWithUniqueInfoType> Customs(CertexHeaderType? header, string error) =>
+        new(
+            new ExceptionWithUniqueInfoType
+            {
+                MessageId = header?.MessageId,
+                UniqPrefix = header?.UniqRequesterPrefix,
+                errorMessage = error,
+            },
+            new FaultReason(error),
+            FaultCode.CreateSenderFaultCode("ExceptionWithUniqueInfo", TracesNtServices.CustomsCertexChedV06Namespace)
+        );
+
+    /// <summary>
     /// The fault returned by every operation the simulator has a contract for but no behaviour behind.
     /// Deliberately a receiver fault naming the operation, so it cannot be confused with an
     /// authentication failure (a sender fault, <c>UnauthenticatedException</c>) or with a certificate
