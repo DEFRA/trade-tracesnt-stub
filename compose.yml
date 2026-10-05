@@ -34,7 +34,10 @@ services:
       - 'compose/aws.env'
     environment:
       PORT: 8080
-      MONGO_URI: mongodb://mongodb:27017/
+      # directConnection: the replica set advertises host.docker.internal, which this container may not resolve.
+      Mongo__DatabaseUri: mongodb://mongodb:27017/?directConnection=true
+      # MongoDB as on CDP; the integration tests also run with SIMULATOR_STORE=InMemory.
+      Simulator__Store: ${SIMULATOR_STORE:-MongoDB}
     networks:
       - cdp-tenant
     healthcheck:

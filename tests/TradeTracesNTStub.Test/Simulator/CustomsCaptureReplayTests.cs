@@ -21,8 +21,12 @@ namespace TradeTracesNTStub.Test.Simulator;
 /// 1000 kg of milk and 600 kg already consumed, one new with 1100 kg. Timestamps are compared only
 /// for presence, since the simulator's clock is not acceptance's.
 /// </remarks>
-public class CustomsCaptureReplayTests
+public abstract class CustomsCaptureReplayTests(ISimulatorState state) : IAsyncLifetime
 {
+    public sealed class InMemory() : CustomsCaptureReplayTests(new InMemoryState());
+
+    public sealed class Mongo(MongoFixture mongo) : CustomsCaptureReplayTests(mongo.NewState());
+
     private const string V06 = "http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06";
     private const string Validated = "CHEDP.XI.2026.0000875";
     private const string New = "CHEDP.XI.2026.0000877";
@@ -41,16 +45,16 @@ public class CustomsCaptureReplayTests
         Registry<AuthorityEntry>.Load("authorities.json")
     );
 
-    private readonly CustomsCertexChedSimulator _port;
+    private readonly CustomsCertexChedSimulator _port = new(state.Cheds, state.Ledger);
 
-    public CustomsCaptureReplayTests()
+    public async ValueTask InitializeAsync()
     {
-        var cheds = new ChedStore();
-        Store(cheds, Validated, "VALIDATED", "P", Kilograms("0401", 1000m));
-        Store(cheds, New, "NEW", "P", Kilograms("0401", 1100m));
-        Store(cheds, Animal, "VALIDATED", "A", Animals("0102", 2), Animals("0103", 1));
-        _port = new CustomsCertexChedSimulator(cheds, new CustomsLedger());
+        await Store(state.Cheds, Validated, "VALIDATED", "P", Kilograms("0401", 1000m));
+        await Store(state.Cheds, New, "NEW", "P", Kilograms("0401", 1100m));
+        await Store(state.Cheds, Animal, "VALIDATED", "A", Animals("0102", 2), Animals("0103", 1));
     }
+
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     [Fact]
     public async Task TheSimulatorAnswersEachStepAsAcceptanceDid()
@@ -298,8 +302,8 @@ public class CustomsCaptureReplayTests
     private static CertexHeaderType Header =>
         new() { MessageId = "0123456789abcdef0123456789abcdef", UniqRequesterPrefix = Office };
 
-    private static void Store(
-        ChedStore cheds,
+    private static Task Store(
+        IChedStore cheds,
         string id,
         string status,
         string chedType,
@@ -326,7 +330,7 @@ public class CustomsCaptureReplayTests
             },
         };
 
-        cheds.Put(new StoredCertificate(id, s_builder.Build(CertificateKind.Ched, model, id), true, model));
+        return cheds.PutAsync(new StoredCertificate(id, s_builder.Build(CertificateKind.Ched, model, id), true, model));
     }
 
     private static TradeLineItemModel Kilograms(string cnCode, decimal kilograms) =>

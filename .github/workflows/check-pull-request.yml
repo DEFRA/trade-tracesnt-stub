@@ -33,9 +33,15 @@ jobs:
       - name: Run unit tests
         run: |
           dotnet test --project tests/TradeTracesNTStub.Test/TradeTracesNTStub.Test.csproj --filter-not-trait Category=IntegrationTests
-      - name: Run integration tests
+      - name: Run integration tests against Mongo
         run: |
-          docker compose up -d
+          docker compose up -d --wait
+          dotnet test --project tests/TradeTracesNTStub.IntegrationTests/TradeTracesNTStub.IntegrationTests.csproj --filter-trait Category=IntegrationTest
+      - name: Run integration tests in memory
+        env:
+          SIMULATOR_STORE: InMemory
+        run: |
+          docker compose up -d --wait --force-recreate trade-tracesnt-stub
           dotnet test --project tests/TradeTracesNTStub.IntegrationTests/TradeTracesNTStub.IntegrationTests.csproj --filter-trait Category=IntegrationTest
       - name: Docker Compose Logs
         if: always()

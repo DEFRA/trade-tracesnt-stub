@@ -75,6 +75,7 @@ static void ConfigureBuilder(WebApplicationBuilder builder)
 
     // Set up the CoreWCF TRACES NT simulator and its REST control API.
     builder.Services.AddTracesNtSimulator(builder.Configuration);
+    builder.Services.AddSimulatorState(builder.Configuration);
     builder.Services.AddOpenApi();
 
     // The control API's enums read far better as names than as numbers.

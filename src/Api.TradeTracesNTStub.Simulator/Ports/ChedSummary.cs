@@ -23,7 +23,7 @@ public static class ChedSummary
         var document = certificate.SPSExchangedDocument;
         var consignment = certificate.SPSConsignment;
         var commodity = FirstCommodity(consignment);
-        var updated = LastUpdated(document) ?? Moment(document.IssueDateTime) ?? DateTime.UtcNow;
+        var updated = Updated(document);
         var declared = ActualDateTime(document, DeclarationTypeCode);
         var decided = ActualDateTime(document, ClearanceTypeCode);
 
@@ -62,6 +62,22 @@ public static class ChedSummary
             PriorNotificationDateTimeSpecified = consignment.AvailabilityDueDateTime is not null,
         };
     }
+
+    /// <summary>
+    /// When the certificate last changed, in UTC: what search filters and sorts on. The stores read it from
+    /// here as they store, so it cannot disagree with the <c>UpdateDateTime</c> a search result reports.
+    /// </summary>
+    public static DateTime UpdatedAt(SPSCertificateType certificate) => AsUtc(Updated(certificate.SPSExchangedDocument));
+
+    /// <summary>
+    /// Search bounds arrive at the host's offset, and the builder's datetimes carry no offset at all but are
+    /// UTC. Comparing them unconverted would compare wall-clock readings from different clocks.
+    /// </summary>
+    public static DateTime AsUtc(DateTime value) =>
+        value.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(value, DateTimeKind.Utc) : value.ToUniversalTime();
+
+    private static DateTime Updated(SPSExchangedDocumentType document) =>
+        LastUpdated(document) ?? Moment(document.IssueDateTime) ?? DateTime.UtcNow;
 
     /// <summary>The CHED type note carries the code and its display name already resolved.</summary>
     private static CodeType? ChedType(SPSExchangedDocumentType document) =>
