@@ -16,6 +16,10 @@ namespace Api.TradeTracesNTStub.Simulator.Extensions;
 
 public static class SimulatorRegistrationExtensions
 {
+    /// <summary>
+    /// Registers everything but the state: <see cref="IChedStore"/>, <see cref="IIntraStore"/> and
+    /// <see cref="ICustomsLedger"/> are the host's to choose, because only the host knows about Mongo.
+    /// </summary>
     public static IServiceCollection AddTracesNtSimulator(
         this IServiceCollection services,
         IConfiguration configuration
@@ -27,11 +31,6 @@ public static class SimulatorRegistrationExtensions
         );
 
         services.AddSingleton(new WsSecurityValidator(credentials));
-
-        // Simulator state is a singleton: the SOAP face reads exactly what the control API wrote.
-        services.AddSingleton<ChedStore>();
-        services.AddSingleton<IntraStore>();
-        services.AddSingleton<CustomsLedger>();
         services.AddSingleton(CodeLists.Seeded);
         services.AddSingleton(Registry<OperatorEntry>.Load("operators.json"));
         services.AddSingleton(Registry<AuthorityEntry>.Load("authorities.json"));
@@ -47,6 +46,15 @@ public static class SimulatorRegistrationExtensions
 
         return services;
     }
+
+    /// <summary>
+    /// One instance per kind, shared by every request: the SOAP face reads exactly what the control API wrote.
+    /// </summary>
+    public static IServiceCollection AddInMemorySimulatorState(this IServiceCollection services) =>
+        services
+            .AddSingleton<IChedStore>(new InMemoryCertificateStore())
+            .AddSingleton<IIntraStore>(new InMemoryCertificateStore())
+            .AddSingleton<ICustomsLedger>(new InMemoryCustomsLedger());
 
     /// <summary>
     /// Maps the REST control API. Separate from <see cref="UseTracesNtSimulator"/> because it has to

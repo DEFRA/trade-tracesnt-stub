@@ -23,8 +23,8 @@ public static class ControlEndpoints
     {
         var control = app.MapGroup(Prefix).WithTags("Simulator control");
 
-        MapCertificates<ChedStore>(control, "cheds", CertificateKind.Ched, "getChedCertificate");
-        MapCertificates<IntraStore>(control, "intras", CertificateKind.Intra, "getEuIntraCertificate");
+        MapCertificates<IChedStore>(control, "cheds", CertificateKind.Ched, "getChedCertificate");
+        MapCertificates<IIntraStore>(control, "intras", CertificateKind.Intra, "getEuIntraCertificate");
 
         control
             .MapPost("/reset", Reset)
@@ -44,7 +44,7 @@ public static class ControlEndpoints
         CertificateKind kind,
         string soapOperation
     )
-        where TStore : CertificateStore
+        where TStore : ICertificateStore
     {
         control
             .MapPost(
@@ -93,11 +93,11 @@ public static class ControlEndpoints
         control
             .MapDelete(
                 $"/{collection}/{{id}}",
-                (string id, TStore store, CustomsLedger ledger) =>
+                async (string id, TStore store, ICustomsLedger ledger) =>
                 {
                     // A CHED issued again under this ID must not inherit the old one's reservations.
-                    ledger.Forget(id);
-                    return store.Remove(id) ? Results.NoContent() : NotFound(kind, id);
+                    await ledger.ForgetAsync(id);
+                    return await store.RemoveAsync(id) ? Results.NoContent() : NotFound(kind, id);
                 }
             )
             .WithSummary($"Delete a {kind.Name}")
@@ -105,73 +105,73 @@ public static class ControlEndpoints
             .ProducesProblem(StatusCodes.Status404NotFound);
     }
 
-    private static IResult Create(
+    private static Task<IResult> Create(
         CertificateKind kind,
         string collection,
         CertificateControlModel model,
-        CertificateStore store,
+        ICertificateStore store,
         SpsCertificateBuilder builder
     ) =>
-        Guarded(() =>
+        Guarded(async () =>
         {
             // The prefix can come out of a note, so reading it can fail the same way any other
             // lookup fails — inside the guard, not before it.
-            var id = store.NextId(kind.IdPrefix(model));
+            var id = await store.NextIdAsync(kind.IdPrefix(model));
 
-            store.Put(Stored(kind, id, model, builder));
+            await store.PutAsync(Stored(kind, id, model, builder));
 
             return Results.Created($"{Prefix}/{collection}/{id}", Describe(model, id));
         });
 
-    private static IResult Update(
+    private static async Task<IResult> Update(
         CertificateKind kind,
         string id,
         CertificateControlModel model,
-        CertificateStore store,
+        ICertificateStore store,
         SpsCertificateBuilder builder
     )
     {
-        if (!store.TryGet(id, out _))
+        if (await store.FindAsync(id) is null)
         {
             return NotFound(kind, id);
         }
 
-        return Guarded(() =>
+        return await Guarded(async () =>
         {
-            store.Put(Stored(kind, id, model, builder));
+            await store.PutAsync(Stored(kind, id, model, builder));
             return Results.Ok(Describe(model, id));
         });
     }
 
-    private static IResult Patch(
+    private static async Task<IResult> Patch(
         CertificateKind kind,
         string id,
         CertificateControlModel patch,
-        CertificateStore store,
+        ICertificateStore store,
         SpsCertificateBuilder builder
     )
     {
-        if (!store.TryGet(id, out var stored))
+        if (await store.FindAsync(id) is not { } stored)
         {
             return NotFound(kind, id);
         }
 
         var merged = stored.Source.Merge(patch);
 
-        return Guarded(() =>
+        return await Guarded(async () =>
         {
-            store.Put(Stored(kind, id, merged, builder));
+            await store.PutAsync(Stored(kind, id, merged, builder));
             return Results.Ok(Describe(merged, id));
         });
     }
 
-    private static IResult Reset(ChedStore cheds, IntraStore intras, CustomsLedger ledger)
+    private static async Task<IResult> Reset(IChedStore cheds, IIntraStore intras, ICustomsLedger ledger)
     {
-        cheds.Clear();
-        intras.Clear();
-        ledger.Clear();
+        await cheds.ClearAsync();
+        await intras.ClearAsync();
+        await ledger.ClearAsync();
 
-        return Results.Ok(new ResetResponse(cheds.Count + intras.Count));
+        return Results.Ok(new ResetResponse(await cheds.CountAsync() + await intras.CountAsync()));
     }
 
     private static StoredCertificate Stored(
@@ -188,11 +188,11 @@ public static class ControlEndpoints
     /// Runs a handler, turning a code the simulator has no display name for into a 400 rather than a
     /// 500. It is the caller's to fix, and the message says which file to add it to.
     /// </summary>
-    private static IResult Guarded(Func<IResult> act)
+    private static async Task<IResult> Guarded(Func<Task<IResult>> act)
     {
         try
         {
-            return act();
+            return await act();
         }
         catch (UnknownCodeException exception)
         {

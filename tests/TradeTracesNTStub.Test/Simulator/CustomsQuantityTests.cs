@@ -13,8 +13,12 @@ namespace TradeTracesNTStub.Test.Simulator;
 /// after every step, because an operation that answered correctly but left the wrong state behind
 /// would otherwise pass.
 /// </summary>
-public class CustomsQuantityTests
+public abstract class CustomsQuantityTests(ISimulatorState state) : IAsyncLifetime
 {
+    public sealed class InMemory() : CustomsQuantityTests(new InMemoryState());
+
+    public sealed class Mongo(MongoFixture mongo) : CustomsQuantityTests(mongo.NewState());
+
     private const string ChedId = "CHEDA.XI.2026.0000001";
     private const string PiecesChedId = "CHEDA.XI.2026.0000002";
     private const string MrnA = "26GB00000000000001";
@@ -27,13 +31,13 @@ public class CustomsQuantityTests
         Registry<AuthorityEntry>.Load("authorities.json")
     );
 
-    private readonly ChedStore _cheds = new();
-    private readonly CustomsCertexChedSimulator _port;
+    private readonly IChedStore _cheds = state.Cheds;
+    private readonly CustomsCertexChedSimulator _port = new(state.Cheds, state.Ledger);
 
-    public CustomsQuantityTests()
+    public async ValueTask InitializeAsync()
     {
-        WithStatus("VALIDATED");
-        _cheds.Put(
+        await WithStatus("VALIDATED");
+        await _cheds.PutAsync(
             new StoredCertificate(
                 PiecesChedId,
                 s_builder.Build(CertificateKind.Ched, TenHorses, PiecesChedId),
@@ -41,7 +45,43 @@ public class CustomsQuantityTests
                 TenHorses
             )
         );
-        _port = new CustomsCertexChedSimulator(_cheds, new CustomsLedger());
+    }
+
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+
+    [Fact]
+    public async Task TwoDeclarationsRacingForTheLastOfALineCannotBothHaveIt()
+    {
+        // Each declaration goes through its own port, as it would through its own instance of the stub
+        // on CDP. All see 90 kg free; only one may take 60 of it. The first reservation is there so the
+        // race is over an existing ledger, not over which declaration creates it.
+        await Reservation(MrnB, Item(line: 1, quantity: 10));
+
+        var ports = Enumerable
+            .Range(0, 8)
+            .Select(_ => state.Another())
+            .Select(other => new CustomsCertexChedSimulator(other.Cheds, other.Ledger))
+            .ToList();
+
+        var outcomes = await Task.WhenAll(
+            ports.Select(
+                (port, i) =>
+                    Task.Run(async () =>
+                        (
+                            await port.processedChedRequestAsync(
+                                Request(ChedId, "1", Mrn($"26GB0000000000010{i}"), [Item(line: 1, quantity: 60)])
+                            )
+                        ).ProcessedChedInformationResponse1
+                    )
+            )
+        );
+
+        outcomes.Count(outcome => outcome.ReservationResult).Should().Be(1);
+        outcomes
+            .Where(outcome => !outcome.ReservationResult)
+            .Should()
+            .AllSatisfy(outcome => outcome.ReservationFailureReason.Should().Be("05"));
+        Available(await Read()).Should().Equal(30m, 50m);
     }
 
     [Fact]
@@ -213,7 +253,7 @@ public class CustomsQuantityTests
     {
         // Not captured: a status refusal is taken to act like the other checks, not like 05.
         await Reservation(MrnA, Item(line: 1, quantity: 30));
-        WithStatus("CANCELLED");
+        await WithStatus("CANCELLED");
 
         (await Reservation(MrnA, Item(line: 1, quantity: 10))).ReservationFailureReason.Should().Be("04");
 
@@ -323,7 +363,7 @@ public class CustomsQuantityTests
     [InlineData("CANCELLED")]
     public async Task AChedThatIsNotValidatedCannotBeReservedAgainst(string status)
     {
-        WithStatus(status);
+        await WithStatus(status);
 
         var refused = await Reservation(MrnA, Item(line: 1, quantity: 10));
 
@@ -337,7 +377,7 @@ public class CustomsQuantityTests
     [Fact]
     public async Task AChedThatIsNotValidatedCanStillBeRead()
     {
-        WithStatus("NEW");
+        await WithStatus("NEW");
 
         Available(await Read()).Should().Equal(100m, 50m);
     }
@@ -346,7 +386,7 @@ public class CustomsQuantityTests
     public async Task ReleasingAfterTheChedHasMovedOnWritesOffWithAWarning()
     {
         await Reservation(MrnA, Item(line: 1, quantity: 10));
-        WithStatus("CANCELLED");
+        await WithStatus("CANCELLED");
 
         var released = await Clearance(MrnA, GoodsClearanceInformationType.Item01);
 
@@ -408,10 +448,12 @@ public class CustomsQuantityTests
     }
 
     /// <summary>Stores the CHED afresh in this status, as a control-API PATCH of the status would.</summary>
-    private void WithStatus(string status)
+    private Task WithStatus(string status)
     {
         var model = AChedA with { Status = status };
-        _cheds.Put(new StoredCertificate(ChedId, s_builder.Build(CertificateKind.Ched, model, ChedId), true, model));
+        return _cheds.PutAsync(
+            new StoredCertificate(ChedId, s_builder.Build(CertificateKind.Ched, model, ChedId), true, model)
+        );
     }
 
     private async Task<ProcessedChedInformationResponseType> Read(string chedId = ChedId) =>

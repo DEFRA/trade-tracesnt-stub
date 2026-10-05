@@ -12,8 +12,7 @@ namespace Api.TradeTracesNTStub.Simulator.Ports;
 /// refused rather than guessed at, because a gateway that sends a read shaped like a reservation is
 /// exactly the bug this port is here to catch.
 /// </summary>
-public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
-    : CustomsCertexChedPort
+public class CustomsCertexChedSimulator(IChedStore cheds, ICustomsLedger ledger) : CustomsCertexChedPort
 {
     private const string ReadOnly = "0";
     private const string Reserve = "1";
@@ -25,7 +24,7 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
     /// </summary>
     private static readonly HashSet<string> s_reservableStatuses = ["70"];
 
-    public Task<ProcessedChedInformationResponse> processedChedRequestAsync(ProcessedChedRequest request)
+    public async Task<ProcessedChedInformationResponse> processedChedRequestAsync(ProcessedChedRequest request)
     {
         var header = request.CertexHeader;
         var body = request.ProcessedChedRequest1 ?? throw SimulatorFaults.Customs(header, "Missing request body");
@@ -54,7 +53,7 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
         };
 
         // An unknown CHED is not a fault on this port: TRACES answers with no certificate.
-        if (!cheds.TryGet(body.ChedCertificateId ?? "", out var ched) || !ched.Accessible)
+        if (await cheds.FindAsync(body.ChedCertificateId ?? "") is not { Accessible: true } ched)
         {
             return Respond(header, new ProcessedChedInformationResponseType());
         }
@@ -69,7 +68,7 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
                 new ProcessedChedInformationResponseType
                 {
                     ChedCertificate = certificate,
-                    QuantityManagementSummary = Summary(ledger.For(ched.Id).Read(lines)),
+                    QuantityManagementSummary = Summary(await ledger.ApplyAsync(ched.Id, l => l.Read(lines))),
                 }
             );
         }
@@ -83,20 +82,17 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
                 header,
                 Refused(
                     certificate,
-                    ledger.For(ched.Id).Refuse(lines, declaration!, ReservationFailure.InappropriateStatus, null)
+                    await ledger.ApplyAsync(
+                        ched.Id,
+                        l => l.Refuse(lines, declaration!, ReservationFailure.InappropriateStatus, null)
+                    )
                 )
             );
         }
 
-        var outcome = ledger
-            .For(ched.Id)
-            .Reserve(
-                lines,
-                declaration!,
-                requested,
-                OfficeOf(body.CompetentCustomsOffice, request.CustomsOfficeReferenceNumber),
-                DateTime.UtcNow
-            );
+        var office = OfficeOf(body.CompetentCustomsOffice, request.CustomsOfficeReferenceNumber);
+        var now = DateTime.UtcNow;
+        var outcome = await ledger.ApplyAsync(ched.Id, l => l.Reserve(lines, declaration!, requested, office, now));
 
         return Respond(
             header,
@@ -112,7 +108,7 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
         );
     }
 
-    public Task<ChedClearanceResponse> chedClearanceRequestAsync(ChedClearanceRequest request)
+    public async Task<ChedClearanceResponse> chedClearanceRequestAsync(ChedClearanceRequest request)
     {
         var header = request.CertexHeader;
         var body = request.ChedClearanceRequest1 ?? throw SimulatorFaults.Customs(header, "Missing request body");
@@ -123,15 +119,16 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
             throw SimulatorFaults.Customs(header, "CustomsDocumentReference is required");
         }
 
-        if (!cheds.TryGet(body.ChedCertificateId ?? "", out var ched) || !ched.Accessible)
+        if (await cheds.FindAsync(body.ChedCertificateId ?? "") is not { Accessible: true } ched)
         {
             return Clearance(header, ClearanceOutcome.NotFound);
         }
 
+        var now = DateTime.UtcNow;
         var outcome = body.GoodsClearanceInformation switch
         {
-            GoodsClearanceInformationType.Item01 => ledger.For(ched.Id).Release(mrn, DateTime.UtcNow),
-            GoodsClearanceInformationType.Item02 => ledger.For(ched.Id).Delete(mrn),
+            GoodsClearanceInformationType.Item01 => await ledger.ApplyAsync(ched.Id, l => l.Release(mrn, now)),
+            GoodsClearanceInformationType.Item02 => await ledger.ApplyAsync(ched.Id, l => l.Delete(mrn)),
             var other => throw SimulatorFaults.Customs(header, $"Unknown GoodsClearanceInformation '{other}'"),
         };
 
@@ -271,28 +268,26 @@ public class CustomsCertexChedSimulator(ChedStore cheds, CustomsLedger ledger)
 
     private static UniversalUnitOfMeasureType Unit(string code) => Enum.Parse<UniversalUnitOfMeasureType>(code);
 
-    private static Task<ProcessedChedInformationResponse> Respond(
+    private static ProcessedChedInformationResponse Respond(
         CertexHeaderType? header,
         ProcessedChedInformationResponseType body
     )
     {
         // Every response acceptance returned carried OperationCode 0, an unknown CHED's included.
         body.OperationCode = NoOperation;
-        return Task.FromResult(new ProcessedChedInformationResponse(Echo(header), body));
+        return new ProcessedChedInformationResponse(Echo(header), body);
     }
 
     /// <summary>Acceptance sends no <c>StatusCode</c> here, on success or refusal.</summary>
-    private static Task<ChedClearanceResponse> Clearance(CertexHeaderType? header, ClearanceOutcome outcome) =>
-        Task.FromResult(
-            new ChedClearanceResponse(
-                Echo(header),
-                new ChedQuantityManagementOutcomeType
-                {
-                    QuantityManagementOutcome = outcome.Code,
-                    SendingDate = DateTime.UtcNow,
-                    OperationCode = NoOperation,
-                }
-            )
+    private static ChedClearanceResponse Clearance(CertexHeaderType? header, ClearanceOutcome outcome) =>
+        new(
+            Echo(header),
+            new ChedQuantityManagementOutcomeType
+            {
+                QuantityManagementOutcome = outcome.Code,
+                SendingDate = DateTime.UtcNow,
+                OperationCode = NoOperation,
+            }
         );
 
     private static CertexHeaderType Echo(CertexHeaderType? header) =>

@@ -13,8 +13,12 @@ namespace TradeTracesNTStub.Test.Simulator;
 /// nothing. These pin those boundaries, and pin that paging is stable — a caller walking the pages
 /// must see every match once, never twice and never not at all.
 /// </summary>
-public class ChedSearchTests
+public abstract class ChedSearchTests(ISimulatorState state)
 {
+    public sealed class InMemory() : ChedSearchTests(new InMemoryState());
+
+    public sealed class Mongo(MongoFixture mongo) : ChedSearchTests(mongo.NewState());
+
     private static readonly SpsCertificateBuilder s_builder = new(
         CodeLists.Seeded,
         Registry<OperatorEntry>.Load("operators.json"),
@@ -23,54 +27,56 @@ public class ChedSearchTests
 
     private static readonly DateTime s_noon = new(2026, 4, 22, 12, 0, 0, DateTimeKind.Utc);
 
-    [Fact]
-    public void OnlyCertificatesUpdatedInsideTheRangeComeBack()
-    {
-        var store = AStoreUpdatedAt(s_noon.AddDays(-2), s_noon, s_noon.AddDays(2));
+    private readonly IChedStore _store = state.Cheds;
 
-        var results = Find(store, Range(from: s_noon.AddDays(-1), to: s_noon.AddDays(1)));
+    [Fact]
+    public async Task OnlyCertificatesUpdatedInsideTheRangeComeBack()
+    {
+        await StoreUpdatedAt(s_noon.AddDays(-2), s_noon, s_noon.AddDays(2));
+
+        var results = await Find(Range(from: s_noon.AddDays(-1), to: s_noon.AddDays(1)));
 
         results.Select(result => result.UpdateDateTime).Should().Equal(s_noon);
     }
 
     [Fact]
-    public void BothBoundsAreInclusive()
+    public async Task BothBoundsAreInclusive()
     {
         // A CHED updated exactly on a bound is in the range. The gateway pages by feeding one call's
         // end in as the next call's start, so an exclusive bound here would drop it from both.
-        var store = AStoreUpdatedAt(s_noon, s_noon.AddDays(1));
+        await StoreUpdatedAt(s_noon, s_noon.AddDays(1));
 
-        var results = Find(store, Range(from: s_noon, to: s_noon.AddDays(1)));
+        var results = await Find(Range(from: s_noon, to: s_noon.AddDays(1)));
 
         results.Should().HaveCount(2);
     }
 
     [Fact]
-    public void AnOmittedBoundIsNoBound()
+    public async Task AnOmittedBoundIsNoBound()
     {
         // From and To have no Specified companion, so an omitted one arrives as 0001-01-01 rather
         // than as nothing. Read literally, an omitted To would match no certificate ever stored.
-        var store = AStoreUpdatedAt(s_noon.AddDays(-2), s_noon, s_noon.AddDays(2));
+        await StoreUpdatedAt(s_noon.AddDays(-2), s_noon, s_noon.AddDays(2));
 
-        Find(store, Range(from: s_noon)).Should().HaveCount(2);
-        Find(store, Range(to: s_noon)).Should().HaveCount(2);
-        Find(store, new DateTimeRange()).Should().HaveCount(3);
+        (await Find(Range(from: s_noon))).Should().HaveCount(2);
+        (await Find(Range(to: s_noon))).Should().HaveCount(2);
+        (await Find(new DateTimeRange())).Should().HaveCount(3);
     }
 
     [Fact]
-    public void ARequestWithNoRangeAtAllSearchesEverything()
+    public async Task ARequestWithNoRangeAtAllSearchesEverything()
     {
-        var store = AStoreUpdatedAt(s_noon.AddDays(-2), s_noon, s_noon.AddDays(2));
+        await StoreUpdatedAt(s_noon.AddDays(-2), s_noon, s_noon.AddDays(2));
 
-        Find(store, range: null).Should().HaveCount(3);
+        (await Find(range: null)).Should().HaveCount(3);
     }
 
     [Fact]
-    public void PagingTheWholeResultSetReturnsEveryMatchExactlyOnce()
+    public async Task PagingTheWholeResultSetReturnsEveryMatchExactlyOnce()
     {
         // Two of the five share an update time: that is the case where an unstable sort would swap
         // them between calls, and the caller would see one twice and the other never.
-        var store = AStoreUpdatedAt(
+        var stored = await StoreUpdatedAt(
             s_noon,
             s_noon,
             s_noon.AddHours(1),
@@ -82,19 +88,31 @@ public class ChedSearchTests
 
         for (var offset = 1; offset <= 5; offset += 2)
         {
-            walked.AddRange(Find(store, pageSize: 2, offset: offset).Select(result => result.ID));
+            walked.AddRange((await Find(pageSize: 2, offset: offset)).Select(result => result.ID));
         }
 
         walked.Should().HaveCount(5).And.OnlyHaveUniqueItems();
-        walked.Should().BeEquivalentTo(store.All.Select(ched => ched.Id));
+        walked.Should().BeEquivalentTo(stored);
     }
 
     [Fact]
-    public void ResultsComeBackNewestFirst()
+    public async Task BoundsAreExactToTheTick()
     {
-        var store = AStoreUpdatedAt(s_noon, s_noon.AddHours(2), s_noon.AddHours(1));
+        // A store that kept only milliseconds would round this to noon, and find it in a range the
+        // search result's own UpdateDateTime shows it is outside.
+        await StoreUpdatedAt(s_noon.AddTicks(4));
 
-        var results = Find(store);
+        (await Find(Range(to: s_noon.AddTicks(3)))).Should().BeEmpty();
+        (await Find(Range(from: s_noon.AddTicks(4)))).Should().HaveCount(1);
+        (await Find(Range(from: s_noon.AddTicks(5)))).Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task ResultsComeBackNewestFirst()
+    {
+        await StoreUpdatedAt(s_noon, s_noon.AddHours(2), s_noon.AddHours(1));
+
+        var results = await Find();
 
         results
             .Select(result => result.UpdateDateTime)
@@ -103,48 +121,48 @@ public class ChedSearchTests
     }
 
     [Fact]
-    public void AnOffsetPastTheEndIsAnEmptyPageNotAnError()
+    public async Task AnOffsetPastTheEndIsAnEmptyPageNotAnError()
     {
-        var store = AStoreUpdatedAt(s_noon, s_noon.AddHours(1));
+        await StoreUpdatedAt(s_noon, s_noon.AddHours(1));
 
-        Find(store, pageSize: 2, offset: 3).Should().BeEmpty();
-        Find(store, pageSize: 2, offset: 500).Should().BeEmpty();
+        (await Find(pageSize: 2, offset: 3)).Should().BeEmpty();
+        (await Find(pageSize: 2, offset: 500)).Should().BeEmpty();
     }
 
     [Fact]
-    public void APageLargerThanTheResultSetReturnsAllOfIt()
+    public async Task APageLargerThanTheResultSetReturnsAllOfIt()
     {
-        var store = AStoreUpdatedAt(s_noon, s_noon.AddHours(1));
+        await StoreUpdatedAt(s_noon, s_noon.AddHours(1));
 
-        Find(store, pageSize: 100).Should().HaveCount(2);
+        (await Find(pageSize: 100)).Should().HaveCount(2);
     }
 
     [Fact]
-    public void AResultSetThatIsAnExactMultipleOfThePageEndsWithAnEmptyPage()
+    public async Task AResultSetThatIsAnExactMultipleOfThePageEndsWithAnEmptyPage()
     {
-        var store = AStoreUpdatedAt(s_noon, s_noon.AddHours(1), s_noon.AddHours(2), s_noon.AddHours(3));
+        await StoreUpdatedAt(s_noon, s_noon.AddHours(1), s_noon.AddHours(2), s_noon.AddHours(3));
 
-        Find(store, pageSize: 2, offset: 1).Should().HaveCount(2);
-        Find(store, pageSize: 2, offset: 3).Should().HaveCount(2);
-        Find(store, pageSize: 2, offset: 5).Should().BeEmpty();
+        (await Find(pageSize: 2, offset: 1)).Should().HaveCount(2);
+        (await Find(pageSize: 2, offset: 3)).Should().HaveCount(2);
+        (await Find(pageSize: 2, offset: 5)).Should().BeEmpty();
     }
 
     [Fact]
-    public void ARangeMatchingNothingIsAnEmptyResultNotAFault()
+    public async Task ARangeMatchingNothingIsAnEmptyResultNotAFault()
     {
-        var store = AStoreUpdatedAt(s_noon, s_noon.AddHours(1));
+        await StoreUpdatedAt(s_noon, s_noon.AddHours(1));
 
-        var results = Find(store, Range(from: s_noon.AddYears(1), to: s_noon.AddYears(2)));
+        var results = await Find(Range(from: s_noon.AddYears(1), to: s_noon.AddYears(2)));
 
         results.Should().BeEmpty();
     }
 
     [Fact]
-    public void TheEchoedPagingTellsTheCallerWhichWindowItGot()
+    public async Task TheEchoedPagingTellsTheCallerWhichWindowItGot()
     {
-        var store = AStoreUpdatedAt(s_noon, s_noon.AddHours(1), s_noon.AddHours(2));
+        await StoreUpdatedAt(s_noon, s_noon.AddHours(1), s_noon.AddHours(2));
 
-        var result = Search(store, new FindChedCertificateRequestType { pageSize = 2, offset = 2 });
+        var result = await Search(new FindChedCertificateRequestType { pageSize = 2, offset = 2 });
 
         result.offset.Should().Be(2);
         result.pageSize.Should().Be(2);
@@ -152,50 +170,52 @@ public class ChedSearchTests
     }
 
     [Fact]
-    public void ACertificateTheCallerMayNotSeeIsOutsideEveryRange()
+    public async Task ACertificateTheCallerMayNotSeeIsOutsideEveryRange()
     {
-        var store = new ChedStore();
-        store.Put(AChed("CHEDA.XI.2026.0000001", s_noon, accessible: true));
-        store.Put(AChed("CHEDA.XI.2026.0000002", s_noon, accessible: false));
+        await _store.PutAsync(AChed("CHEDA.XI.2026.0000001", s_noon, accessible: true));
+        await _store.PutAsync(AChed("CHEDA.XI.2026.0000002", s_noon, accessible: false));
 
-        Find(store).Select(result => result.ID).Should().Equal("CHEDA.XI.2026.0000001");
+        (await Find()).Select(result => result.ID).Should().Equal("CHEDA.XI.2026.0000001");
     }
 
-    private static IReadOnlyList<ChedCertificateQueryResultType> Find(
-        ChedStore store,
+    private async Task<IReadOnlyList<ChedCertificateQueryResultType>> Find(
         DateTimeRange? range = null,
         int pageSize = 10,
         int offset = 1
     ) =>
-        Search(
-            store,
-            new FindChedCertificateRequestType
-            {
-                UpdateDateTimeRange = range,
-                pageSize = pageSize,
-                offset = offset,
-            }
+        (
+            await Search(
+                new FindChedCertificateRequestType
+                {
+                    UpdateDateTimeRange = range,
+                    pageSize = pageSize,
+                    offset = offset,
+                }
+            )
         ).ChedCertificateResult;
 
-    private static FindChedCertificateResultType Search(ChedStore store, FindChedCertificateRequestType query) =>
-        new ChedCertificateSimulator(store)
-            .findChedCertificateAsync(new FindChedCertificateRequest { FindChedCertificateRequest1 = query })
-            .Result.FindChedCertificateResponse1;
+    private async Task<FindChedCertificateResultType> Search(FindChedCertificateRequestType query) =>
+        (
+            await new ChedCertificateSimulator(_store).findChedCertificateAsync(
+                new FindChedCertificateRequest { FindChedCertificateRequest1 = query }
+            )
+        ).FindChedCertificateResponse1;
 
     /// <summary>An omitted bound is left at its default, which is how it arrives off the wire.</summary>
     private static DateTimeRange Range(DateTime from = default, DateTime to = default) =>
         new() { From = from, To = to };
 
-    private static ChedStore AStoreUpdatedAt(params DateTime[] updates)
+    private async Task<IReadOnlyList<string>> StoreUpdatedAt(params DateTime[] updates)
     {
-        var store = new ChedStore();
+        var ids = new List<string>();
 
         for (var i = 0; i < updates.Length; i++)
         {
-            store.Put(AChed($"CHEDA.XI.2026.{i + 1:D7}", updates[i], accessible: true));
+            ids.Add($"CHEDA.XI.2026.{i + 1:D7}");
+            await _store.PutAsync(AChed(ids[^1], updates[i], accessible: true));
         }
 
-        return store;
+        return ids;
     }
 
     private static StoredCertificate AChed(string id, DateTime updated, bool accessible)

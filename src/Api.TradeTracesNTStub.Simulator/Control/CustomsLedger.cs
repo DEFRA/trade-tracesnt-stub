@@ -14,31 +14,65 @@ namespace Api.TradeTracesNTStub.Simulator.Control;
 /// that has since changed status (outcome 04), which acceptance gave no way to set up. The captures
 /// are under <c>tests/TradeTracesNTStub.Test/Simulator/Captures/Customs</c>.
 /// </remarks>
-public sealed class CustomsLedger
+public interface ICustomsLedger
 {
-    private readonly ConcurrentDictionary<string, ChedLedger> _ledgers = new(StringComparer.OrdinalIgnoreCase);
+    /// <summary>
+    /// Runs one operation on a CHED's ledger as a unit. Reserving checks what is available and then
+    /// takes it, so two declarations racing for the last of a line must not both succeed: no other
+    /// change to this CHED's ledger may land between the operation's read and its write.
+    /// </summary>
+    /// <remarks>The operation may run more than once, so it must change nothing but the ledger.</remarks>
+    Task<T> ApplyAsync<T>(string chedId, Func<ChedLedger, T> operation);
 
-    public ChedLedger For(string chedId) => _ledgers.GetOrAdd(chedId, _ => new ChedLedger());
+    Task ForgetAsync(string chedId);
 
-    public void Forget(string chedId) => _ledgers.TryRemove(chedId, out _);
-
-    public void Clear() => _ledgers.Clear();
+    Task ClearAsync();
 }
 
-public sealed class ChedLedger
+/// <summary>In memory, so a restart is a reset, and every instance of the stub holds its own.</summary>
+public sealed class InMemoryCustomsLedger : ICustomsLedger
 {
-    // Reserving checks what is available and then takes it. Two declarations racing for the last of
-    // a line must not both succeed, so every operation on one CHED runs under this lock.
-    private readonly Lock _lock = new();
-    private readonly List<Allocation> _allocations = [];
+    private readonly ConcurrentDictionary<string, Held> _ledgers = new(StringComparer.OrdinalIgnoreCase);
 
-    public LedgerPosition Read(IReadOnlyList<CommodityLine> lines)
+    public Task<T> ApplyAsync<T>(string chedId, Func<ChedLedger, T> operation)
     {
-        lock (_lock)
+        var held = _ledgers.GetOrAdd(chedId, _ => new Held(new ChedLedger([])));
+
+        lock (held.Lock)
         {
-            return Position(lines);
+            return Task.FromResult(operation(held.Ledger));
         }
     }
+
+    public Task ForgetAsync(string chedId)
+    {
+        _ledgers.TryRemove(chedId, out _);
+        return Task.CompletedTask;
+    }
+
+    public Task ClearAsync()
+    {
+        _ledgers.Clear();
+        return Task.CompletedTask;
+    }
+
+    private sealed record Held(ChedLedger Ledger)
+    {
+        public Lock Lock { get; } = new();
+    }
+}
+
+/// <summary>
+/// The quantity rules for one CHED, over its allocations. Not safe to share between threads: whatever
+/// stores the allocations runs each operation as a unit (<see cref="ICustomsLedger.ApplyAsync{T}"/>).
+/// </summary>
+public sealed class ChedLedger(IEnumerable<Allocation> allocations)
+{
+    private readonly List<Allocation> _allocations = [.. allocations];
+
+    public IReadOnlyList<Allocation> Allocations => _allocations;
+
+    public LedgerPosition Read(IReadOnlyList<CommodityLine> lines) => Position(lines);
 
     /// <summary>
     /// States the declaration's whole position: a second reservation for the same MRN replaces the
@@ -53,71 +87,55 @@ public sealed class ChedLedger
         DateTime now
     )
     {
-        lock (_lock)
+        if (_allocations.Any(a => a.Consumed && SameMrn(a, mrn)))
         {
-            if (_allocations.Any(a => a.Consumed && SameMrn(a, mrn)))
-            {
-                return ReservationOutcome.Refused(Position(lines), ReservationFailure.WriteOffExists, null);
-            }
-
-            var others = _allocations.Where(a => !SameMrn(a, mrn)).ToList();
-
-            foreach (var item in items)
-            {
-                var line = lines.FirstOrDefault(l => l.Number == item.CertificateLineNumber);
-
-                var failure = line switch
-                {
-                    null => ReservationFailure.LineNumbersMismatch,
-                    _ when !item.ClassCode.StartsWith(line.CnCode, StringComparison.Ordinal) =>
-                        ReservationFailure.CnCodesMismatch,
-                    _ when !MeasurementUnit.TryConvert(item.Quantity, item.UnitOfMeasure, line.UnitOfMeasure, out _) =>
-                        ReservationFailure.MeasurementUnitMismatch,
-                    _ when Requested(items, line) > line.Quantity - Allocated(others, line) =>
-                        ReservationFailure.QuantitiesInsufficient,
-                    _ => null,
-                };
-
-                if (failure is not null)
-                {
-                    return Refused(lines, mrn, failure, item);
-                }
-            }
-
-            _allocations.RemoveAll(a => SameMrn(a, mrn));
-            _allocations.AddRange(
-                items.Select(item => new Allocation(
-                    mrn,
-                    item.GoodsItemNumber,
-                    lines.First(l => l.Number == item.CertificateLineNumber),
-                    item.ClassCode,
-                    item.Quantity,
-                    item.UnitOfMeasure,
-                    customsOffice,
-                    now,
-                    Consumed: false
-                ))
-            );
-
-            return ReservationOutcome.Reserved(Position(lines));
+            return ReservationOutcome.Refused(Position(lines), ReservationFailure.WriteOffExists, null);
         }
+
+        var others = _allocations.Where(a => !SameMrn(a, mrn)).ToList();
+
+        foreach (var item in items)
+        {
+            var line = lines.FirstOrDefault(l => l.Number == item.CertificateLineNumber);
+
+            var failure = line switch
+            {
+                null => ReservationFailure.LineNumbersMismatch,
+                _ when !item.ClassCode.StartsWith(line.CnCode, StringComparison.Ordinal) =>
+                    ReservationFailure.CnCodesMismatch,
+                _ when !MeasurementUnit.TryConvert(item.Quantity, item.UnitOfMeasure, line.UnitOfMeasure, out _) =>
+                    ReservationFailure.MeasurementUnitMismatch,
+                _ when Requested(items, line) > line.Quantity - Allocated(others, line) =>
+                    ReservationFailure.QuantitiesInsufficient,
+                _ => null,
+            };
+
+            if (failure is not null)
+            {
+                return Refuse(lines, mrn, failure, item);
+            }
+        }
+
+        _allocations.RemoveAll(a => SameMrn(a, mrn));
+        _allocations.AddRange(
+            items.Select(item => new Allocation(
+                mrn,
+                item.GoodsItemNumber,
+                lines.First(l => l.Number == item.CertificateLineNumber),
+                item.ClassCode,
+                item.Quantity,
+                item.UnitOfMeasure,
+                customsOffice,
+                now,
+                Consumed: false
+            ))
+        );
+
+        return ReservationOutcome.Reserved(Position(lines));
     }
 
-    /// <summary>For refusals decided outside the ledger, such as the CHED's status.</summary>
+    /// <summary>Also for refusals decided outside the ledger, such as the CHED's status.</summary>
     public ReservationOutcome Refuse(
-        IReadOnlyList<CommodityLine> lines,
-        string mrn,
-        ReservationFailure failure,
-        RequestedItem? item
-    )
-    {
-        lock (_lock)
-        {
-            return Refused(lines, mrn, failure, item);
-        }
-    }
-
-    private ReservationOutcome Refused(
         IReadOnlyList<CommodityLine> lines,
         string mrn,
         ReservationFailure failure,
@@ -138,34 +156,26 @@ public sealed class ChedLedger
     /// <summary>The declaration has cleared: its reservation becomes consumed and never comes back.</summary>
     public ClearanceOutcome Release(string mrn, DateTime now)
     {
-        lock (_lock)
+        var reserved = _allocations.Where(a => !a.Consumed && SameMrn(a, mrn)).ToList();
+
+        if (reserved.Count == 0)
         {
-            var reserved = _allocations.Where(a => !a.Consumed && SameMrn(a, mrn)).ToList();
-
-            if (reserved.Count == 0)
-            {
-                return Unreserved(mrn);
-            }
-
-            foreach (var allocation in reserved)
-            {
-                _allocations[_allocations.IndexOf(allocation)] = allocation with { Consumed = true, At = now };
-            }
-
-            return ClearanceOutcome.Executed;
+            return Unreserved(mrn);
         }
+
+        foreach (var allocation in reserved)
+        {
+            _allocations[_allocations.IndexOf(allocation)] = allocation with { Consumed = true, At = now };
+        }
+
+        return ClearanceOutcome.Executed;
     }
 
     /// <summary>The declaration is withdrawn: its reservation goes, and the quantity is available again.</summary>
-    public ClearanceOutcome Delete(string mrn)
-    {
-        lock (_lock)
-        {
-            return _allocations.RemoveAll(a => !a.Consumed && SameMrn(a, mrn)) == 0
-                ? Unreserved(mrn)
-                : ClearanceOutcome.Executed;
-        }
-    }
+    public ClearanceOutcome Delete(string mrn) =>
+        _allocations.RemoveAll(a => !a.Consumed && SameMrn(a, mrn)) == 0
+            ? Unreserved(mrn)
+            : ClearanceOutcome.Executed;
 
     /// <summary>Nothing is held for this declaration: either it never reserved, or it has already cleared.</summary>
     private ClearanceOutcome Unreserved(string mrn) =>
