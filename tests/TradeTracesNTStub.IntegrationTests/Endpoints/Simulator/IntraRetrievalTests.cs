@@ -80,8 +80,70 @@ public class IntraRetrievalTests
         await act.Should().ThrowAsync<FaultException<EuIntraCertificateNotFoundExceptionType>>();
     }
 
-    /// <summary>The gateway's own client, bound exactly as the gateway binds it.</summary>
+    [Fact]
+    public async Task FindReturnsWhatWasStoredAndSkipsWhatIsNotAccessible()
+    {
+        var token = TestContext.Current.CancellationToken;
+
+        await s_simulator.Reset(token);
+
+        var visible = await s_simulator.CreateIntra(AnIntra(), token);
+        await s_simulator.CreateIntra(AnIntra().NotAccessible(), token);
+
+        var results = await Find(pageSize: 100);
+
+        results.Select(result => result.ID).Should().Equal(visible);
+        results.Single().Status.name.Should().Be("Issued (Validated)");
+    }
+
+    [Fact]
+    public async Task FindPagesWithOneBasedOffsets()
+    {
+        var token = TestContext.Current.CancellationToken;
+
+        await s_simulator.Reset(token);
+
+        var older = await s_simulator.CreateIntra(AnIntra(), token);
+        var newer = await s_simulator.CreateIntra(AnIntra(), token);
+
+        (await Find(pageSize: 1)).Select(result => result.ID).Should().Equal(newer);
+        (await Find(pageSize: 1, offset: 2)).Select(result => result.ID).Should().Equal(older);
+    }
+
+    private static async Task<IReadOnlyList<EuIntraCertificateQueryResultType>> Find(int pageSize = 10, int offset = 1)
+    {
+        var response = await Client()
+            .findEuIntraCertificateAsync(
+                new SecurityHeaderType(),
+                s_credentials.WebServiceClientId,
+                ISO2AlphaLanguageCodeContentType.en,
+                [],
+                new FindEuIntraCertificateRequestType
+                {
+                    UpdateDateTimeRange = new DateTimeRange(),
+                    pageSize = pageSize,
+                    offset = offset,
+                }
+            );
+
+        return response.FindEuIntraCertificateResponse1?.EuIntraCertificateResult ?? [];
+    }
+
     private static async Task<SPSCertificateType?> GetCertificate(string id)
+    {
+        var response = await Client().getEuIntraCertificateAsync(
+            new SecurityHeaderType(),
+            s_credentials.WebServiceClientId,
+            ISO2AlphaLanguageCodeContentType.en,
+            [],
+            new GetEuIntraCertificateRequestType { ID = id }
+        );
+
+        return response.GetEuIntraCertificateResponse1?.SPSCertificate;
+    }
+
+    /// <summary>The gateway's own client, bound exactly as the gateway binds it.</summary>
+    private static EuIntraCertificatePortClient Client()
     {
         var binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
         {
@@ -95,14 +157,6 @@ public class IntraRetrievalTests
         );
         client.Endpoint.EndpointBehaviors.Add(new WsSecurityEndpointBehavior(s_credentials));
 
-        var response = await client.getEuIntraCertificateAsync(
-            new SecurityHeaderType(),
-            s_credentials.WebServiceClientId,
-            ISO2AlphaLanguageCodeContentType.en,
-            [],
-            new GetEuIntraCertificateRequestType { ID = id }
-        );
-
-        return response.GetEuIntraCertificateResponse1?.SPSCertificate;
+        return client;
     }
 }
