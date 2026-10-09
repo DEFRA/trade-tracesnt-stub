@@ -10,8 +10,8 @@ namespace Api.TradeTracesNTStub.Simulator.Ports;
 public static class ChedSummary
 {
     /// <summary>Signatory type codes: the applicant's declaration, and the officer's clearance.</summary>
-    private const string DeclarationTypeCode = "4";
-    private const string ClearanceTypeCode = "1";
+    internal const string DeclarationTypeCode = "4";
+    internal const string ClearanceTypeCode = "1";
 
     /// <summary>Baseport name positions — order is the only thing distinguishing them on the wire.</summary>
     private const int CountryName = 0;
@@ -76,7 +76,14 @@ public static class ChedSummary
     public static DateTime AsUtc(DateTime value) =>
         value.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(value, DateTimeKind.Utc) : value.ToUniversalTime();
 
-    private static DateTime Updated(SPSExchangedDocumentType document) =>
+    /// <summary>
+    /// A search bound left at its default is no bound — <c>From</c> and <c>To</c> are plain datetimes with
+    /// no companion <c>Specified</c> flag, so an omitted one arrives as <c>0001-01-01</c> and a <c>To</c>
+    /// read literally would match nothing.
+    /// </summary>
+    public static DateTime? Bound(DateTime? value) => value is { } bound && bound != default ? AsUtc(bound) : null;
+
+    internal static DateTime Updated(SPSExchangedDocumentType document) =>
         LastUpdated(document) ?? Moment(document.IssueDateTime) ?? DateTime.UtcNow;
 
     /// <summary>The CHED type note carries the code and its display name already resolved.</summary>
@@ -97,7 +104,7 @@ public static class ChedSummary
         return DateTimeOffset.TryParse(note, out var parsed) ? parsed.UtcDateTime : null;
     }
 
-    private static DateTime? ActualDateTime(SPSExchangedDocumentType document, string typeCode)
+    internal static DateTime? ActualDateTime(SPSExchangedDocumentType document, string typeCode)
     {
         var wanted = XmlEnums.Parse<GovernmentActionCodeContentType>(typeCode);
 
@@ -109,7 +116,7 @@ public static class ChedSummary
     }
 
     /// <summary>The first real commodity — the totals line is sequence zero and describes no goods.</summary>
-    private static SPSTradeLineItemType? FirstCommodity(SPSConsignmentType consignment) =>
+    internal static SPSTradeLineItemType? FirstCommodity(SPSConsignmentType consignment) =>
         consignment
             .IncludedSPSConsignmentItem?.SelectMany(item => item.IncludedSPSTradeLineItem ?? [])
             .FirstOrDefault(line => line.SequenceNumeric?.Value is not 0);
@@ -124,9 +131,9 @@ public static class ChedSummary
     private static CodeType? BaseportCode(SPSConsignmentType consignment, int position) =>
         BaseportName(consignment, position) is { Length: > 0 } name ? new CodeType { Value = name } : null;
 
-    private static string? AddressCountry(SPSPartyType? party) => party?.SpecifiedSPSAddress?.CountryID?.Value;
+    internal static string? AddressCountry(SPSPartyType? party) => party?.SpecifiedSPSAddress?.CountryID?.Value;
 
-    private static IDType? Id(string? value) => value is null ? null : new IDType { Value = value };
+    internal static IDType? Id(string? value) => value is null ? null : new IDType { Value = value };
 
-    private static DateTime? Moment(DateTimeType? value) => value?.Item as DateTime?;
+    internal static DateTime? Moment(DateTimeType? value) => value?.Item as DateTime?;
 }

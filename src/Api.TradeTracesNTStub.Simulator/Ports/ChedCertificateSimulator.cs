@@ -60,7 +60,7 @@ public class ChedCertificateSimulator(IChedStore store) : ChedCertificatePort
         var range = query?.UpdateDateTimeRange;
 
         // Only the page asked for is read: on a shared environment the store holds tens of thousands.
-        var page = await store.SearchAsync(Bound(range?.From), Bound(range?.To), skip, pageSize);
+        var page = await store.SearchAsync(ChedSummary.Bound(range?.From), ChedSummary.Bound(range?.To), skip, pageSize);
 
         return new FindChedCertificateResponse(
             new FindChedCertificateResultType
@@ -71,14 +71,6 @@ public class ChedCertificateSimulator(IChedStore store) : ChedCertificatePort
             }
         );
     }
-
-    /// <summary>
-    /// A bound left at its default is no bound — <c>From</c> and <c>To</c> are plain datetimes with no
-    /// companion <c>Specified</c> flag, so an omitted one arrives as <c>0001-01-01</c> and a <c>To</c>
-    /// read literally would match nothing.
-    /// </summary>
-    private static DateTime? Bound(DateTime? value) =>
-        value is { } bound && bound != default ? ChedSummary.AsUtc(bound) : null;
 
     public Task<GetChedCertificateStatusResponse> getChedCertificateStatusAsync(
         GetChedCertificateStatusRequest request
