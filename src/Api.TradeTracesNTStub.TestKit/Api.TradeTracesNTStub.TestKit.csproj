@@ -16,15 +16,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Reuses the simulator's control models so they can't drift from the API. Its dll ships inside
          this package; the models need only the BCL, so its dependencies don't. -->
-    <ProjectReference Include="..\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj"
-                      PrivateAssets="all" />
+    <ProjectReference Include="..\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj" PrivateAssets="all" />
   </ItemGroup>
 
   <Target Name="IncludeSimulatorInPackage" DependsOnTargets="ResolveReferences">
     <ItemGroup>
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
 
