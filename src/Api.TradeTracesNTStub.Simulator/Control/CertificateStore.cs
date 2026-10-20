@@ -30,12 +30,16 @@ public interface ICertificateStore
     /// The ID breaks ties, so two certificates stamped in the same tick cannot swap places between two
     /// calls, which would show a caller paging through one of them twice and the other never.
     /// </summary>
-    /// <remarks>Not accessible means the caller may not see it, in search as much as in retrieval.</remarks>
+    /// <remarks>
+    /// Not accessible means the caller may not see it, in search as much as in retrieval. The control API
+    /// passes <paramref name="includeInaccessible"/>, because the simulator's operator sees everything.
+    /// </remarks>
     Task<IReadOnlyList<StoredCertificate>> SearchAsync(
         DateTime? updatedFrom,
         DateTime? updatedTo,
         int skip,
-        int take
+        int take,
+        bool includeInaccessible = false
     );
 
     Task<int> CountAsync();
@@ -92,13 +96,14 @@ public sealed class InMemoryCertificateStore(string countryCode = "XI") : IChedS
         DateTime? updatedFrom,
         DateTime? updatedTo,
         int skip,
-        int take
+        int take,
+        bool includeInaccessible = false
     ) =>
         Task.FromResult<IReadOnlyList<StoredCertificate>>(
             [
                 .. _certificates
                     .Values.Where(entry =>
-                        entry.Certificate.Accessible
+                        (includeInaccessible || entry.Certificate.Accessible)
                         && (updatedFrom is null || entry.Updated >= updatedFrom)
                         && (updatedTo is null || entry.Updated <= updatedTo)
                     )

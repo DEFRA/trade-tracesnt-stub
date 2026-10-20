@@ -1,4 +1,6 @@
 using Api.TradeTracesNTStub.Simulator.Control;
+using Api.TradeTracesNTStub.Simulator.Control.Commodities;
+using Api.TradeTracesNTStub.Simulator.Control.Scenarios;
 using Api.TradeTracesNTStub.Simulator.Extensions;
 using Api.TradeTracesNTStub.Utils.Mongo;
 
@@ -34,7 +36,9 @@ public static class SimulatorStoreExtensions
                 .AddSingleton<IIntraStore>(provider =>
                     new MongoCertificateStore(Mongo(provider), MongoCertificateStore.Intras)
                 )
-                .AddSingleton<ICustomsLedger>(provider => new MongoCustomsLedger(Mongo(provider))),
+                .AddSingleton<ICustomsLedger>(provider => new MongoCustomsLedger(Mongo(provider)))
+                .AddSingleton<ICommodityTreeStore>(provider => new MongoCommodityTreeStore(Mongo(provider)))
+                .AddSingleton<IScenarioStore>(provider => new MongoScenarioStore(Mongo(provider))),
 
             // Missing, unknown, or a number naming no mode. There is no default: appsettings carries one,
             // so a missing value is broken config, not a choice.

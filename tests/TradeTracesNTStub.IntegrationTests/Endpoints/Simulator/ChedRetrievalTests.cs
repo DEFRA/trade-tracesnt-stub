@@ -9,8 +9,9 @@ using TracesNT.WebServices;
 namespace TradeTracesNTStub.IntegrationTests.Endpoints.Simulator;
 
 /// <summary>
-/// A CHED created through plain JSON, read back through the gateway's own SOAP client. With no
-/// read-back endpoint on the control API, this is the only proof data is persisted, not echoed.
+/// A CHED created through plain JSON, read back through the gateway's own SOAP client. The control
+/// API reads back only the model it was sent, so this is the only proof the certificate is persisted,
+/// not echoed.
 /// </summary>
 [Trait("Category", "IntegrationTest")]
 [Collection(SimulatorStateCollection.Name)]
@@ -167,8 +168,8 @@ public class ChedRetrievalTests
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         (await response.Content.ReadAsStringAsync(token))
             .Should()
-            .Contain("cn_code")
-            .And.Contain("SeedData");
+            .Contain("CHED-A commodity tree")
+            .And.Contain("/control/commodity-trees/refresh");
     }
 
     [Fact]

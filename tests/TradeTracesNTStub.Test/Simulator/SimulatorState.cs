@@ -1,5 +1,7 @@
 using Api.TradeTracesNTStub.Config;
 using Api.TradeTracesNTStub.Simulator.Control;
+using Api.TradeTracesNTStub.Simulator.Control.Commodities;
+using Api.TradeTracesNTStub.Simulator.Control.Scenarios;
 using Api.TradeTracesNTStub.Utils.Mongo;
 using EphemeralMongo;
 using Microsoft.Extensions.Options;
@@ -18,6 +20,10 @@ public interface ISimulatorState
 
     ICustomsLedger Ledger { get; }
 
+    ICommodityTreeStore CommodityTrees { get; }
+
+    IScenarioStore Scenarios { get; }
+
     /// <summary>
     /// The same state reached another way: in memory, by another request to the same instance; in
     /// Mongo, by another instance of the stub, as on CDP or after a restart.
@@ -30,6 +36,10 @@ public sealed class InMemoryState : ISimulatorState
     public IChedStore Cheds { get; } = new InMemoryCertificateStore();
 
     public ICustomsLedger Ledger { get; } = new InMemoryCustomsLedger();
+
+    public ICommodityTreeStore CommodityTrees { get; } = new InMemoryCommodityTreeStore();
+
+    public IScenarioStore Scenarios { get; } = new InMemoryScenarioStore();
 
     public ISimulatorState Another() => this;
 }
@@ -51,11 +61,17 @@ public sealed class MongoState : ISimulatorState
 
         Cheds = new MongoCertificateStore(mongo, "cheds");
         Ledger = new MongoCustomsLedger(mongo);
+        CommodityTrees = new MongoCommodityTreeStore(mongo);
+        Scenarios = new MongoScenarioStore(mongo);
     }
 
     public IChedStore Cheds { get; }
 
     public ICustomsLedger Ledger { get; }
+
+    public ICommodityTreeStore CommodityTrees { get; }
+
+    public IScenarioStore Scenarios { get; }
 
     public ISimulatorState Another() => new MongoState(_connectionString, _database);
 }

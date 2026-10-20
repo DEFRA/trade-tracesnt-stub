@@ -78,10 +78,13 @@ static void ConfigureBuilder(WebApplicationBuilder builder)
     builder.Services.AddSimulatorState(builder.Configuration);
     builder.Services.AddOpenApi();
 
-    // The control API's enums read far better as names than as numbers.
+    // The control API's enums read far better as names than as numbers. Leaving out nulls makes a
+    // model read back as it was sent, rather than with every field the sender didn't set.
     builder.Services.ConfigureHttpJsonOptions(options =>
-        options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter())
-    );
+    {
+        options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+        options.SerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+    });
 }
 
 [ExcludeFromCodeCoverage]

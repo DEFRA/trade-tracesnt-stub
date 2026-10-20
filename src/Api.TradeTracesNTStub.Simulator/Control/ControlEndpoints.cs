@@ -1,6 +1,9 @@
+using Api.TradeTracesNTStub.Simulator.Control.Commodities;
 using Api.TradeTracesNTStub.Simulator.Control.Lookups;
 using Api.TradeTracesNTStub.Simulator.Control.Mapping;
 using Api.TradeTracesNTStub.Simulator.Control.Models;
+using Api.TradeTracesNTStub.Simulator.Control.Scenarios;
+using Api.TradeTracesNTStub.Simulator.Ports;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -8,8 +11,10 @@ using Microsoft.AspNetCore.Routing;
 namespace Api.TradeTracesNTStub.Simulator.Control;
 
 /// <summary>
-/// Plain JSON for setting up test data, so a test author need not build a SOAP envelope. There is no
-/// read-back endpoint on purpose — the SOAP face is the only way to read state, so the two cannot drift.
+/// Plain JSON for setting up test data, so a test author need not build a SOAP envelope. Reading a
+/// certificate stays on the SOAP face, so the two cannot drift. What the control API reads back is
+/// the model a certificate was built from, so a UI can edit it, and the code lists, so a UI offers
+/// only codes the simulator accepts.
 /// </summary>
 public static class ControlEndpoints
 {
@@ -19,12 +24,19 @@ public static class ControlEndpoints
     /// </summary>
     public const string Prefix = "/control";
 
+    private const int DefaultPageSize = 20;
+    private const int MaxPageSize = 100;
+
     public static IEndpointRouteBuilder MapControlApi(this IEndpointRouteBuilder app)
     {
         var control = app.MapGroup(Prefix).WithTags("Simulator control");
 
         MapCertificates<IChedStore>(control, "cheds", CertificateKind.Ched, "getChedCertificate");
         MapCertificates<IIntraStore>(control, "intras", CertificateKind.Intra, "getEuIntraCertificate");
+
+        MapLookups(control);
+        control.MapCommodityTrees();
+        control.MapScenarios();
 
         control
             .MapPost("/reset", Reset)
@@ -37,7 +49,7 @@ public static class ControlEndpoints
         return app;
     }
 
-    /// <summary>The same four operations for each kind; only the path and the SOAP operation named differ.</summary>
+    /// <summary>The same six operations for each kind; only the path and the SOAP operation named differ.</summary>
     private static void MapCertificates<TStore>(
         RouteGroupBuilder control,
         string collection,
@@ -49,8 +61,8 @@ public static class ControlEndpoints
         control
             .MapPost(
                 $"/{collection}",
-                (CertificateControlModel model, TStore store, SpsCertificateBuilder builder) =>
-                    Create(kind, collection, model, store, builder)
+                (CertificateControlModel model, TStore store, SpsCertificateBuilder builder, CommodityCatalogue catalogue) =>
+                    Create(kind, collection, model, store, new CertificateFactory(kind, builder, catalogue))
             )
             .WithSummary($"Create a {kind.Name}")
             .WithDescription(
@@ -63,10 +75,50 @@ public static class ControlEndpoints
             .ProducesProblem(StatusCodes.Status400BadRequest);
 
         control
+            .MapGet(
+                $"/{collection}",
+                (TStore store, int? page, int? pageSize, DateTime? updatedFrom, DateTime? updatedTo) =>
+                    List(store, page ?? 1, pageSize ?? DefaultPageSize, updatedFrom, updatedTo)
+            )
+            .WithSummary($"List {kind.Name}s, newest first")
+            .WithDescription(
+                "Pages through every certificate of this kind by update time, with the model each was "
+                    + "built from. Unlike the SOAP find, it includes certificates the SOAP face refuses. "
+                    + $"page counts from 1; pageSize defaults to {DefaultPageSize} and is at most "
+                    + $"{MaxPageSize}. updatedFrom and updatedTo are optional, inclusive and read as UTC "
+                    + "when they carry no offset."
+            )
+            .Produces<CertificatePage>()
+            .ProducesProblem(StatusCodes.Status400BadRequest);
+
+        control
+            .MapGet(
+                $"/{collection}/{{id}}",
+                async (string id, TStore store) =>
+                    await store.FindAsync(id) is { } stored
+                        ? Results.Ok(new StoredCertificateResponse(stored.Id, stored.Accessible, stored.Source))
+                        : NotFound(kind, id)
+            )
+            .WithSummary($"Get the model a {kind.Name} was built from")
+            .WithDescription(
+                "Returns the control model as stored, after any PATCH merges, ready to edit and PUT back. "
+                    + "It is not the certificate: fields the simulator fills in, such as display names "
+                    + "and timestamps, are absent, and a status never set is absent too (it reads as NEW). "
+                    + $"Read the certificate itself with {soapOperation}."
+            )
+            .Produces<StoredCertificateResponse>()
+            .ProducesProblem(StatusCodes.Status404NotFound);
+
+        control
             .MapPut(
                 $"/{collection}/{{id}}",
-                (string id, CertificateControlModel model, TStore store, SpsCertificateBuilder builder) =>
-                    Update(kind, id, model, store, builder)
+                (
+                    string id,
+                    CertificateControlModel model,
+                    TStore store,
+                    SpsCertificateBuilder builder,
+                    CommodityCatalogue catalogue
+                ) => Update(kind, id, model, store, new CertificateFactory(kind, builder, catalogue))
             )
             .WithSummary($"Replace a {kind.Name}")
             .WithDescription("Rebuilds the certificate from the supplied model, keeping its ID.")
@@ -77,8 +129,13 @@ public static class ControlEndpoints
         control
             .MapPatch(
                 $"/{collection}/{{id}}",
-                (string id, CertificateControlModel patch, TStore store, SpsCertificateBuilder builder) =>
-                    Patch(kind, id, patch, store, builder)
+                (
+                    string id,
+                    CertificateControlModel patch,
+                    TStore store,
+                    SpsCertificateBuilder builder,
+                    CommodityCatalogue catalogue
+                ) => Patch(kind, id, patch, store, new CertificateFactory(kind, builder, catalogue))
             )
             .WithSummary($"Apply a partial update to a {kind.Name}")
             .WithDescription(
@@ -105,12 +162,81 @@ public static class ControlEndpoints
             .ProducesProblem(StatusCodes.Status404NotFound);
     }
 
+    private static void MapLookups(RouteGroupBuilder control)
+    {
+        control
+            .MapGet("/lookups", (CodeLists codeLists) => Results.Ok(codeLists.ListIds.Order()))
+            .WithSummary("List the seeded code lists")
+            .WithDescription("The names to pass to /control/lookups/{list}, one per file under Control/Lookups/SeedData.")
+            .Produces<IEnumerable<string>>();
+
+        control
+            .MapGet(
+                "/lookups/{list}",
+                (string list, CodeLists codeLists) =>
+                    codeLists.TryGetList(list, out var entries)
+                        ? Results.Ok(entries.Select(entry => new LookupEntry(entry.Key, entry.Value.Name, entry.Value.Alias)))
+                        : Results.Problem($"No code list '{list}' is seeded.", statusCode: StatusCodes.Status404NotFound)
+            )
+            .WithSummary("Get a seeded code list")
+            .WithDescription(
+                "The codes the simulator accepts from one list, in file order. A code missing here is a 400 "
+                    + "when a certificate uses it. Operators and authorities are lists too, by identifier."
+            )
+            .Produces<IEnumerable<LookupEntry>>()
+            .ProducesProblem(StatusCodes.Status404NotFound);
+    }
+
+    private static async Task<IResult> List(
+        ICertificateStore store,
+        int page,
+        int pageSize,
+        DateTime? updatedFrom,
+        DateTime? updatedTo
+    )
+    {
+        if (page < 1 || pageSize is < 1 or > MaxPageSize)
+        {
+            return Results.Problem(
+                $"page must be 1 or more, and pageSize between 1 and {MaxPageSize}.",
+                statusCode: StatusCodes.Status400BadRequest
+            );
+        }
+
+        // One more than the page, so the response can say whether another follows without a count.
+        var found = await store.SearchAsync(
+            ChedSummary.Bound(updatedFrom),
+            ChedSummary.Bound(updatedTo),
+            (page - 1) * pageSize,
+            pageSize + 1,
+            includeInaccessible: true
+        );
+
+        return Results.Ok(
+            new CertificatePage(
+                page,
+                pageSize,
+                found.Count > pageSize,
+                [
+                    .. found
+                        .Take(pageSize)
+                        .Select(stored => new ListedCertificate(
+                            stored.Id,
+                            stored.Accessible,
+                            ChedSummary.UpdatedAt(stored.Certificate),
+                            stored.Source
+                        )),
+                ]
+            )
+        );
+    }
+
     private static Task<IResult> Create(
         CertificateKind kind,
         string collection,
         CertificateControlModel model,
         ICertificateStore store,
-        SpsCertificateBuilder builder
+        CertificateFactory factory
     ) =>
         Guarded(async () =>
         {
@@ -118,7 +244,7 @@ public static class ControlEndpoints
             // lookup fails — inside the guard, not before it.
             var id = await store.NextIdAsync(kind.IdPrefix(model));
 
-            await store.PutAsync(Stored(kind, id, model, builder));
+            await store.PutAsync(await factory.StoredAsync(id, model));
 
             return Results.Created($"{Prefix}/{collection}/{id}", Describe(model, id));
         });
@@ -128,7 +254,7 @@ public static class ControlEndpoints
         string id,
         CertificateControlModel model,
         ICertificateStore store,
-        SpsCertificateBuilder builder
+        CertificateFactory factory
     )
     {
         if (await store.FindAsync(id) is null)
@@ -138,7 +264,7 @@ public static class ControlEndpoints
 
         return await Guarded(async () =>
         {
-            await store.PutAsync(Stored(kind, id, model, builder));
+            await store.PutAsync(await factory.StoredAsync(id, model));
             return Results.Ok(Describe(model, id));
         });
     }
@@ -148,7 +274,7 @@ public static class ControlEndpoints
         string id,
         CertificateControlModel patch,
         ICertificateStore store,
-        SpsCertificateBuilder builder
+        CertificateFactory factory
     )
     {
         if (await store.FindAsync(id) is not { } stored)
@@ -160,7 +286,7 @@ public static class ControlEndpoints
 
         return await Guarded(async () =>
         {
-            await store.PutAsync(Stored(kind, id, merged, builder));
+            await store.PutAsync(await factory.StoredAsync(id, merged));
             return Results.Ok(Describe(merged, id));
         });
     }
@@ -174,12 +300,6 @@ public static class ControlEndpoints
         return Results.Ok(new ResetResponse(await cheds.CountAsync() + await intras.CountAsync()));
     }
 
-    private static StoredCertificate Stored(
-        CertificateKind kind,
-        string id,
-        CertificateControlModel model,
-        SpsCertificateBuilder builder
-    ) => new(id, builder.Build(kind, model, id), model.Accessible ?? true, model);
 
     private static IResult NotFound(CertificateKind kind, string id) =>
         Results.Problem($"No {kind.Name} '{id}' exists in the simulator.", statusCode: StatusCodes.Status404NotFound);
@@ -208,7 +328,32 @@ public static class ControlEndpoints
         new(id, model.Accessible ?? true, model);
 }
 
-/// <summary>What the control API returns for a stored certificate. The certificate itself is read back over SOAP.</summary>
+/// <summary>What the control API returns for a stored certificate: the model it was built from. The certificate itself is read back over SOAP.</summary>
 public record StoredCertificateResponse(string Id, bool Accessible, CertificateControlModel Certificate);
 
+/// <summary>One page of a listing. <paramref name="HasMore"/> says whether asking for the next page finds anything.</summary>
+public record CertificatePage(int Page, int PageSize, bool HasMore, IReadOnlyList<ListedCertificate> Items);
+
+/// <summary>A stored certificate as a listing shows it: its model, and when it last changed, in UTC.</summary>
+public record ListedCertificate(string Id, bool Accessible, DateTime Updated, CertificateControlModel Certificate);
+
+/// <summary>One code a list accepts. The alias, where there is one, is accepted in place of the code.</summary>
+public record LookupEntry(string Code, string Name, string? Alias);
+
 public record ResetResponse(int CertificateCount);
+
+/// <summary>
+/// Builds a certificate to store. A CHED's commodity tree is read here, before the synchronous
+/// builder runs, because it comes from the store.
+/// </summary>
+internal sealed class CertificateFactory(CertificateKind kind, SpsCertificateBuilder builder, CommodityCatalogue catalogue)
+{
+    public async Task<StoredCertificate> StoredAsync(string id, CertificateControlModel model)
+    {
+        var commodities = kind == CertificateKind.Ched
+            ? await catalogue.GetAsync(CertificateKind.ChedTypeOf(model))
+            : null;
+
+        return new(id, builder.Build(kind, model, id, commodities), model.Accessible ?? true, model);
+    }
+}

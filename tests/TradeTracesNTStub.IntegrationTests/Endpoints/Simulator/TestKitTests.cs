@@ -14,7 +14,7 @@ public class TestKitTests
 {
     private static readonly SimulatorControlClient s_simulator = SimulatorControlClient.At("http://localhost:8085");
 
-    private static CertificateBuilder AChedA() =>
+    internal static CertificateBuilder AChedA() =>
         Ched.ChedA()
             .WithStatus("NEW")
             .WithDeclaration(declaration => declaration.Declaring("FREE_CIRCULATION", "FATTENING"))
@@ -45,6 +45,29 @@ public class TestKitTests
 
         // The name came from the operator registry, not from the request.
         certificate.SPSConsignment.ConsignorSPSParty.Name.Value.Should().Be("Simulator Exporters Ltd");
+    }
+
+    [Fact]
+    public async Task AChedDIsServedOverSoap()
+    {
+        var token = TestContext.Current.CancellationToken;
+
+        var id = await s_simulator.CreateChed(
+            Ched.ChedD()
+                .WithDeclaration(declaration => declaration.Declaring("FREE_CIRCULATION", "CONFORM"))
+                .WithConsignment(consignment =>
+                    consignment
+                        .ArrivingAt("GBBEL", "XI")
+                        .WithConsignor(party => party.Operator("770198").InCountry("XI"))
+                        .WithCommodity(commodity => commodity.CnCode("08051022").OriginCountry("ZA").NetWeightKg(500))
+                ),
+            token
+        );
+
+        var certificate = await ChedRetrievalTests.GetCertificate(id);
+
+        id.Should().StartWith("CHEDD.XI.");
+        certificate!.SPSExchangedDocument.Name[0].Value.Should().StartWith("CHED-D");
     }
 
     [Fact]
@@ -122,7 +145,7 @@ public class TestKitTests
 
         (await act.Should().ThrowAsync<InvalidOperationException>())
             .Which.Message.Should()
-            .Contain("cn_code")
-            .And.Contain("SeedData");
+            .Contain("CHED-A commodity tree")
+            .And.Contain("/control/commodity-trees/refresh");
     }
 }

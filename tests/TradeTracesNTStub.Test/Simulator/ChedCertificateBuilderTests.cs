@@ -1,4 +1,6 @@
+using Api.TradeTracesNTStub.Simulator.Control.Commodities;
 using Api.TradeTracesNTStub.Simulator.Control.Lookups;
+using TradeTracesNTStub.Test.Simulator.Commodities;
 using Api.TradeTracesNTStub.Simulator.Control.Mapping;
 using Api.TradeTracesNTStub.Simulator.Control.Models;
 using TracesNT.WebServices;
@@ -270,6 +272,33 @@ public class ChedCertificateBuilderTests
     }
 
     [Fact]
+    public void WithACommodityTreeACnCodeTakesItsPathFromTheTree()
+    {
+        // 010410 isn't in cn_code.json: only the tree knows it.
+        var classification = Commodity(
+                new Dictionary<string, string> { ["CN"] = "010410" },
+                CommodityIndex.From(CommodityTreeSample.Tree())
+            )
+            .ApplicableSPSClassification.Single();
+
+        classification
+            .ClassName.Select(name => name.Value)
+            .Should()
+            .Equal("LIVE ANIMALS", "Live sheep and goats", "Sheep");
+        classification.ClassName.Should().AllSatisfy(name => name.languageID.Should().Be("en"));
+    }
+
+    [Fact]
+    public void WithACommodityTreeACodeOutsideItIsRefusedNamingTheTree()
+    {
+        // 0103 is in cn_code.json, but a tree, once there, decides.
+        var act = () =>
+            Commodity(new Dictionary<string, string> { ["CN"] = "0103" }, CommodityIndex.From(CommodityTreeSample.Tree()));
+
+        act.Should().Throw<UnknownCodeException>().WithMessage("*commodity tree (cheda*");
+    }
+
+    [Fact]
     public void AnUnknownOperatorPointsAtTheWayOut()
     {
         var model = Minimal with
@@ -285,7 +314,10 @@ public class ChedCertificateBuilderTests
         act.Should().Throw<UnknownCodeException>().WithMessage("*operators.json*");
     }
 
-    private static SPSTradeLineItemType Commodity(Dictionary<string, string> classifications)
+    private static SPSTradeLineItemType Commodity(
+        Dictionary<string, string> classifications,
+        CommodityIndex? commodities = null
+    )
     {
         var model = WithItem(
             new ConsignmentItemModel
@@ -294,7 +326,10 @@ public class ChedCertificateBuilderTests
             }
         );
 
-        return Build(model).SPSConsignment.IncludedSPSConsignmentItem[0].IncludedSPSTradeLineItem.Single();
+        return s_builder
+            .Build(CertificateKind.Ched, model, Id, commodities)
+            .SPSConsignment.IncludedSPSConsignmentItem[0]
+            .IncludedSPSTradeLineItem.Single();
     }
 
     private static CertificateControlModel WithItem(ConsignmentItemModel item) =>
