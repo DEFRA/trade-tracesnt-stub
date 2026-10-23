@@ -78,6 +78,11 @@ static void ConfigureBuilder(WebApplicationBuilder builder)
     builder.Services.AddSimulatorState(builder.Configuration);
     builder.Services.AddOpenApi();
 
+    // Checks the DataAnnotations on the control API's query and route parameters, such as a list's
+    // page size. Called here, not in the simulator, so the validation generator never sees the
+    // simulator's request bodies: it fails on a JsonElement, which a scenario's model is.
+    builder.Services.AddValidation();
+
     // The control API's enums read far better as names than as numbers. Leaving out nulls makes a
     // model read back as it was sent, rather than with every field the sender didn't set.
     builder.Services.ConfigureHttpJsonOptions(options =>

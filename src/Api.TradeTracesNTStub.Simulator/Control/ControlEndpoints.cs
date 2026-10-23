@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Api.TradeTracesNTStub.Simulator.Control.Commodities;
 using Api.TradeTracesNTStub.Simulator.Control.Lookups;
 using Api.TradeTracesNTStub.Simulator.Control.Mapping;
@@ -62,7 +63,7 @@ public static class ControlEndpoints
             .MapPost(
                 $"/{collection}",
                 (CertificateControlModel model, TStore store, SpsCertificateBuilder builder, CommodityCatalogue catalogue) =>
-                    Create(kind, collection, model, store, new CertificateFactory(kind, builder, catalogue))
+                    Create(kind, collection, model, store, builder, catalogue)
             )
             .WithSummary($"Create a {kind.Name}")
             .WithDescription(
@@ -77,8 +78,13 @@ public static class ControlEndpoints
         control
             .MapGet(
                 $"/{collection}",
-                (TStore store, int? page, int? pageSize, DateTime? updatedFrom, DateTime? updatedTo) =>
-                    List(store, page ?? 1, pageSize ?? DefaultPageSize, updatedFrom, updatedTo)
+                (
+                    TStore store,
+                    DateTime? updatedFrom,
+                    DateTime? updatedTo,
+                    [Range(1, int.MaxValue, ErrorMessage = "page counts from 1.")] int page = 1,
+                    [Range(1, MaxPageSize)] int pageSize = DefaultPageSize
+                ) => List(store, page, pageSize, updatedFrom, updatedTo)
             )
             .WithSummary($"List {kind.Name}s, newest first")
             .WithDescription(
@@ -89,7 +95,7 @@ public static class ControlEndpoints
                     + "when they carry no offset."
             )
             .Produces<CertificatePage>()
-            .ProducesProblem(StatusCodes.Status400BadRequest);
+            .ProducesValidationProblem();
 
         control
             .MapGet(
@@ -118,7 +124,7 @@ public static class ControlEndpoints
                     TStore store,
                     SpsCertificateBuilder builder,
                     CommodityCatalogue catalogue
-                ) => Update(kind, id, model, store, new CertificateFactory(kind, builder, catalogue))
+                ) => Update(kind, id, model, store, builder, catalogue)
             )
             .WithSummary($"Replace a {kind.Name}")
             .WithDescription("Rebuilds the certificate from the supplied model, keeping its ID.")
@@ -135,7 +141,7 @@ public static class ControlEndpoints
                     TStore store,
                     SpsCertificateBuilder builder,
                     CommodityCatalogue catalogue
-                ) => Patch(kind, id, patch, store, new CertificateFactory(kind, builder, catalogue))
+                ) => Patch(kind, id, patch, store, builder, catalogue)
             )
             .WithSummary($"Apply a partial update to a {kind.Name}")
             .WithDescription(
@@ -195,14 +201,6 @@ public static class ControlEndpoints
         DateTime? updatedTo
     )
     {
-        if (page < 1 || pageSize is < 1 or > MaxPageSize)
-        {
-            return Results.Problem(
-                $"page must be 1 or more, and pageSize between 1 and {MaxPageSize}.",
-                statusCode: StatusCodes.Status400BadRequest
-            );
-        }
-
         // One more than the page, so the response can say whether another follows without a count.
         var found = await store.SearchAsync(
             ChedSummary.Bound(updatedFrom),
@@ -236,7 +234,8 @@ public static class ControlEndpoints
         string collection,
         CertificateControlModel model,
         ICertificateStore store,
-        CertificateFactory factory
+        SpsCertificateBuilder builder,
+        CommodityCatalogue catalogue
     ) =>
         Guarded(async () =>
         {
@@ -244,7 +243,7 @@ public static class ControlEndpoints
             // lookup fails — inside the guard, not before it.
             var id = await store.NextIdAsync(kind.IdPrefix(model));
 
-            await store.PutAsync(await factory.StoredAsync(id, model));
+            await store.PutAsync(await StoredAsync(kind, id, model, builder, catalogue));
 
             return Results.Created($"{Prefix}/{collection}/{id}", Describe(model, id));
         });
@@ -254,7 +253,8 @@ public static class ControlEndpoints
         string id,
         CertificateControlModel model,
         ICertificateStore store,
-        CertificateFactory factory
+        SpsCertificateBuilder builder,
+        CommodityCatalogue catalogue
     )
     {
         if (await store.FindAsync(id) is null)
@@ -264,7 +264,7 @@ public static class ControlEndpoints
 
         return await Guarded(async () =>
         {
-            await store.PutAsync(await factory.StoredAsync(id, model));
+            await store.PutAsync(await StoredAsync(kind, id, model, builder, catalogue));
             return Results.Ok(Describe(model, id));
         });
     }
@@ -274,7 +274,8 @@ public static class ControlEndpoints
         string id,
         CertificateControlModel patch,
         ICertificateStore store,
-        CertificateFactory factory
+        SpsCertificateBuilder builder,
+        CommodityCatalogue catalogue
     )
     {
         if (await store.FindAsync(id) is not { } stored)
@@ -286,7 +287,7 @@ public static class ControlEndpoints
 
         return await Guarded(async () =>
         {
-            await store.PutAsync(await factory.StoredAsync(id, merged));
+            await store.PutAsync(await StoredAsync(kind, id, merged, builder, catalogue));
             return Results.Ok(Describe(merged, id));
         });
     }
@@ -300,6 +301,21 @@ public static class ControlEndpoints
         return Results.Ok(new ResetResponse(await cheds.CountAsync() + await intras.CountAsync()));
     }
 
+    /// <summary>A CHED's commodity tree is read here, before the synchronous builder runs, because it comes from the store.</summary>
+    private static async Task<StoredCertificate> StoredAsync(
+        CertificateKind kind,
+        string id,
+        CertificateControlModel model,
+        SpsCertificateBuilder builder,
+        CommodityCatalogue catalogue
+    )
+    {
+        var commodities = kind == CertificateKind.Ched
+            ? await catalogue.GetAsync(CertificateKind.ChedTypeOf(model))
+            : null;
+
+        return new(id, builder.Build(kind, model, id, commodities), model.Accessible ?? true, model);
+    }
 
     private static IResult NotFound(CertificateKind kind, string id) =>
         Results.Problem($"No {kind.Name} '{id}' exists in the simulator.", statusCode: StatusCodes.Status404NotFound);
@@ -341,19 +357,3 @@ public record ListedCertificate(string Id, bool Accessible, DateTime Updated, Ce
 public record LookupEntry(string Code, string Name, string? Alias);
 
 public record ResetResponse(int CertificateCount);
-
-/// <summary>
-/// Builds a certificate to store. A CHED's commodity tree is read here, before the synchronous
-/// builder runs, because it comes from the store.
-/// </summary>
-internal sealed class CertificateFactory(CertificateKind kind, SpsCertificateBuilder builder, CommodityCatalogue catalogue)
-{
-    public async Task<StoredCertificate> StoredAsync(string id, CertificateControlModel model)
-    {
-        var commodities = kind == CertificateKind.Ched
-            ? await catalogue.GetAsync(CertificateKind.ChedTypeOf(model))
-            : null;
-
-        return new(id, builder.Build(kind, model, id, commodities), model.Accessible ?? true, model);
-    }
-}

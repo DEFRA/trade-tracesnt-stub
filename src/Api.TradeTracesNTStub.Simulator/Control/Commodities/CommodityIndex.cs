@@ -16,13 +16,11 @@ public sealed class CommodityIndex
     private readonly CommodityTree _tree;
     private readonly Dictionary<string, IReadOnlyList<LocalisedName>> _names = new(StringComparer.OrdinalIgnoreCase);
 
-    private CommodityIndex(CommodityTree tree)
+    public CommodityIndex(CommodityTree tree)
     {
         _tree = tree;
         Add(tree.Nodes, []);
     }
-
-    public static CommodityIndex From(CommodityTree tree) => new(tree);
 
     public int Count => _names.Count;
 

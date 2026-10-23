@@ -22,7 +22,7 @@ public sealed class CommodityCatalogue(ICommodityTreeStore store, TimeProvider t
             return cached.Index;
         }
 
-        var index = await store.GetAsync(chedType) is { } tree ? CommodityIndex.From(tree) : null;
+        var index = await store.GetAsync(chedType) is { } tree ? new CommodityIndex(tree) : null;
         _indexes[chedType] = (index, time.GetUtcNow());
         return index;
     }
@@ -34,10 +34,18 @@ public sealed class CommodityCatalogue(ICommodityTreeStore store, TimeProvider t
         return await store.RemoveAsync(chedType);
     }
 
-    public async Task<CommodityTreeSummary> PutAsync(CommodityTree tree)
+    /// <summary>Stores the type's tree, stamped as imported now, and replaces its cached index.</summary>
+    public async Task<CommodityTreeSummary> PutAsync(string chedType, string source, IReadOnlyList<CommodityNode> nodes)
     {
+        var tree = new CommodityTree(
+            chedType.ToUpperInvariant(),
+            CommodityTrees.TreeIds[chedType],
+            time.GetUtcNow(),
+            source,
+            nodes
+        );
         await store.PutAsync(tree);
-        _indexes[tree.ChedType] = (CommodityIndex.From(tree), time.GetUtcNow());
+        _indexes[tree.ChedType] = (new CommodityIndex(tree), time.GetUtcNow());
         return CommodityTrees.Summarise(tree);
     }
 }

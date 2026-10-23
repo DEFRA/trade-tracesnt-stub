@@ -1,7 +1,4 @@
-using System.Text.Json;
 using Api.TradeTracesNTStub.Simulator.Control.Commodities;
-using MongoDB.Bson;
-using MongoDB.Bson.IO;
 using MongoDB.Driver;
 
 namespace Api.TradeTracesNTStub.Utils.Mongo;
@@ -14,65 +11,53 @@ public sealed class MongoCommodityTreeStore(IMongoDbClientFactory mongo) : IComm
 {
     public const string Collection = "commodity_trees";
 
-    private static readonly JsonSerializerOptions s_json = new(JsonSerializerDefaults.Web);
-    private static readonly JsonWriterSettings s_relaxed = new() { OutputMode = JsonOutputMode.RelaxedExtendedJson };
-
-    private readonly IMongoCollection<BsonDocument> _trees = mongo.GetCollection<BsonDocument>(Collection);
+    private readonly IMongoCollection<TreeDocument> _trees = mongo.GetCollection<TreeDocument>(Collection);
 
     public Task PutAsync(CommodityTree tree)
     {
         var summary = CommodityTrees.Summarise(tree);
-        var document = new BsonDocument
-        {
-            ["_id"] = tree.ChedType.ToUpperInvariant(),
-            ["treeId"] = tree.TreeId,
-            ["importedAt"] = tree.ImportedAt.UtcDateTime,
-            ["source"] = tree.Source,
-            ["nodeCount"] = summary.Nodes,
-            ["codeCount"] = summary.Codes,
-            ["nodes"] = BsonDocument.Parse($"{{\"n\":{JsonSerializer.Serialize(tree.Nodes, s_json)}}}")["n"],
-        };
+        var document = new TreeDocument(
+            tree.ChedType.ToUpperInvariant(),
+            tree.TreeId,
+            tree.ImportedAt.UtcDateTime,
+            tree.Source,
+            summary.Nodes,
+            summary.Codes,
+            tree.Nodes
+        );
 
         return _trees.ReplaceOneAsync(Is(tree.ChedType), document, new ReplaceOptions { IsUpsert = true });
     }
 
-    public async Task<CommodityTree?> GetAsync(string chedType)
-    {
-        var document = await _trees.Find(Is(chedType)).FirstOrDefaultAsync();
-        if (document is null)
-        {
-            return null;
-        }
-
-        var nodes =
-            JsonSerializer.Deserialize<IReadOnlyList<CommodityNode>>(document["nodes"].ToJson(s_relaxed), s_json) ?? [];
-        return new CommodityTree(
-            document["_id"].AsString,
-            document["treeId"].AsString,
-            new DateTimeOffset(document["importedAt"].ToUniversalTime(), TimeSpan.Zero),
-            document["source"].AsString,
-            nodes
-        );
-    }
+    public async Task<CommodityTree?> GetAsync(string chedType) =>
+        await _trees.Find(Is(chedType)).FirstOrDefaultAsync() is { } document
+            ? new CommodityTree(
+                document.Id,
+                document.TreeId,
+                new DateTimeOffset(document.ImportedAt, TimeSpan.Zero),
+                document.Source,
+                document.Nodes
+            )
+            : null;
 
     public async Task<IReadOnlyList<CommodityTreeSummary>> ListAsync()
     {
         // The summary fields only: a tree's nodes run to a megabyte.
         var documents = await _trees
-            .Find(FilterDefinition<BsonDocument>.Empty)
-            .Project(Builders<BsonDocument>.Projection.Exclude("nodes"))
-            .Sort(Builders<BsonDocument>.Sort.Ascending("_id"))
+            .Find(FilterDefinition<TreeDocument>.Empty)
+            .Project<SummaryDocument>("{ nodes: 0 }")
+            .Sort(Builders<TreeDocument>.Sort.Ascending(d => d.Id))
             .ToListAsync();
 
         return
         [
             .. documents.Select(document => new CommodityTreeSummary(
-                document["_id"].AsString,
-                document["treeId"].AsString,
-                new DateTimeOffset(document["importedAt"].ToUniversalTime(), TimeSpan.Zero),
-                document["source"].AsString,
-                document["nodeCount"].AsInt32,
-                document["codeCount"].AsInt32
+                document.Id,
+                document.TreeId,
+                new DateTimeOffset(document.ImportedAt, TimeSpan.Zero),
+                document.Source,
+                document.NodeCount,
+                document.CodeCount
             )),
         ];
     }
@@ -80,6 +65,26 @@ public sealed class MongoCommodityTreeStore(IMongoDbClientFactory mongo) : IComm
     public async Task<bool> RemoveAsync(string chedType) =>
         (await _trees.DeleteOneAsync(Is(chedType))).DeletedCount > 0;
 
-    private static FilterDefinition<BsonDocument> Is(string chedType) =>
-        Builders<BsonDocument>.Filter.Eq("_id", chedType.ToUpperInvariant());
+    private static FilterDefinition<TreeDocument> Is(string chedType) =>
+        Builders<TreeDocument>.Filter.Eq(d => d.Id, chedType.ToUpperInvariant());
+
+    /// <param name="ImportedAt">UTC; Mongo reads a date back as UTC whatever offset it was written with.</param>
+    private sealed record TreeDocument(
+        string Id,
+        string TreeId,
+        DateTime ImportedAt,
+        string Source,
+        int NodeCount,
+        int CodeCount,
+        IReadOnlyList<CommodityNode> Nodes
+    );
+
+    private sealed record SummaryDocument(
+        string Id,
+        string TreeId,
+        DateTime ImportedAt,
+        string Source,
+        int NodeCount,
+        int CodeCount
+    );
 }

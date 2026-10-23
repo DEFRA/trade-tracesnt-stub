@@ -5,7 +5,7 @@ namespace TradeTracesNTStub.Test.Simulator.Commodities;
 
 public class CommodityIndexTests
 {
-    private readonly CommodityIndex _index = CommodityIndex.From(CommodityTreeSample.Tree());
+    private readonly CommodityIndex _index = new CommodityIndex(CommodityTreeSample.Tree());
 
     [Fact]
     public void ACodeIsNamedByItsCodedAncestorsThenItself()

@@ -277,7 +277,7 @@ public class ChedCertificateBuilderTests
         // 010410 isn't in cn_code.json: only the tree knows it.
         var classification = Commodity(
                 new Dictionary<string, string> { ["CN"] = "010410" },
-                CommodityIndex.From(CommodityTreeSample.Tree())
+                new CommodityIndex(CommodityTreeSample.Tree())
             )
             .ApplicableSPSClassification.Single();
 
@@ -293,7 +293,7 @@ public class ChedCertificateBuilderTests
     {
         // 0103 is in cn_code.json, but a tree, once there, decides.
         var act = () =>
-            Commodity(new Dictionary<string, string> { ["CN"] = "0103" }, CommodityIndex.From(CommodityTreeSample.Tree()));
+            Commodity(new Dictionary<string, string> { ["CN"] = "0103" }, new CommodityIndex(CommodityTreeSample.Tree()));
 
         act.Should().Throw<UnknownCodeException>().WithMessage("*commodity tree (cheda*");
     }

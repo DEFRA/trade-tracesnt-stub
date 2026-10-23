@@ -15,37 +15,18 @@ public static class CommodityTreeEndpoints
         var trees = control.MapGroup("/commodity-trees");
 
         trees
-            .MapGet("/", async (ICommodityTreeStore store) => Results.Ok(await store.ListAsync()))
+            .MapGet("/", List)
             .WithSummary("List the commodity trees loaded")
             .Produces<IReadOnlyList<CommodityTreeSummary>>();
 
         trees
-            .MapGet(
-                "/{chedType}",
-                async (string chedType, ICommodityTreeStore store) =>
-                    await store.GetAsync(chedType) is { } tree
-                        ? Results.Ok(tree)
-                        : Results.Problem(
-                            $"No commodity tree is loaded for CHED type '{chedType}'.",
-                            statusCode: StatusCodes.Status404NotFound
-                        )
-            )
+            .MapGet("/{chedType}", Get)
             .WithSummary("Get a CHED type's commodity tree")
             .Produces<CommodityTree>()
             .ProducesProblem(StatusCodes.Status404NotFound);
 
         trees
-            .MapPut(
-                "/{chedType}",
-                async (string chedType, IReadOnlyList<CommodityNode> nodes, CommodityCatalogue catalogue) =>
-                    CommodityTrees.TreeIds.TryGetValue(chedType, out var treeId)
-                        ? Results.Ok(
-                            await catalogue.PutAsync(
-                                new CommodityTree(chedType.ToUpperInvariant(), treeId, DateTimeOffset.UtcNow, "upload", nodes)
-                            )
-                        )
-                        : UnknownType(chedType)
-            )
+            .MapPut("/{chedType}", Put)
             .WithSummary("Store a CHED type's commodity tree")
             .WithDescription(
                 "Takes the tree as TRACES publishes it — the POC's /classificationTrees/{treeId}?format=json — "
@@ -55,27 +36,14 @@ public static class CommodityTreeEndpoints
             .ProducesProblem(StatusCodes.Status404NotFound);
 
         trees
-            .MapDelete(
-                "/{chedType}",
-                async (string chedType, CommodityCatalogue catalogue) =>
-                    await catalogue.RemoveAsync(chedType)
-                        ? Results.NoContent()
-                        : Results.Problem(
-                            $"No commodity tree is loaded for CHED type '{chedType}'.",
-                            statusCode: StatusCodes.Status404NotFound
-                        )
-            )
+            .MapDelete("/{chedType}", Delete)
             .WithSummary("Remove a CHED type's commodity tree")
             .WithDescription("Its CN codes then come from the seeded cn_code.json, as before any import.")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status404NotFound);
 
         trees
-            .MapPost(
-                "/refresh",
-                async (string? type, CommodityTreeSource source, CommodityCatalogue catalogue, CancellationToken token) =>
-                    await Refresh(type, source, catalogue, token)
-            )
+            .MapPost("/refresh", Refresh)
             .WithSummary("Refresh the commodity trees from TRACES")
             .WithDescription(
                 "Fetches each CHED type's tree (or only ?type=) through the POC configured as "
@@ -86,6 +54,23 @@ public static class CommodityTreeEndpoints
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status502BadGateway);
     }
+
+    private static async Task<IResult> List(ICommodityTreeStore store) => Results.Ok(await store.ListAsync());
+
+    private static async Task<IResult> Get(string chedType, ICommodityTreeStore store) =>
+        await store.GetAsync(chedType) is { } tree ? Results.Ok(tree) : NoTree(chedType);
+
+    private static async Task<IResult> Put(
+        string chedType,
+        IReadOnlyList<CommodityNode> nodes,
+        CommodityCatalogue catalogue
+    ) =>
+        CommodityTrees.TreeIds.ContainsKey(chedType)
+            ? Results.Ok(await catalogue.PutAsync(chedType, "upload", nodes))
+            : UnknownType(chedType);
+
+    private static async Task<IResult> Delete(string chedType, CommodityCatalogue catalogue) =>
+        await catalogue.RemoveAsync(chedType) ? Results.NoContent() : NoTree(chedType);
 
     private static async Task<IResult> Refresh(
         string? type,
@@ -127,13 +112,17 @@ public static class CommodityTreeEndpoints
                 );
             }
 
-            refreshed.Add(
-                await catalogue.PutAsync(new CommodityTree(chedType, treeId, DateTimeOffset.UtcNow, source.SourceUrl, nodes))
-            );
+            refreshed.Add(await catalogue.PutAsync(chedType, source.SourceUrl, nodes));
         }
 
         return Results.Ok(refreshed);
     }
+
+    private static IResult NoTree(string chedType) =>
+        Results.Problem(
+            $"No commodity tree is loaded for CHED type '{chedType}'.",
+            statusCode: StatusCodes.Status404NotFound
+        );
 
     private static IResult UnknownType(string chedType) =>
         Results.Problem(
