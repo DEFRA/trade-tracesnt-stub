@@ -71,11 +71,12 @@ public sealed class MongoCertificateStore(IMongoDbClientFactory mongo, string co
         DateTime? updatedFrom,
         DateTime? updatedTo,
         int skip,
-        int take
+        int take,
+        bool includeInaccessible = false
     )
     {
         var filter = Builders<CertificateDocument>.Filter;
-        var visible = filter.Eq(d => d.Accessible, true);
+        var visible = includeInaccessible ? filter.Empty : filter.Eq(d => d.Accessible, true);
 
         if (updatedFrom is { } from)
         {
@@ -87,7 +88,7 @@ public sealed class MongoCertificateStore(IMongoDbClientFactory mongo, string co
             visible &= filter.Lte(d => d.UpdatedTicks, to.Ticks);
         }
 
-        // Filtered, sorted and paged in Mongo, over the index CreateIndexesAsync builds, so a search
+        // Filtered, sorted and paged in Mongo, over the indexes CreateIndexesAsync builds, so a search
         // deserialises one page rather than every certificate stored.
         var page = await _certificates
             .Find(visible)
@@ -106,16 +107,26 @@ public sealed class MongoCertificateStore(IMongoDbClientFactory mongo, string co
     public static Task CreateIndexesAsync(IMongoDbClientFactory mongo, string collection, CancellationToken token) =>
         mongo
             .GetCollection<CertificateDocument>(collection)
-            .Indexes.CreateOneAsync(
-                // Equality, then the range and sort search uses, then the tie-break: one index serves all three.
-                new CreateIndexModel<CertificateDocument>(
-                    Builders<CertificateDocument>
-                        .IndexKeys.Ascending(d => d.Accessible)
-                        .Descending(d => d.UpdatedTicks)
-                        .Descending(d => d.CertificateId),
-                    new CreateIndexOptions { Name = "search" }
-                ),
-                cancellationToken: token
+            .Indexes.CreateManyAsync(
+                [
+                    // Equality, then the range and sort search uses, then the tie-break: one index serves all three.
+                    new CreateIndexModel<CertificateDocument>(
+                        Builders<CertificateDocument>
+                            .IndexKeys.Ascending(d => d.Accessible)
+                            .Descending(d => d.UpdatedTicks)
+                            .Descending(d => d.CertificateId),
+                        new CreateIndexOptions { Name = "search" }
+                    ),
+                    // The control API lists inaccessible certificates too, which the search index cannot
+                    // sort without its leading equality.
+                    new CreateIndexModel<CertificateDocument>(
+                        Builders<CertificateDocument>
+                            .IndexKeys.Descending(d => d.UpdatedTicks)
+                            .Descending(d => d.CertificateId),
+                        new CreateIndexOptions { Name = "list" }
+                    ),
+                ],
+                token
             );
 
     public async Task<int> CountAsync() =>

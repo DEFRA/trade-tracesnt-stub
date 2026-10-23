@@ -125,6 +125,18 @@ public abstract class CertificateStoreTests(ISimulatorState state)
         (await _store.FindAsync(Id)).Should().BeNull();
     }
 
+    [Fact]
+    public async Task AListingIncludesWhatSearchHides()
+    {
+        // The control API lists for the simulator's operator, who must see a CHED the SOAP face refuses.
+        await _store.PutAsync(AChed());
+
+        (await _store.SearchAsync(null, null, 0, 10)).Should().BeEmpty();
+        (await _store.SearchAsync(null, null, 0, 10, includeInaccessible: true))
+            .Should()
+            .ContainSingle(stored => stored.Id == Id);
+    }
+
     private static int Serial(string id) => int.Parse(id.Split('.')[^1]);
 
     private static string Xml(SPSCertificateType certificate)

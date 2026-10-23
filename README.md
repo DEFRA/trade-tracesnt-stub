@@ -38,10 +38,12 @@ The simulator's simple face, on `/control`, is how a test gets data in. Plain JS
 
 ```
 POST   /control/cheds            create
+GET    /control/cheds            list, newest first: ?page=1&pageSize=20 (max 100), optional updatedFrom/updatedTo
+GET    /control/cheds/{id}       the model it was built from
 PUT    /control/cheds/{id}       replace
 PATCH  /control/cheds/{id}       merge a partial update
 DELETE /control/cheds/{id}       remove
-POST   /control/intras           the same four, for INTRAs
+POST   /control/intras           the same six, for INTRAs
 POST   /control/reset            empty the simulator
 ```
 
@@ -98,8 +100,52 @@ curl -X PATCH http://localhost:8085/control/cheds/{id} -H 'Content-Type: applica
 Property names follow Trade Gateway's own JSON model, so the vocabulary going in matches what comes
 back from `GET /certificates/cheds/{id}`.
 
-There is no read-back endpoint on purpose: the SOAP face is the only way to read a certificate, which
-stops the two drifting.
+### Reading back
+
+The certificate itself is read only over SOAP, so the control API and the SOAP face can't drift. What
+the control API reads back is the model a certificate was built from, after any patches, so a UI can
+edit it and `PUT` it back:
+
+```bash
+curl http://localhost:8085/control/cheds/{id}
+```
+
+It holds only what was sent: no display names, no timestamps, and no `status` if none was ever set
+(which reads as `NEW`).
+
+The code lists the simulator accepts are readable too, so a UI can offer only valid codes.
+`/control/lookups` lists them, one per seed file, and `/control/lookups/{list}` returns one as
+`[{ "code", "name", "alias" }]`:
+
+```bash
+curl http://localhost:8085/control/lookups/cn_code
+```
+
+### Commodity trees
+
+A CHED's CN codes are checked and described against its type's commodity tree, as TRACES publishes
+it: `cheda`, `chedp`, `chedpp` and `chedd`, thousands of codes each. A code's description is its
+coded ancestors' descriptions, then its own: 010410 is "LIVE ANIMALS", "Live sheep and goats",
+"Sheep". Any code in the tree is accepted, selectable or not, because the CHED-D tree marks none
+selectable.
+
+The trees live in the store, one per CHED type (Mongo collection `commodity_trees`). The stub starts
+with none, so CN codes come from the seeded `cn_code.json` until you load them. Refresh them from
+TRACES through trade-traces-poc, which needs real EU acceptance credentials. On Mongo they survive a
+restart; an in-memory stub needs refreshing after each one:
+
+```bash
+curl -X POST http://localhost:8085/control/commodity-trees/refresh          # all four
+curl -X POST 'http://localhost:8085/control/commodity-trees/refresh?type=A'  # one
+```
+
+Set `Simulator:CommodityTrees:SourceUrl` to the POC's base URL, and `Simulator:CommodityTrees:ApiKey`
+when it sits behind the CDP gateway.
+
+You can also `PUT /control/commodity-trees/{type}` a tree in the POC's JSON shape, read one back with
+`GET /control/commodity-trees/{type}`, list what's loaded with `GET /control/commodity-trees`, and
+`DELETE` one. INTRA's CN codes come from the seeded `cn_code.json`, as do a CHED type's whose tree
+has been deleted.
 
 ### Lookups, and what happens when one is missing
 
