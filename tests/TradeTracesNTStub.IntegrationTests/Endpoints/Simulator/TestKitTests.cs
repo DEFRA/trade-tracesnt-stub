@@ -145,7 +145,7 @@ public class TestKitTests
 
         (await act.Should().ThrowAsync<InvalidOperationException>())
             .Which.Message.Should()
-            .Contain("CHED-A commodity tree")
-            .And.Contain("/control/commodity-trees/refresh");
+            .Contain("cn_code")
+            .And.Contain("SeedData");
     }
 }

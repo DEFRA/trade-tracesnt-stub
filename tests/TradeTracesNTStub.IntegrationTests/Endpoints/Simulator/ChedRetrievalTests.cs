@@ -168,8 +168,8 @@ public class ChedRetrievalTests
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         (await response.Content.ReadAsStringAsync(token))
             .Should()
-            .Contain("CHED-A commodity tree")
-            .And.Contain("/control/commodity-trees/refresh");
+            .Contain("cn_code")
+            .And.Contain("SeedData");
     }
 
     [Fact]
