@@ -10,5 +10,9 @@
   "PP": {
     "name": "CHED-PP - Common Health Entry Document for Plant Product",
     "listName": "CHED type"
+  },
+  "D": {
+    "name": "CHED-D - Common Health Entry Document for Feed and Food of Non-Animal Origin",
+    "listName": "CHED type"
   }
 }

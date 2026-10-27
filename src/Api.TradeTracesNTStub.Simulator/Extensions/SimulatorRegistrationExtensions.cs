@@ -1,6 +1,8 @@
 using Api.TradeTracesNTStub.Simulator.Control;
+using Api.TradeTracesNTStub.Simulator.Control.Commodities;
 using Api.TradeTracesNTStub.Simulator.Control.Lookups;
 using Api.TradeTracesNTStub.Simulator.Control.Mapping;
+using Api.TradeTracesNTStub.Simulator.Control.Scenarios;
 using Api.TradeTracesNTStub.Simulator.Ports;
 using Api.TradeTracesNTStub.Simulator.WsSecurity;
 using CoreWCF;
@@ -17,8 +19,9 @@ namespace Api.TradeTracesNTStub.Simulator.Extensions;
 public static class SimulatorRegistrationExtensions
 {
     /// <summary>
-    /// Registers everything but the state: <see cref="IChedStore"/>, <see cref="IIntraStore"/> and
-    /// <see cref="ICustomsLedger"/> are the host's to choose, because only the host knows about Mongo.
+    /// Registers everything but the state: <see cref="IChedStore"/>, <see cref="IIntraStore"/>,
+    /// <see cref="ICustomsLedger"/>, <see cref="ICommodityTreeStore"/> and <see cref="IScenarioStore"/> are
+    /// the host's to choose, because only the host knows about Mongo.
     /// </summary>
     public static IServiceCollection AddTracesNtSimulator(
         this IServiceCollection services,
@@ -35,6 +38,10 @@ public static class SimulatorRegistrationExtensions
         services.AddSingleton(Registry<OperatorEntry>.Load("operators.json"));
         services.AddSingleton(Registry<AuthorityEntry>.Load("authorities.json"));
         services.AddSingleton<SpsCertificateBuilder>();
+        services.AddSingleton<CommodityCatalogue>();
+        services.AddSingleton(TimeProvider.System);
+        services.Configure<CommodityTreeOptions>(configuration.GetSection("Simulator:CommodityTrees"));
+        services.AddHttpClient<CommodityTreeSource>(client => client.Timeout = TimeSpan.FromMinutes(2));
 
         // CoreWCF only falls back to a parameterless constructor; a port with dependencies has to be
         // registered. The other two ports are stateless and still use that fallback.
@@ -54,7 +61,9 @@ public static class SimulatorRegistrationExtensions
         services
             .AddSingleton<IChedStore>(new InMemoryCertificateStore())
             .AddSingleton<IIntraStore>(new InMemoryCertificateStore())
-            .AddSingleton<ICustomsLedger>(new InMemoryCustomsLedger());
+            .AddSingleton<ICustomsLedger>(new InMemoryCustomsLedger())
+            .AddSingleton<ICommodityTreeStore>(new InMemoryCommodityTreeStore())
+            .AddSingleton<IScenarioStore>(new InMemoryScenarioStore());
 
     /// <summary>
     /// Maps the REST control API. Separate from <see cref="UseTracesNtSimulator"/> because it has to

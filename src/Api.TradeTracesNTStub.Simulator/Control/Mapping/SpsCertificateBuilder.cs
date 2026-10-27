@@ -1,3 +1,4 @@
+using Api.TradeTracesNTStub.Simulator.Control.Commodities;
 using Api.TradeTracesNTStub.Simulator.Control.Lookups;
 using Api.TradeTracesNTStub.Simulator.Control.Models;
 using TracesNT.WebServices;
@@ -20,11 +21,20 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
     public const string ChedTypeNoteSubject = "CHED_TYPE";
     public const string LastUpdateNoteSubject = "LAST_UPDATE_DATETIME";
 
-    public SPSCertificateType Build(CertificateKind kind, CertificateControlModel model, string id) =>
+    /// <param name="commodities">
+    /// The CHED type's commodity tree, which then decides CN codes. Without one, CN codes come from
+    /// <c>cn_code.json</c>, as they always do for INTRA.
+    /// </param>
+    public SPSCertificateType Build(
+        CertificateKind kind,
+        CertificateControlModel model,
+        string id,
+        CommodityIndex? commodities = null
+    ) =>
         new()
         {
             SPSExchangedDocument = BuildDocument(kind, model, id),
-            SPSConsignment = BuildConsignment(kind, model.SpecifiedConsignment),
+            SPSConsignment = BuildConsignment(kind, model.SpecifiedConsignment, commodities),
         };
 
     private SPSExchangedDocumentType BuildDocument(CertificateKind kind, CertificateControlModel model, string id)
@@ -231,7 +241,11 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
         };
     }
 
-    private SPSConsignmentType BuildConsignment(CertificateKind kind, ConsignmentModel model) =>
+    private SPSConsignmentType BuildConsignment(
+        CertificateKind kind,
+        ConsignmentModel model,
+        CommodityIndex? commodities
+    ) =>
         new()
         {
             AvailabilityDueDateTime = model.AvailabilityDueDateTime is { } due ? DateTime(due) : null,
@@ -245,7 +259,7 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
             CustomsTransitAgentSPSParty = Party(kind, model.CustomsTransitAgentParty, "customsTransitAgent"),
             UnloadingBaseportSPSLocation = Baseport(model.UnloadingBaseportLocation),
             MainCarriageSPSTransportMovement = Transport(model.MainCarriageLogisticsTransportMovement),
-            IncludedSPSConsignmentItem = ConsignmentItems(kind, model.IncludedConsignmentItem),
+            IncludedSPSConsignmentItem = ConsignmentItems(kind, model.IncludedConsignmentItem, commodities),
         };
 
     /// <summary>
@@ -404,7 +418,11 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
     /// TRACES keeps a sequence-0 "totals and summary" line ahead of the real commodities. The client
     /// supplies the totals; the fixed description and the numbering are the simulator's.
     /// </summary>
-    private SPSConsignmentItemType[]? ConsignmentItems(CertificateKind kind, ConsignmentItemModel? model)
+    private SPSConsignmentItemType[]? ConsignmentItems(
+        CertificateKind kind,
+        ConsignmentItemModel? model,
+        CommodityIndex? commodities
+    )
     {
         if (model is null)
         {
@@ -415,12 +433,14 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
 
         if (model.ConsignmentTotals is { } totals)
         {
-            var summary = TradeLine(kind, totals, 0);
+            var summary = TradeLine(kind, totals, 0, commodities);
             summary.Description = [Text("Consignment totals and summary")];
             lines.Add(summary);
         }
 
-        lines.AddRange(model.IncludedTradeLineItem.Select((line, index) => TradeLine(kind, line, index + 1)));
+        lines.AddRange(
+            model.IncludedTradeLineItem.Select((line, index) => TradeLine(kind, line, index + 1, commodities))
+        );
 
         return
         [
@@ -444,7 +464,12 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
         ];
     }
 
-    private SPSTradeLineItemType TradeLine(CertificateKind kind, TradeLineItemModel model, int sequence) =>
+    private SPSTradeLineItemType TradeLine(
+        CertificateKind kind,
+        TradeLineItemModel model,
+        int sequence,
+        CommodityIndex? commodities
+    ) =>
         new()
         {
             SequenceNumeric = new NumericType { Value = sequence },
@@ -452,7 +477,12 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
             NetWeightMeasure = Measure(model.NetWeight),
             GrossWeightMeasure = Measure(model.GrossWeight),
             NetVolumeMeasure = Measure(model.NetVolume),
-            ApplicableSPSClassification = [.. model.ApplicableClassification.Select(Classification)],
+            ApplicableSPSClassification =
+            [
+                .. model.ApplicableClassification.Select(classification =>
+                    Classification(classification, commodities)
+                ),
+            ],
             OriginSPSCountry = Country(model.OriginCountry) is { } origin ? [origin] : null,
             PhysicalSPSPackage = Package(model.PhysicalReferencedLogisticsPackage),
             AdditionalInformationSPSNote =
@@ -463,13 +493,16 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
 
     /// <summary>
     /// A class code expands to the whole description path — a CN code can carry four levels of it,
-    /// which is why a client could not supply this even if it wanted to.
+    /// which is why a client could not supply this even if it wanted to. A CN code takes its path from
+    /// the commodity tree when there is one.
     /// </summary>
-    private SPSClassificationType Classification(KeyValuePair<string, string> classification)
+    private SPSClassificationType Classification(
+        KeyValuePair<string, string> classification,
+        CommodityIndex? commodities
+    )
     {
         var (system, code) = classification;
-        var entry = codeLists.Get(ListFor(system), code);
-        var names = entry.Names ?? [new LocalisedName(entry.Name)];
+        var names = system == "CN" && commodities is not null ? commodities.NamesOf(code) : CodeListNames(system, code);
 
         return new SPSClassificationType
         {
@@ -478,6 +511,12 @@ public class SpsCertificateBuilder(CodeLists codeLists, Registry<OperatorEntry> 
             ClassCode = new CodeType { Value = code },
             ClassName = [.. names.Select(name => Text(name.Value, name.LanguageId ?? "en"))],
         };
+    }
+
+    private IReadOnlyList<LocalisedName> CodeListNames(string system, string code)
+    {
+        var entry = codeLists.Get(ListFor(system), code);
+        return entry.Names ?? [new LocalisedName(entry.Name)];
     }
 
     /// <summary>Classification systems each have their own code list — <c>CN</c> reads from <c>cn_code</c>.</summary>

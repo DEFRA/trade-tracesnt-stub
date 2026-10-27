@@ -11,7 +11,7 @@ namespace TradeTracesNTStub.Test.Simulator;
 public class MongoStartupTests(MongoFixture mongo)
 {
     [Fact]
-    public async Task StartingCreatesTheSearchIndexOnEachCertificateCollection()
+    public async Task StartingCreatesTheSearchAndListIndexesOnEachCertificateCollection()
     {
         var factory = mongo.NewClientFactory();
         var token = TestContext.Current.CancellationToken;
@@ -32,6 +32,13 @@ public class MongoStartupTests(MongoFixture mongo)
                 .Which["key"]
                 .Should()
                 .Be(new BsonDocument { ["accessible"] = 1, ["updatedTicks"] = -1, ["certificateId"] = -1 });
+
+            indexes
+                .Should()
+                .ContainSingle(index => index["name"] == "list", collection)
+                .Which["key"]
+                .Should()
+                .Be(new BsonDocument { ["updatedTicks"] = -1, ["certificateId"] = -1 });
         }
     }
 }

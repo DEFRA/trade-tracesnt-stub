@@ -18,6 +18,12 @@ public sealed class CodeLists
     /// <summary>The lists shipped with the simulator.</summary>
     public static CodeLists Seeded { get; } = LoadSeeded();
 
+    /// <summary>Every seeded list by ID, which is its file name without <c>.json</c>.</summary>
+    public IEnumerable<string> ListIds => _lists.Keys;
+
+    public bool TryGetList(string listId, out IReadOnlyDictionary<string, CodeEntry> list) =>
+        _lists.TryGetValue(listId, out list!);
+
     public CodeEntry Get(string listId, string code)
     {
         if (!_lists.TryGetValue(listId, out var list))

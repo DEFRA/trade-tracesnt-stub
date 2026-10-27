@@ -15,6 +15,9 @@
     <PackageReference Include="Defra.Trade.Gateway.TracesNT" Version="0.1.0" />
     <PackageReference Include="CoreWCF.Http" Version="1.9.1" />
     <PackageReference Include="CoreWCF.Primitives" Version="1.9.1" />
+    <!-- CoreWCF 1.9.1 brings in 10.0.10, which has published advisories (CVE-2026-84008 and others).
+         Drop this once a CoreWCF release references a patched version. -->
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
   </ItemGroup>
 
 </Project>
