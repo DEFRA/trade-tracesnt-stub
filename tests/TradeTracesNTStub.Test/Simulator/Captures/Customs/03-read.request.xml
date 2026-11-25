@@ -3,7 +3,7 @@
   <s:Header>
     <h:LanguageCode xmlns:h="http://ec.europa.eu/sanco/tracesnt/base/v3" xmlns="http://ec.europa.eu/sanco/tracesnt/base/v3">en</h:LanguageCode>
     <h:WebServiceClientId xmlns:h="http://ec.europa.eu/sanco/tracesnt/base/v3" xmlns="http://ec.europa.eu/sanco/tracesnt/base/v3">REDACTED</h:WebServiceClientId>
-    <h:CertexHeader xmlns:h="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06" xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+    <h:CertexHeader xmlns:h="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v07" xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v07">
       <MessageId xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03">45e11a547b63496b82d9d58339099aa2</MessageId>
       <UniqRequesterPrefix xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/base/v03">XI000002</UniqRequesterPrefix>
     </h:CertexHeader>
@@ -11,7 +11,7 @@
     <Security>REDACTED</Security>
   </s:Header>
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <ProcessedChedRequest xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06">
+    <ProcessedChedRequest xmlns="http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v07">
       <SendingDate>2026-09-29T14:12:25.682716Z</SendingDate>
       <ChedCertificateId>CHEDP.XI.2026.0000875</ChedCertificateId>
       <CustomsDeclarationReferenceNumber/>
