@@ -19,12 +19,11 @@
     <!-- Reuses the simulator's control models so they can't drift from the API. Its dll ships inside
          this package; the models need only the BCL, so its dependencies don't. -->
     <ProjectReference Include="..\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.3.14" />
-    <!-- CoreWCF 1.9.1, through the simulator, brings in 10.0.10, which has published advisories
+    <!-- CoreWCF 1.9.2, through the simulator, brings in 10.0.10, which has published advisories
          (CVE-2026-84008 and others). Projects on the ASP.NET framework get the patched one from it;
          this one isn't. Drop once a CoreWCF release references a patched version. -->
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.13" PrivateAssets="all" />
-    <!-- CoreWCF 1.9.1, through the simulator, brings in 2.3.10, which has a published advisory
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.15" PrivateAssets="all" />
+    <!-- CoreWCF 1.9.2, through the simulator, brings in 2.3.10, which has a published advisory
          (CVE-2026-118750, fixed in 2.3.14). Projects on the ASP.NET framework get the patched one
          from it; this one isn't. Drop once a CoreWCF release references a patched version. -->
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.3.14" PrivateAssets="all" />
