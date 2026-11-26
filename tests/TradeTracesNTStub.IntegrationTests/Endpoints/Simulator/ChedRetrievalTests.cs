@@ -34,14 +34,22 @@ public class ChedRetrievalTests
     /// A CHED-A carrying what a submitter carries. Written out rather than built so these tests
     /// exercise the HTTP contract directly; the TestKit builders are covered in <see cref="TestKitTests"/>.
     /// </summary>
-    private static object AChedA(bool accessible = true, string cnCode = "0101") =>
-        new
+    private static object AChedA(bool accessible = true, string cnCode = "0101", DateTimeOffset? updatedAt = null)
+    {
+        var includedNote = new Dictionary<string, string> { ["CHED_TYPE"] = "A" };
+
+        if (updatedAt is { } updated)
+        {
+            includedNote["LAST_UPDATE_DATETIME"] = updated.ToString("O");
+        }
+
+        return new
         {
             status = "VALIDATED",
             accessible,
             exchangedDocument = new
             {
-                includedNote = new Dictionary<string, string> { ["CHED_TYPE"] = "A" },
+                includedNote,
                 declaration = new
                 {
                     includedClause = new Dictionary<string, string>
@@ -72,6 +80,7 @@ public class ChedRetrievalTests
                 },
             },
         };
+    }
 
     [Fact]
     public async Task ACheddCreatedThroughTheControlApiIsServedOverSoap()
@@ -215,16 +224,16 @@ public class ChedRetrievalTests
     [Fact]
     public async Task FindNarrowsToTheUpdateDateRange()
     {
-        // The simulator stamps the update time as it stores, so the moment between the two creates
-        // is a boundary the test knows without the control API having to expose one. A range opening
-        // there must hold the second CHED and not the first.
+        // Use explicit update timestamps so this boundary test is deterministic.
         var token = TestContext.Current.CancellationToken;
         using var control = Control();
 
-        var before = await CreateChed(control, AChedA(), token);
-        var between = DateTime.UtcNow;
-        var after = await CreateChed(control, AChedA(), token);
+        var beforeUpdatedAt = DateTimeOffset.Parse("2026-01-01T10:00:00Z");
+        var afterUpdatedAt = DateTimeOffset.Parse("2026-01-01T12:00:00Z");
+        var between = DateTime.Parse("2026-01-01T11:00:00Z").ToUniversalTime();
 
+        var before = await CreateChed(control, AChedA(updatedAt: beforeUpdatedAt), token);
+        var after = await CreateChed(control, AChedA(updatedAt: afterUpdatedAt), token);
         var matching = await Find(pageSize: 100, from: between);
         var missing = await Find(pageSize: 100, from: between.AddYears(1), to: between.AddYears(2));
 

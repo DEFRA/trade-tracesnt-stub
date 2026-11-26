@@ -19,13 +19,13 @@ public static class TracesNtServices
     public const string EuIntraV1Namespace = "http://ec.europa.eu/tracesnt/certificate/euintra/v1";
 
     /// <summary>Where the customs port's one fault lives, for every operation.</summary>
-    public const string CustomsCertexChedV06Namespace = "http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06";
+    public const string CustomsCertexChedV07Namespace = "http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v07";
 
     public const string Ched = "ChedCertificateServiceV2";
     public const string EuIntra = "EuIntraCertificateServiceV1";
     public const string Docom = "DocomCertificateRetrievalServiceV1";
     public const string ReferenceData = "ReferenceDataServiceV1";
-    public const string CustomsCertexChed = "CustomsCertexChedServiceV06";
+    public const string CustomsCertexChed = "CustomsCertexChedServiceV07";
 
     /// <summary>Service path to credential key. The customs port authenticates as a different account.</summary>
     public static readonly IReadOnlyDictionary<string, string> CredentialKeyByPath = new Dictionary<string, string>(

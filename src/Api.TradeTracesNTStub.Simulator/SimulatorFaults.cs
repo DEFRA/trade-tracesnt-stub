@@ -63,7 +63,7 @@ public static class SimulatorFaults
                 errorMessage = error,
             },
             new FaultReason(error),
-            FaultCode.CreateSenderFaultCode("ExceptionWithUniqueInfo", TracesNtServices.CustomsCertexChedV06Namespace)
+            FaultCode.CreateSenderFaultCode("ExceptionWithUniqueInfo", TracesNtServices.CustomsCertexChedV07Namespace)
         );
 
     /// <summary>

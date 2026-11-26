@@ -267,7 +267,7 @@ public abstract class CustomsQuantityTests(ISimulatorState state) : IAsyncLifeti
 
         var allocation = (await Read()).QuantityManagementSummary.ReservedQuantity.Single();
 
-        allocation.ItemElementName.Should().Be(ItemChoiceType2.MRN);
+        allocation.ItemElementName.Should().Be(ItemChoiceType3.MRN);
         allocation.GoodsItemNumber.Should().Be("3");
         allocation.SwSupportingDocument.CertificateLineNumber.Should().Be("2");
         allocation.CommodityCode.HarmonizedSystemSubheadingcode.Should().Be("080510");
@@ -461,13 +461,13 @@ public abstract class CustomsQuantityTests(ISimulatorState state) : IAsyncLifeti
 
     private Task<ProcessedChedInformationResponseType> Reservation(
         string mrn,
-        params ConsignmentItemR6ForReservationType[] items
+        params ConsignmentItemR7ForReservationType[] items
     ) => ReservationAgainst(ChedId, mrn, items);
 
     private async Task<ProcessedChedInformationResponseType> ReservationAgainst(
         string chedId,
         string mrn,
-        params ConsignmentItemR6ForReservationType[] items
+        params ConsignmentItemR7ForReservationType[] items
     ) =>
         (
             await _port.processedChedRequestAsync(Request(chedId, "1", Mrn(mrn), items))
@@ -501,7 +501,7 @@ public abstract class CustomsQuantityTests(ISimulatorState state) : IAsyncLifeti
         string chedId,
         string indication,
         CustomsDeclarationReferenceNumber4CoiChedR51InputType declaration,
-        ConsignmentItemR6ForReservationType[]? items
+        ConsignmentItemR7ForReservationType[]? items
     ) =>
         new()
         {
@@ -522,10 +522,10 @@ public abstract class CustomsQuantityTests(ISimulatorState state) : IAsyncLifeti
         new() { MessageId = "0123456789abcdef0123456789abcdef", UniqRequesterPrefix = Office };
 
     private static CustomsDeclarationReferenceNumber4CoiChedR51InputType Mrn(string mrn) =>
-        new() { Item = mrn, ItemElementName = ItemChoiceType1.MRN };
+        new() { Item = mrn, ItemElementName = ItemChoiceType2.MRN };
 
     /// <summary>Pieces travel as a net volume, as a CHED-A carries them.</summary>
-    private static ConsignmentItemR6ForReservationType PiecesItem(decimal count, string classCode = "0101") =>
+    private static ConsignmentItemR7ForReservationType PiecesItem(decimal count, string classCode = "0101") =>
         new()
         {
             GoodsItemNumber = "1",
@@ -537,7 +537,7 @@ public abstract class CustomsQuantityTests(ISimulatorState state) : IAsyncLifeti
             NetVolumeUnitOfMeasureSpecified = true,
         };
 
-    private static ConsignmentItemR6ForReservationType Item(
+    private static ConsignmentItemR7ForReservationType Item(
         int line,
         decimal quantity,
         int goodsItem = 1,

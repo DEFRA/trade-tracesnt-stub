@@ -185,7 +185,7 @@ public class GatewayClientTests
                 token
             );
         var client = Client<CustomsCertexChedPortClient, CustomsCertexChedPort>(
-            "CustomsCertexChedServiceV06",
+            "CustomsCertexChedServiceV07",
             s_customs,
             (binding, address) => new CustomsCertexChedPortClient(binding, address)
         );
@@ -238,7 +238,7 @@ public class GatewayClientTests
                 token
             );
         var client = Client<CustomsCertexChedPortClient, CustomsCertexChedPort>(
-            "CustomsCertexChedServiceV06",
+            "CustomsCertexChedServiceV07",
             s_customs,
             (binding, address) => new CustomsCertexChedPortClient(binding, address)
         );
@@ -258,7 +258,7 @@ public class GatewayClientTests
         // The customs port authenticates as its own account. Nothing in the response surface reveals
         // which account was used, so this cross-account case is the only way to catch the misconfiguration.
         var client = Client<CustomsCertexChedPortClient, CustomsCertexChedPort>(
-            "CustomsCertexChedServiceV06",
+            "CustomsCertexChedServiceV07",
             s_default,
             (binding, address) => new CustomsCertexChedPortClient(binding, address)
         );
@@ -307,7 +307,7 @@ public class GatewayClientTests
         string chedId,
         string indication,
         string declaration,
-        ConsignmentItemR6ForReservationType[]? items
+        ConsignmentItemR7ForReservationType[]? items
     ) =>
         client.processedChedRequestAsync(
             new SecurityHeaderType(),
@@ -323,12 +323,12 @@ public class GatewayClientTests
                 QuantityManagementIndication = indication,
                 CustomsDeclarationReferenceNumber = declaration == ""
                     ? new()
-                    : new() { Item = declaration, ItemElementName = ItemChoiceType1.MRN },
+                    : new() { Item = declaration, ItemElementName = ItemChoiceType2.MRN },
                 CommodityDescriptionForChed = items,
             }
         );
 
-    private static ConsignmentItemR6ForReservationType Pieces(decimal count) =>
+    private static ConsignmentItemR7ForReservationType Pieces(decimal count) =>
         new()
         {
             GoodsItemNumber = "1",
@@ -340,7 +340,7 @@ public class GatewayClientTests
             NetVolumeUnitOfMeasureSpecified = true,
         };
 
-    private static ConsignmentItemR6ForReservationType Item(decimal kilograms) =>
+    private static ConsignmentItemR7ForReservationType Item(decimal kilograms) =>
         new()
         {
             GoodsItemNumber = "1",
