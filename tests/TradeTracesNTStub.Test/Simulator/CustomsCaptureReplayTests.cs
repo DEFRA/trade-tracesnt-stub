@@ -27,7 +27,7 @@ public abstract class CustomsCaptureReplayTests(ISimulatorState state) : IAsyncL
 
     public sealed class Mongo(MongoFixture mongo) : CustomsCaptureReplayTests(mongo.NewState());
 
-    private const string V06 = "http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v06";
+    private const string V07 = "http://ec.europa.eu/sanco/tracesnt/customs_certex/ched/v07";
     private const string Validated = "CHEDP.XI.2026.0000875";
     private const string New = "CHEDP.XI.2026.0000877";
     private const string Animal = "CHEDA.XI.2026.0000159";
@@ -184,8 +184,8 @@ public abstract class CustomsCaptureReplayTests(ISimulatorState state) : IAsyncL
     private static T Captured<T>(string step, string element)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "Simulator", "Captures", "Customs", $"{step}.response.xml");
-        var body = XDocument.Load(path).Descendants(XName.Get(element, V06)).Single();
-        var serializer = new XmlSerializer(typeof(T), new XmlRootAttribute(element) { Namespace = V06 });
+        var body = XDocument.Load(path).Descendants(XName.Get(element, V07)).Single();
+        var serializer = new XmlSerializer(typeof(T), new XmlRootAttribute(element) { Namespace = V07 });
 
         using var reader = body.CreateReader();
         return (T)serializer.Deserialize(reader)!;
@@ -208,9 +208,9 @@ public abstract class CustomsCaptureReplayTests(ISimulatorState state) : IAsyncL
                 Request(
                     chedId,
                     "1",
-                    new() { Item = mrn, ItemElementName = ItemChoiceType1.MRN },
+                    new() { Item = mrn, ItemElementName = ItemChoiceType2.MRN },
                     [
-                        new ConsignmentItemR6ForReservationType
+                        new ConsignmentItemR7ForReservationType
                         {
                             GoodsItemNumber = "1",
                             CertificateLineNumber = line.ToString(),
@@ -238,9 +238,9 @@ public abstract class CustomsCaptureReplayTests(ISimulatorState state) : IAsyncL
                 Request(
                     chedId,
                     "1",
-                    new() { Item = mrn, ItemElementName = ItemChoiceType1.MRN },
+                    new() { Item = mrn, ItemElementName = ItemChoiceType2.MRN },
                     [
-                        new ConsignmentItemR6ForReservationType
+                        new ConsignmentItemR7ForReservationType
                         {
                             GoodsItemNumber = "1",
                             CertificateLineNumber = line.ToString(),
@@ -282,7 +282,7 @@ public abstract class CustomsCaptureReplayTests(ISimulatorState state) : IAsyncL
         string chedId,
         string indication,
         CustomsDeclarationReferenceNumber4CoiChedR51InputType declaration,
-        ConsignmentItemR6ForReservationType[]? items
+        ConsignmentItemR7ForReservationType[]? items
     ) =>
         new()
         {

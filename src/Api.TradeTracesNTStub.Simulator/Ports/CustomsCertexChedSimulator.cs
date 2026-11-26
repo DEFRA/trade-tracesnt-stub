@@ -41,7 +41,7 @@ public class CustomsCertexChedSimulator(IChedStore cheds, ICustomsLedger ledger)
         {
             ReadOnly when string.IsNullOrEmpty(declaration) && items.Length == 0 => false,
             Reserve
-                when body.CustomsDeclarationReferenceNumber?.ItemElementName == ItemChoiceType1.MRN
+                when body.CustomsDeclarationReferenceNumber?.ItemElementName == ItemChoiceType2.MRN
                     && !string.IsNullOrEmpty(declaration)
                     && items.Length > 0 => true,
             _ => throw SimulatorFaults.Customs(
@@ -153,7 +153,7 @@ public class CustomsCertexChedSimulator(IChedStore cheds, ICustomsLedger ledger)
     /// A quantity always travels with its unit. Weight is taken where both are sent, since CHED lines
     /// carry weight unless they have none.
     /// </summary>
-    private static RequestedItem Requested(CertexHeaderType? header, ConsignmentItemR6ForReservationType item)
+    private static RequestedItem Requested(CertexHeaderType? header, ConsignmentItemR7ForReservationType item)
     {
         var (quantity, unit) = item switch
         {
@@ -257,7 +257,7 @@ public class CustomsCertexChedSimulator(IChedStore cheds, ICustomsLedger ledger)
             EventDateTimeSpecified = true,
             CompetentCustomsOffice = new CompetentCustomsOfficeType { ReferenceNumber = allocation.CustomsOffice },
             Item = allocation.Mrn,
-            ItemElementName = ItemChoiceType2.MRN,
+            ItemElementName = ItemChoiceType3.MRN,
         };
 
     /// <summary>
