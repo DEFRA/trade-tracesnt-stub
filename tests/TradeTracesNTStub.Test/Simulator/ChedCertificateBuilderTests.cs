@@ -274,7 +274,7 @@ public class ChedCertificateBuilderTests
     [Fact]
     public void WithACommodityTreeACnCodeTakesItsPathFromTheTree()
     {
-        // 010410 isn't in cn_code.json: only the tree knows it.
+        // The tree supplies 010410's path, not cn_code.json.
         var classification = Commodity(
                 new Dictionary<string, string> { ["CN"] = "010410" },
                 new CommodityIndex(CommodityTreeSample.Tree())

@@ -16,7 +16,7 @@ public class CommodityTreeTests : IntegrationTestBase, IAsyncLifetime
 {
     private static readonly SimulatorControlClient s_simulator = SimulatorControlClient.At("http://localhost:8085");
 
-    // LIVE ANIMALS > Live sheep and goats > Sheep, a code cn_code.json doesn't have, and 0101 beside it.
+    // LIVE ANIMALS > Live sheep and goats > Sheep, and 0101 beside it.
     private static readonly IReadOnlyList<CommodityNode> s_tree =
     [
         new()
