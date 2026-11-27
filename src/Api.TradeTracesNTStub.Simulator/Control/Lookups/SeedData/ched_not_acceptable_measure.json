@@ -1,0 +1,8 @@
+{
+  // Measures an inspector can take on a refused consignment.
+  "DESTRUCTION": { "name": "Destruction" },
+  "REDISPATCHING": { "name": "Redispatching" },
+  "SPECIAL_TREATMENT": { "name": "Special treatment" },
+  "USE_FOR_OTHER_PURPOSES": { "name": "Use for other purposes" },
+  "TRANSFORMATION": { "name": "Transformation" }
+}

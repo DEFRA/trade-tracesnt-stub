@@ -1,98 +1,189 @@
 # trade-tracesnt-stub
 
-Core delivery C# ASP.NET backend template.
+A stand-in for the EU TRACES NT platform, so Trade Gateway can be tested without reaching the EU
+acceptance environment. It has two faces, in two projects, hosted by one service:
 
-* [Install MongoDB](#install-mongodb)
-* [Inspect MongoDB](#inspect-mongodb)
-* [Testing](#testing)
-* [Running](#running)
-* [Dependabot](#dependabot)
+| Project | What it is | Paths |
+| --- | --- | --- |
+| `src/Api.TradeTracesNTStub.Simulator` | A CoreWCF SOAP simulator hosting the five TRACES ports from the real contracts | `/ChedCertificateServiceV2`, `/EuIntraCertificateServiceV1`, `/DocomCertificateRetrievalServiceV1`, `/ReferenceDataServiceV1`, `/CustomsCertexChedServiceV06` |
+| `src/Api.TradeTracesNTStub.Mock` | The older WireMock stub returning canned XML, plus a pass-through proxy to EU acceptance | `/mock/**`, `/proxy/**` |
+| `src/Api.TradeTracesNTStub` | The host: health endpoint, logging, and the CDP platform boilerplate | `/health` |
 
+The two do not overlap, so both are available at once.
 
-### Docker Compose
+## Simulator
 
-A Docker Compose template is in [compose.yml](compose.yml).
-
-A local environment with:
-
-- MongoDB
-- This service.
+Trade Gateway builds every endpoint as `{TracesNt:BaseUrl}/{ServicePath}`, so pointing it at the
+simulator is one setting:
 
 ```bash
-docker compose up --build -d
+TRACESNT__BASEURL=http://localhost:8085
 ```
 
-A more extensive setup is available in [github.com/DEFRA/cdp-local-environment](https://github.com/DEFRA/cdp-local-environment)
+Contracts come from the `Defra.Trade.Gateway.TracesNT` NuGet package — the same package Trade
+Gateway's clients are generated into, which is what stops the two drifting. Nothing is generated in
+this repository.
 
-### MongoDB
+**To pick up a TRACES schema change:** regenerate in `DEFRA/trade-gateway` with
+`scripts/update-webservices.sh`, publish a new package version, then bump the `PackageReference` in
+`src/Api.TradeTracesNTStub.Simulator` and in `tests/TradeTracesNTStub.IntegrationTests`.
 
-#### MongoDB via Docker
+`getChedCertificate`, `findChedCertificate` and `getEuIntraCertificate` serve certificates the control
+API created. Every other operation still returns a SOAP fault naming itself as not implemented.
 
-See above.
+## Control API
+
+The simulator's simple face, on `/control`, is how a test gets data in. Plain JSON, documented at
+`/openapi/v1.json`.
 
 ```
-docker compose up -d mongodb
+POST   /control/cheds            create
+GET    /control/cheds            list, newest first: ?page=1&pageSize=20 (max 100), optional updatedFrom/updatedTo
+GET    /control/cheds/{id}       the model it was built from
+PUT    /control/cheds/{id}       replace
+PATCH  /control/cheds/{id}       merge a partial update
+DELETE /control/cheds/{id}       remove
+POST   /control/intras           the same six, for INTRAs
+POST   /control/reset            empty the simulator
 ```
 
-#### MongoDB locally
+An INTRA is the same schema as a CHED and takes the same body. Instead of a `CHED_TYPE` note it
+needs its certificate model as `exchangedDocument.name`, e.g. `"64/432 (2016/2008) F1 Bovine"`.
 
-Alternatively install MongoDB locally:
+**The client specifies everything a submitter would. The simulator fills in only what TRACES fills
+in.** Nothing is defaulted on your behalf, so a request is the certificate — you can read one
+and know what comes back.
 
-- Install [MongoDB](https://www.mongodb.com/docs/manual/tutorial/#installation) on your local machine
-- Start MongoDB:
+What that means in practice — you send a code, and the simulator supplies what TRACES would:
+
+| You send | The simulator adds |
+| --- | --- |
+| `consignorParty.identifier` | the operator's name, role and activity codes |
+| `unloadingBaseportLocation` | five more location names, and the whole `IssuerSPSParty` subtree |
+| a CN code | its full description hierarchy, up to four levels |
+| a clause code | the display text beside it |
+| any code | `name=`, `listName=`, `schemeName=` |
+
+### Creating and deciding
+
+Everything a submitter sends, and nothing else:
+
 ```bash
-sudo mongod --dbpath ~/mongodb-cdp
+curl -X POST http://localhost:8085/control/cheds -H 'Content-Type: application/json' -d '{
+  "exchangedDocument": {
+    "includedNote": { "CHED_TYPE": "A" },
+    "declaration": { "includedClause": { "PURPOSE": "FREE_CIRCULATION" } }
+  },
+  "specifiedConsignment": {
+    "consignorParty": { "identifier": "770198", "postalAddress": { "countryId": "XI" } },
+    "unloadingBaseportLocation": { "identifier": "GBBEL", "countryId": "XI" },
+    "includedConsignmentItem": {
+      "includedTradeLineItem": [
+        { "applicableClassification": { "CN": "0101" }, "originCountry": "AF" }
+      ]
+    }
+  }
+}'
 ```
 
-#### MongoDB in CDP environments
+Deciding it is a `PATCH` carrying only the decision, because notes and clauses merge key by key:
 
-In CDP environments a MongoDB instance is already set up
-and the credentials exposed as enviromment variables.
-
-
-### Inspect MongoDB
-
-To inspect the Database and Collections locally:
 ```bash
-mongosh
+curl -X PATCH http://localhost:8085/control/cheds/{id} -H 'Content-Type: application/json' -d '{
+  "status": "VALIDATED",
+  "exchangedDocument": {
+    "clearance": { "includedClause": { "DECISION_CONCLUSION": "ACCEPTABLE_FOR_FREE_CIRCULATION" } }
+  }
+}'
 ```
 
-You can use the CDP Terminal to access the environments' MongoDB.
+Property names follow Trade Gateway's own JSON model, so the vocabulary going in matches what comes
+back from `GET /certificates/cheds/{id}`.
 
-### Testing
+### Reading back
 
-Run the tests with:
-
-Tests run by running a full `WebApplication` backed by [Ephemeral MongoDB](https://github.com/asimmon/ephemeral-mongo).
-Tests do not use mocking of any sort and read and write from the in-memory database.
+The certificate itself is read only over SOAP, so the control API and the SOAP face can't drift. What
+the control API reads back is the model a certificate was built from, after any patches, so a UI can
+edit it and `PUT` it back:
 
 ```bash
-dotnet test
-````
-
-Note - Integration Tests require the service to be running either in the Docker environment or locally.
-
-### Running
-
-Run CDP-Deployments application:
-```bash
-dotnet run --project src/Api.TradeTracesNTStub/Api.TradeTracesNTStub.csproj --launch-profile Api.TradeTracesNTStub
+curl http://localhost:8085/control/cheds/{id}
 ```
 
-### SonarCloud
+It holds only what was sent: no display names, no timestamps, and no `status` if none was ever set
+(which reads as `NEW`).
 
-Example SonarCloud configuration are available in the GitHub Action workflows.
+The code lists the simulator accepts are readable too, so a UI can offer only valid codes.
+`/control/lookups` lists them, one per seed file, and `/control/lookups/{list}` returns one as
+`[{ "code", "name", "alias" }]`:
 
-### Dependabot
+```bash
+curl http://localhost:8085/control/lookups/cn_code
+```
 
-We have added an example dependabot configuration file to the repository. You can enable it by renaming
-the [.github/example.dependabot.yml](.github/example.dependabot.yml) to `.github/dependabot.yml`
+### Commodity trees
 
+A CHED's CN codes are checked and described against its type's commodity tree, as TRACES publishes
+it: `cheda`, `chedp`, `chedpp` and `chedd`, thousands of codes each. A code's description is its
+coded ancestors' descriptions, then its own: 010410 is "LIVE ANIMALS", "Live sheep and goats",
+"Sheep". Any code in the tree is accepted, selectable or not, because the CHED-D tree marks none
+selectable.
 
-### About the licence
+The trees live in the store, one per CHED type (Mongo collection `commodity_trees`). The stub starts
+with none, so CN codes come from the seeded `cn_code.json` until you load them. Refresh them from
+TRACES through trade-traces-poc, which needs real EU acceptance credentials. On Mongo they survive a
+restart; an in-memory stub needs refreshing after each one:
 
-The Open Government Licence (OGL) was developed by the Controller of Her Majesty's Stationery Office (HMSO) to enable
-information providers in the public sector to license the use and re-use of their information under a common open
-licence.
+```bash
+curl -X POST http://localhost:8085/control/commodity-trees/refresh          # all four
+curl -X POST 'http://localhost:8085/control/commodity-trees/refresh?type=A'  # one
+```
 
-It is designed to encourage use and re-use of information freely and flexibly, with only a few conditions.
+Set `Simulator:CommodityTrees:SourceUrl` to the POC's base URL, and `Simulator:CommodityTrees:ApiKey`
+when it sits behind the CDP gateway.
+
+You can also `PUT /control/commodity-trees/{type}` a tree in the POC's JSON shape, read one back with
+`GET /control/commodity-trees/{type}`, list what's loaded with `GET /control/commodity-trees`, and
+`DELETE` one. INTRA's CN codes come from the seeded `cn_code.json`, as do a CHED type's whose tree
+has been deleted.
+
+### Lookups, and what happens when one is missing
+
+`Control/Lookups/SeedData` holds the code lists and the operator and authority registries. Only the
+codes the tests use are seeded. An unknown code is a `400` naming the list and the file
+to add it to — a silent blank would otherwise surface much later as an unexplained snapshot diff.
+
+If a test needs an operator the registry has never heard of, send a `name` and no `identifier`. That
+is how TRACES models an operator created on the fly, and it skips the lookup entirely.
+
+State is in memory: a restart is a reset. There are no shared fixture sets to reset to — a test
+states the CHEDs it needs, which is the same rule as everywhere else here. Note that `POST
+/control/reset` empties the whole simulator, so a test that calls it takes any other test's CHEDs
+with it.
+
+### TestKit
+
+`src/Api.TradeTracesNTStub.TestKit` packages builders and a control client for other repositories:
+
+```csharp
+var simulator = SimulatorControlClient.At("http://localhost:8085");
+
+var id = await simulator.CreateChed(
+    Ched.ChedA()
+        .WithDeclaration(d => d.Declaring("FREE_CIRCULATION", "FATTENING"))
+        .WithConsignment(c => c
+            .ArrivingAt("GBBEL", "XI")
+            .WithConsignor(p => p.Operator("770198").InCountry("XI"))
+            .WithCommodity(i => i.CnCode("0101").OriginCountry("AF").Packages(2, "BX"))));
+
+await simulator.PatchChed(id, Ched.ChedA().WithStatus("VALIDATED").WithClearance(c => c.Acceptable()));
+```
+
+## About the licence
+
+The Open Government Licence (OGL) was developed by the Controller of Her Majesty's Stationery Office
+(HMSO) to enable information providers in the public sector to license the use and re-use of their
+information under a common open licence.
+
+It is designed to encourage use and re-use of information freely and flexibly, with only a few
+conditions.

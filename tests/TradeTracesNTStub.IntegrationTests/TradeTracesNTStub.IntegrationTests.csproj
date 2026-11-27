@@ -1,11 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
     <RootNamespace>TradeTracesNTStub.IntegrationTests</RootNamespace>
-    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,11 +10,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <!-- Consumes the TestKit exactly as the journey tests will. -->
+    <ProjectReference Include="..\..\src\Api.TradeTracesNTStub.TestKit\Api.TradeTracesNTStub.TestKit.csproj" />
+    <!-- The package carries the simulator's dll for its control models, but a project reference
+         doesn't flow it on, so it's referenced directly here. -->
+    <ProjectReference Include="..\..\src\Api.TradeTracesNTStub.Simulator\Api.TradeTracesNTStub.Simulator.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="8.8.0" />
+    <Using Include="Xunit" />
+    <Using Include="AwesomeAssertions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- CoreWCF 1.9.2, through the simulator, brings in 10.0.10, which has published advisories
+         (CVE-2026-84008 and others). Projects on the ASP.NET framework get the patched one from it;
+         this one isn't. Drop once a CoreWCF release references a patched version. -->
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.3.14" />
+    <PackageReference Include="Defra.Trade.Gateway.TracesNT" Version="0.3.0" />
+    <PackageReference Include="AwesomeAssertions" Version="9.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageReference Include="NSubstitute" Version="5.3.0" />

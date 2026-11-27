@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Header>
+    <Message xmlns="http://ec.europa.eu/sanco/tracesnt/message/v1" severity="debugging">
+      <ID>WS_REQUEST_ID</ID>
+      <Message>a0d95d8e-43a3-4b93-a4e0-22566190ce90</Message>
+    </Message>
+    <ns0:Security xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns0="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <ns1:Timestamp>
+        <ns1:Created>2026-08-06T14:58:44.120+02:00</ns1:Created>
+        <ns1:Expires>2026-08-06T14:58:49.120+02:00</ns1:Expires>
+      </ns1:Timestamp>
+    </ns0:Security>
+  </S:Header>
+  <S:Body>
+    <ns8:FindChedCertificateResponse xmlns:ns2="http://ec.europa.eu/sanco/tracesnt/base/v4" xmlns:ns3="http://ec.europa.eu/tracesnt/certificate/ched/alert/noncompliance/v01" xmlns:ns4="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:ns5="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21" xmlns:ns6="http://ec.europa.eu/tracesnt/certificate/ched/followup/v01" xmlns:ns7="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:ns8="http://ec.europa.eu/tracesnt/certificate/ched/v2" xmlns:ns9="http://ec.europa.eu/tracesnt/certificate/laboratorytest/v1" xmlns:ns10="http://ec.europa.eu/tracesnt/referencedata/laboratorytest/v1" xmlns:ns11="http://ec.europa.eu/tracesnt/certificate/base/v01" xmlns:ns12="http://ec.europa.eu/sanco/tracesnt/error/v01" xmlns:ns13="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns14="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns15="http://www.w3.org/2000/09/xmldsig#" xmlns:ns16="http://ec.europa.eu/tracesnt/body/v3" xmlns:ns17="urn:un:unece:uncefact:codelist:standard:EDIFICAS-EU:CertificateType:D11A" xmlns:ns18="urn:un:unece:uncefact:codelist:standard:ISO:ISO2AlphaLanguageCode:2006-10-27" xmlns:ns19="urn:un:unece:uncefact:codelist:standard:UNECE:AddressType:D16B" xmlns:ns20="urn:un:unece:uncefact:codelist:standard:UNECE:CargoTypeClassificationCode:D16B" xmlns:ns21="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentNameCode:D16B" xmlns:ns22="urn:un:unece:uncefact:codelist:standard:UNECE:DocumentStatusCode:D16B" xmlns:ns23="urn:un:unece:uncefact:codelist:standard:UNECE:GovernmentActionCode:D16B" xmlns:ns24="urn:un:unece:uncefact:codelist:standard:UNECE:LocationFunctionCode:D16B" xmlns:ns25="urn:un:unece:uncefact:codelist:standard:UNECE:PackageTypeCode:2006" xmlns:ns26="urn:un:unece:uncefact:codelist:standard:UNECE:PackagingLevelCode:D16B" xmlns:ns27="urn:un:unece:uncefact:codelist:standard:UNECE:ProcessTypeCode:D16B" xmlns:ns28="urn:un:unece:uncefact:codelist:standard:UNECE:StatusCode:D16B" xmlns:ns29="urn:un:unece:uncefact:codelist:standard:UNECE:TemperatureTypeCode:D16B" xmlns:ns30="urn:un:unece:uncefact:codelist:standard:UNECE:TransportMeansTypeCode:2007" xmlns:ns31="urn:un:unece:uncefact:codelist:standard:UNECE:TransportModeCode:2" pageSize="100" offset="0">
+      <ns8:ChedCertificateResult>
+        <ns8:Type listID="ched_type" listName="CHED type" name="CHED-A">A</ns8:Type>
+        <ns8:ID>CHEDA.XI.2026.0000043</ns8:ID>
+        <ns8:LocalReference/>
+        <ns8:Status name="To be done (New)">1</ns8:Status>
+        <ns8:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>0103</ns4:ClassCode>
+          <ns4:ClassName languageID="en">LIVE ANIMALS</ns4:ClassName>
+          <ns4:ClassName languageID="en">Live swine</ns4:ClassName>
+        </ns8:CommodityApplicableSPSClassification>
+        <ns8:BCPCode>XILAR1-DAERA</ns8:BCPCode>
+        <ns8:BCPUnLocode>GBLAR</ns8:BCPUnLocode>
+        <ns8:CountryOfEntry>XI</ns8:CountryOfEntry>
+        <ns8:CountryOfOrigin>GB</ns8:CountryOfOrigin>
+        <ns8:CountryOfPlaceOfDestination>XI</ns8:CountryOfPlaceOfDestination>
+        <ns8:CountryOfConsignor>GB</ns8:CountryOfConsignor>
+        <ns8:ConsignorName>Defra Test</ns8:ConsignorName>
+        <ns8:CountryOfConsignee>XI</ns8:CountryOfConsignee>
+        <ns8:ConsigneeName>GLENKRAG LTD</ns8:ConsigneeName>
+        <ns8:CreateDateTime>2026-04-29T09:25:47.000Z</ns8:CreateDateTime>
+        <ns8:UpdateDateTime>2026-04-29T09:25:47.000Z</ns8:UpdateDateTime>
+        <ns8:StatusChangeDateTime>2026-04-29T09:25:47.000Z</ns8:StatusChangeDateTime>
+        <ns8:DeclarationDateTime>2026-04-29T09:25:47.000Z</ns8:DeclarationDateTime>
+        <ns8:PriorNotificationDateTime>2026-04-29T09:25:00.000Z</ns8:PriorNotificationDateTime>
+      </ns8:ChedCertificateResult>
+      <ns8:ChedCertificateResult>
+        <ns8:Type listID="ched_type" listName="CHED type" name="CHED-A">A</ns8:Type>
+        <ns8:ID>CHEDA.XI.2026.0000042</ns8:ID>
+        <ns8:LocalReference/>
+        <ns8:Status name="To be done (New)">1</ns8:Status>
+        <ns8:CommodityApplicableSPSClassification>
+          <ns4:SystemID>CN</ns4:SystemID>
+          <ns4:SystemName>CN Code (Combined Nomenclature)</ns4:SystemName>
+          <ns4:ClassCode>0102</ns4:ClassCode>
+          <ns4:ClassName languageID="en">LIVE ANIMALS</ns4:ClassName>
+          <ns4:ClassName languageID="en">Live bovine animals</ns4:ClassName>
+        </ns8:CommodityApplicableSPSClassification>
+        <ns8:BCPCode>XIBEL4</ns8:BCPCode>
+        <ns8:BCPUnLocode>GBBEL</ns8:BCPUnLocode>
+        <ns8:CountryOfEntry>XI</ns8:CountryOfEntry>
+        <ns8:CountryOfOrigin>AD</ns8:CountryOfOrigin>
+        <ns8:CountryOfPlaceOfDestination>XI</ns8:CountryOfPlaceOfDestination>
+        <ns8:CountryOfConsignor>XI</ns8:CountryOfConsignor>
+        <ns8:ConsignorName>DK Test</ns8:ConsignorName>
+        <ns8:CountryOfConsignee>XI</ns8:CountryOfConsignee>
+        <ns8:ConsigneeName>DK Test</ns8:ConsigneeName>
+        <ns8:CreateDateTime>2026-04-28T14:12:31.000Z</ns8:CreateDateTime>
+        <ns8:UpdateDateTime>2026-04-28T14:12:31.000Z</ns8:UpdateDateTime>
+        <ns8:StatusChangeDateTime>2026-04-28T14:12:31.000Z</ns8:StatusChangeDateTime>
+        <ns8:DeclarationDateTime>2026-04-21T10:00:00.000Z</ns8:DeclarationDateTime>
+        <ns8:PriorNotificationDateTime>2026-04-22T23:00:00.000Z</ns8:PriorNotificationDateTime>
+      </ns8:ChedCertificateResult>
+    </ns8:FindChedCertificateResponse>
+  </S:Body>
+</S:Envelope>

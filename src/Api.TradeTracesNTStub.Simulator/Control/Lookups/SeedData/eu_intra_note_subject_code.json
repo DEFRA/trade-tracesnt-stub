@@ -1,0 +1,12 @@
+{
+  // Document-level note subjects on an INTRA. Same shape as ched_note_subject_code.json.
+
+  "LAST_UPDATE_DATETIME": {
+    "name": "Last updated",
+    "listName": "EU-Intra Note SubjectCode list"
+  },
+  "ESTIMATED_JOURNEY_TIME": {
+    "name": "Estimated journey time",
+    "listName": "EU-Intra Note SubjectCode list"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  // Reasons a consignment is refused. The first two are taken from the captured not-acceptable
+  // decision example; the rest follow the same vocabulary.
+  "MISSING_CERTIFICATE": { "name": "Missing certificate" },
+  "UNSUITABLE_MEANS_TRANSPORT": { "name": "Unsuitable means of transport" },
+  "PROHIBITED_PRODUCT": { "name": "Prohibited product" },
+  "FAILED_IDENTITY_CHECK": { "name": "Failed identity check" },
+  "FAILED_PHYSICAL_CHECK": { "name": "Failed physical check" }
+}

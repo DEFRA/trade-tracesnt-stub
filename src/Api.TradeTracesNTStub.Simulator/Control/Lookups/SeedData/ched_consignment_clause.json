@@ -1,0 +1,10 @@
+{
+  "FREE_CIRCULATION": { "name": "For free circulation" },
+  "INTERNAL_MARKET": { "name": "For free circulation" },
+  "BREEDING_PRODUCTION": { "name": "Breeding/production" },
+  "REGISTERED_EQUIDAE": { "name": "Registered equine animal" },
+  "CONFORM": { "name": "Conforms" },
+  "LOCAL_USE": { "name": "Local use" },
+  "FATTENING": { "name": "Fattening" },
+  "SLAUGHTER": { "name": "Slaughter" }
+}

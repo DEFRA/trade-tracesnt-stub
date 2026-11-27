@@ -1,0 +1,136 @@
+using Api.TradeTracesNTStub.Simulator.Control;
+using Api.TradeTracesNTStub.Simulator.Control.Commodities;
+using Api.TradeTracesNTStub.Simulator.Control.Lookups;
+using Api.TradeTracesNTStub.Simulator.Control.Mapping;
+using Api.TradeTracesNTStub.Simulator.Control.Scenarios;
+using Api.TradeTracesNTStub.Simulator.Ports;
+using Api.TradeTracesNTStub.Simulator.WsSecurity;
+using CoreWCF;
+using CoreWCF.Channels;
+using CoreWCF.Configuration;
+using CoreWCF.Description;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using TracesNT.WebServices;
+
+namespace Api.TradeTracesNTStub.Simulator.Extensions;
+
+public static class SimulatorRegistrationExtensions
+{
+    /// <summary>
+    /// Registers everything but the state: <see cref="IChedStore"/>, <see cref="IIntraStore"/>,
+    /// <see cref="ICustomsLedger"/>, <see cref="ICommodityTreeStore"/> and <see cref="IScenarioStore"/> are
+    /// the host's to choose, because only the host knows about Mongo.
+    /// </summary>
+    public static IServiceCollection AddTracesNtSimulator(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
+    {
+        var credentials = SimulatorCredentialKeys.All.ToDictionary(
+            key => key,
+            key => configuration.GetSection($"Simulator:Credentials:{key}").Get<SimulatorCredentials>() ?? new()
+        );
+
+        services.AddSingleton(new WsSecurityValidator(credentials));
+        services.AddSingleton(CodeLists.Seeded);
+        services.AddSingleton(Registry<OperatorEntry>.Load("operators.json"));
+        services.AddSingleton(Registry<AuthorityEntry>.Load("authorities.json"));
+        services.AddSingleton<SpsCertificateBuilder>();
+        services.AddSingleton<CommodityCatalogue>();
+        services.AddSingleton(TimeProvider.System);
+        services.Configure<CommodityTreeOptions>(configuration.GetSection("Simulator:CommodityTrees"));
+        services.AddHttpClient<CommodityTreeSource>(client => client.Timeout = TimeSpan.FromMinutes(2));
+
+        // CoreWCF only falls back to a parameterless constructor; a port with dependencies has to be
+        // registered. The other two ports are stateless and still use that fallback.
+        services.AddTransient<ChedCertificateSimulator>();
+        services.AddTransient<EuIntraCertificateSimulator>();
+        services.AddTransient<CustomsCertexChedSimulator>();
+
+        services.AddServiceModelServices();
+
+        return services;
+    }
+
+    /// <summary>
+    /// One instance per kind, shared by every request: the SOAP face reads exactly what the control API wrote.
+    /// </summary>
+    public static IServiceCollection AddInMemorySimulatorState(this IServiceCollection services) =>
+        services
+            .AddSingleton<IChedStore>(new InMemoryCertificateStore())
+            .AddSingleton<IIntraStore>(new InMemoryCertificateStore())
+            .AddSingleton<ICustomsLedger>(new InMemoryCustomsLedger())
+            .AddSingleton<ICommodityTreeStore>(new InMemoryCommodityTreeStore())
+            .AddSingleton<IScenarioStore>(new InMemoryScenarioStore());
+
+    /// <summary>
+    /// Maps the REST control API. Separate from <see cref="UseTracesNtSimulator"/> because it has to
+    /// be mapped before CoreWCF takes over routing.
+    /// </summary>
+    public static WebApplication UseControlApi(this WebApplication app)
+    {
+        app.MapControlApi();
+        return app;
+    }
+
+    public static WebApplication UseTracesNtSimulator(this WebApplication app)
+    {
+        app.UseMiddleware<WsSecurityMiddleware>();
+
+        // CoreWCF refuses to start an endpoint whose scheme Kestrel is not listening on, so only bind
+        // the schemes actually configured. On CDP that is http alone — TLS terminates at the load balancer.
+        var https = ListenUrls(app).Any(url => url.StartsWith("https://", StringComparison.OrdinalIgnoreCase));
+
+        app.UseServiceModel(builder =>
+        {
+            builder.AddPort<ChedCertificateSimulator, ChedCertificatePort>(TracesNtServices.Ched, https);
+            builder.AddPort<EuIntraCertificateSimulator, EuIntraCertificatePort>(TracesNtServices.EuIntra, https);
+            builder.AddPort<DocomCertificateRetrievalSimulator, DocomCertificateRetrievalPort>(
+                TracesNtServices.Docom,
+                https
+            );
+            builder.AddPort<ReferenceDataSimulator, ReferenceDataPort>(TracesNtServices.ReferenceData, https);
+            builder.AddPort<CustomsCertexChedSimulator, CustomsCertexChedPort>(
+                TracesNtServices.CustomsCertexChed,
+                https
+            );
+        });
+
+        return app;
+    }
+
+    private static IEnumerable<string> ListenUrls(WebApplication app) =>
+        app
+            .Urls.Concat((app.Configuration["urls"] ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries))
+            .Concat(app.Configuration.GetSection("Kestrel:Endpoints").GetChildren().Select(e => e["Url"] ?? ""));
+
+    private static IServiceBuilder AddPort<TService, TContract>(
+        this IServiceBuilder builder,
+        string servicePath,
+        bool https
+    )
+        where TService : class
+        where TContract : class
+    {
+        builder
+            .AddService<TService>(options => options.DebugBehavior.IncludeExceptionDetailInFaults = true)
+            .AddServiceEndpoint<TService, TContract>(Binding(BasicHttpSecurityMode.None), $"/{servicePath}");
+
+        return https
+            ? builder.AddServiceEndpoint<TService, TContract>(
+                Binding(BasicHttpSecurityMode.Transport),
+                $"/{servicePath}"
+            )
+            : builder;
+    }
+
+    private static BasicHttpBinding Binding(BasicHttpSecurityMode securityMode) =>
+        new(securityMode)
+        {
+            MaxReceivedMessageSize = int.MaxValue,
+            MaxBufferSize = int.MaxValue,
+            ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max,
+        };
+}

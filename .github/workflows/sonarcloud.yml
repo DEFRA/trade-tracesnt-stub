@@ -7,6 +7,7 @@ permissions:
   id-token: write
   contents: read
   pull-requests: write
+  packages: read
 
 jobs:
   build:
@@ -63,8 +64,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # Read by NuGet.config; without it the build below cannot restore the private DEFRA feed.
+          DEFRA_NUGET_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./.sonar/scanner/dotnet-sonarscanner begin /k:"DEFRA_tarde-tracesnt-stub" /o:"defra" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          ./.sonar/scanner/dotnet-sonarscanner begin /k:"DEFRA_trade-tracesnt-stub" /o:"defra" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build --no-incremental
           ./.sonar/coverage/dotnet-coverage collect "dotnet test --project tests/TradeTracesNTStub.Test/TradeTracesNTStub.Test.csproj --filter-not-trait Category=IntegrationTests" -f xml -o "coverage.xml"
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

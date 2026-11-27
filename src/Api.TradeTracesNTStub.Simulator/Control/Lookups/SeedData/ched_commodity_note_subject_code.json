@@ -1,0 +1,10 @@
+{
+  "INCLUDES_UNWEANED_ANIMALS": {
+    "name": "Includes unweaned animals",
+    "listName": "CHED Commodity Note SubjectCode list"
+  },
+  "INDIVIDUAL_IDENTIFICATION_NUMBER": {
+    "name": "Individual identification number",
+    "listName": "CHED Commodity Note SubjectCode list"
+  }
+}
