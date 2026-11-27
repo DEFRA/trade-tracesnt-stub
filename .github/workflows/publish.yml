@@ -32,7 +32,7 @@ jobs:
           dotnet-version: |
             10.0
       - name: Build and Publish
-        uses: DEFRA/cdp-build-action/build@dfb527d1bca7591fbbfd32ac007557745e888cf2 #v1.3.0
+        uses: DEFRA/cdp-build-action/build@9d9b624a3f6c2f14763700d38561f9a32fd9ff3f
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           build-secrets: |
