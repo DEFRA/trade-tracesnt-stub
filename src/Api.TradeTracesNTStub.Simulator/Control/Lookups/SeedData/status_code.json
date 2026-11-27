@@ -1,0 +1,16 @@
+{
+  "47": { "name": "Draft version (Draft)", "alias": "DRAFT" },
+  "1":  { "name": "To be done (New)", "alias": "NEW" },
+  "42": { "name": "Approval pending (In progress)", "alias": "IN_PROGRESS" },
+  "97": { "name": "Pending (Authorized for onward transportation)", "alias": "AUTHORIZED_FOR_ONWARD_TRANSPORTATION" },
+  "146": { "name": "Transhipped (Authorized for transhipment)", "alias": "AUTHORIZED_FOR_TRANSHIPMENT" },
+  "124": { "name": "For transfer (Authorized for transfer to)", "alias": "AUTHORIZED_FOR_TRANSFER" },
+  "35": { "name": "Forwarded to destination (Authorized for onward travel)", "alias": "AUTHORIZED_FOR_ONWARD_TRAVEL" },
+  "99": { "name": "Transferred out (Authorized for transit)", "alias": "AUTHORIZED_FOR_TRANSIT" },
+  "41": { "name": "Rejected (Rejected)", "alias": "REJECTED" },
+  "122": { "name": "Partial (Partially rejected)", "alias": "PARTIALLY_REJECTED" },
+  "70": { "name": "Issued (Validated)", "alias": "VALIDATED" },
+  "55": { "name": "Extracted (Deleted)", "alias": "DELETED" },
+  "64": { "name": "Order or request cancelled (Cancelled)", "alias": "CANCELLED" },
+  "44": { "name": "Replaced (Replaced)", "alias": "REPLACED" }
+}

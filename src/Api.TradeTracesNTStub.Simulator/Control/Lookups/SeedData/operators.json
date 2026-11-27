@@ -1,0 +1,20 @@
+{
+  // Registered operators, as TRACES would resolve them from an identifier. Synthetic: a test that
+  // needs an operator not listed here can send a name instead and skip the lookup entirely, which
+  // is what TRACES calls an operator created on the fly.
+  "899361": {
+    "name": "Simulator Trading Ltd",
+    "activityType": "IMPORTER",
+    "classificationSection": "OTH-OPER"
+  },
+  "770198": {
+    "name": "Simulator Exporters Ltd",
+    "activityType": "ANIMAL_EXPORTER",
+    "classificationSection": "EXP"
+  },
+  "883977": {
+    "name": "Simulator Freight Services",
+    "activityType": "RESPONSIBLE_FOR_THE_LOAD",
+    "classificationSection": "RFL"
+  }
+}

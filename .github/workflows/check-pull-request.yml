@@ -11,10 +11,17 @@ on:
       - synchronize
       - ready_for_review
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   pr-validator:
     name: Run Pull Request Checks
     runs-on: ubuntu-latest
+    env:
+      # Read by NuGet.config to authenticate against the private DEFRA feed.
+      DEFRA_NUGET_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6
@@ -26,9 +33,15 @@ jobs:
       - name: Run unit tests
         run: |
           dotnet test --project tests/TradeTracesNTStub.Test/TradeTracesNTStub.Test.csproj --filter-not-trait Category=IntegrationTests
-      - name: Run integration tests
+      - name: Run integration tests against Mongo
         run: |
-          docker compose up -d
+          docker compose up -d --wait
+          dotnet test --project tests/TradeTracesNTStub.IntegrationTests/TradeTracesNTStub.IntegrationTests.csproj --filter-trait Category=IntegrationTest
+      - name: Run integration tests in memory
+        env:
+          SIMULATOR_STORE: InMemory
+        run: |
+          docker compose up -d --wait --force-recreate trade-tracesnt-stub
           dotnet test --project tests/TradeTracesNTStub.IntegrationTests/TradeTracesNTStub.IntegrationTests.csproj --filter-trait Category=IntegrationTest
       - name: Docker Compose Logs
         if: always()
@@ -41,13 +54,31 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: trade-tracesnt-stub:latest
+          secrets: |
+            nuget_pat=${{ secrets.GITHUB_TOKEN }}
       - name: Check with Trivy
         run: |
           docker run -v /var/run/docker.sock:/var/run/docker.sock \
-            aquasec/trivy:0.69.3 image \
+            aquasec/trivy:0.74.0 image \
             --ignore-unfixed \
             --exit-code 1 \
             trade-tracesnt-stub:latest
+      # Dependabot's token can't write packages.
+      - name: Pack TestKit
+        if: github.actor != 'dependabot[bot]'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          dotnet pack src/Api.TradeTracesNTStub.TestKit --configuration Release -o ./nupkg \
+            /p:VersionSuffix="pr-$PR_NUMBER.$BUILD_NUMBER"
+      - name: Publish TestKit
+        if: github.actor != 'dependabot[bot]'
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate
     ## SonarCloud
     ## Uncomment to unable SonarCloud scan
     ## Requires project to be set up in SonarCloud

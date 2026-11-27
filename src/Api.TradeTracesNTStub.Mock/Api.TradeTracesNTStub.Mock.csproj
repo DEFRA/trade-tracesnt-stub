@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WireMock.Net" Version="2.4.0" />
+    <!-- Transitive of WireMock.Net, pinned forward off a vulnerable version. -->
+    <PackageReference Include="Scriban.Signed" Version="7.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Samples\**\*.xml" />
+    <EmbeddedResource Include="Samples\**\*.xml" />
+  </ItemGroup>
+
+</Project>
