@@ -1,6 +1,7 @@
 {
   "0101": {
     "name": "Live horses, asses, mules and hinnies",
+    "chedTypes": ["A"],
     "names": [
       {
         "value": "LIVE ANIMALS",
@@ -14,6 +15,7 @@
   },
   "0102": {
     "name": "Live bovine animals",
+    "chedTypes": ["A"],
     "names": [
       {
         "value": "LIVE ANIMALS",
@@ -27,6 +29,7 @@
   },
   "0103": {
     "name": "Live swine",
+    "chedTypes": ["A"],
     "names": [
       {
         "value": "LIVE ANIMALS",
@@ -40,6 +43,7 @@
   },
   "01062000": {
     "name": "Reptiles (including snakes and turtles)",
+    "chedTypes": ["A"],
     "names": [
       {
         "value": "LIVE ANIMALS",
@@ -61,6 +65,7 @@
   },
   "08051022": {
     "name": "Navel oranges",
+    "chedTypes": ["PP"],
     "names": [
       {
         "value": "EDIBLE FRUIT AND NUTS; PEEL OF CITRUS FRUIT OR MELONS",
@@ -86,6 +91,7 @@
   },
   "0401": {
     "name": "Milk and cream, not concentrated nor containing added sugar or other sweetening matter",
+    "chedTypes": ["P"],
     "names": [
       {
         "value": "DAIRY PRODUCE; BIRDS' EGGS; NATURAL HONEY; EDIBLE PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED",
@@ -93,6 +99,360 @@
       },
       {
         "value": "Milk and cream, not concentrated nor containing added sugar or other sweetening matter",
+        "languageId": "en"
+      }
+    ]
+  },
+  "010410": {
+    "name": "Sheep",
+    "chedTypes": ["A"],
+    "names": [
+      {
+        "value": "LIVE ANIMALS",
+        "languageId": "en"
+      },
+      {
+        "value": "Live sheep and goats",
+        "languageId": "en"
+      },
+      {
+        "value": "Sheep",
+        "languageId": "en"
+      }
+    ]
+  },
+  "01069000": {
+    "name": "Animals other than mammals, birds, reptiles and insects",
+    "chedTypes": ["A"],
+    "names": [
+      {
+        "value": "LIVE ANIMALS",
+        "languageId": "en"
+      },
+      {
+        "value": "Other live animals",
+        "languageId": "en"
+      },
+      {
+        "value": "Animals other than mammals, birds, reptiles and insects",
+        "languageId": "en"
+      }
+    ]
+  },
+  "09011200": {
+    "name": "Decaffeinated coffee",
+    "chedTypes": ["D"],
+    "names": [
+      {
+        "value": "COFFEE, TEA, MATÉ AND SPICES",
+        "languageId": "en"
+      },
+      {
+        "value": "Coffee, whether or not roasted or decaffeinated",
+        "languageId": "en"
+      },
+      {
+        "value": "Coffee, not roasted",
+        "languageId": "en"
+      },
+      {
+        "value": "Decaffeinated coffee",
+        "languageId": "en"
+      }
+    ]
+  },
+  "18010000": {
+    "name": "Cocoa beans, whole or broken, raw or roasted",
+    "chedTypes": ["D"],
+    "names": [
+      {
+        "value": "COCOA AND COCOA PREPARATIONS",
+        "languageId": "en"
+      },
+      {
+        "value": "Cocoa beans, whole or broken, raw or roasted",
+        "languageId": "en"
+      }
+    ]
+  },
+  "39241000": {
+    "name": "Kitchenware containing polyamide or melamine",
+    "chedTypes": ["D"],
+    "names": [
+      {
+        "value": "PLASTICS AND ARTICLES THEREOF",
+        "languageId": "en"
+      },
+      {
+        "value": "Tableware, kitchenware, other household articles and hygienic or toilet articles, of plastics",
+        "languageId": "en"
+      },
+      {
+        "value": "Tableware and kitchenware",
+        "languageId": "en"
+      },
+      {
+        "value": "Kitchenware containing polyamide or melamine",
+        "languageId": "en"
+      }
+    ]
+  },
+  "020130": {
+    "name": "Boneless",
+    "chedTypes": ["P"],
+    "names": [
+      {
+        "value": "MEAT AND EDIBLE MEAT OFFAL",
+        "languageId": "en"
+      },
+      {
+        "value": "Meat of bovine animals, fresh or chilled",
+        "languageId": "en"
+      },
+      {
+        "value": "Boneless",
+        "languageId": "en"
+      }
+    ]
+  },
+  "02101211": {
+    "name": "Salted or in brine, of domestic swine",
+    "chedTypes": ["P"],
+    "names": [
+      {
+        "value": "MEAT AND EDIBLE MEAT OFFAL",
+        "languageId": "en"
+      },
+      {
+        "value": "Meat and edible meat offal, salted, in brine, dried or smoked",
+        "languageId": "en"
+      },
+      {
+        "value": "Meat of swine",
+        "languageId": "en"
+      },
+      {
+        "value": "Bellies (streaky) and cuts thereof",
+        "languageId": "en"
+      },
+      {
+        "value": "Salted or in brine, of domestic swine",
+        "languageId": "en"
+      }
+    ]
+  },
+  "16041100": {
+    "name": "Salmon",
+    "chedTypes": ["P"],
+    "names": [
+      {
+        "value": "PREPARATIONS OF MEAT, OF FISH, OF CRUSTACEANS, MOLLUSCS OR OTHER AQUATIC INVERTEBRATES, OR OF INSECTS",
+        "languageId": "en"
+      },
+      {
+        "value": "Prepared or preserved fish; caviar and caviar substitutes prepared from fish eggs",
+        "languageId": "en"
+      },
+      {
+        "value": "Fish, whole or in pieces, but not minced",
+        "languageId": "en"
+      },
+      {
+        "value": "Salmon",
+        "languageId": "en"
+      }
+    ]
+  },
+  "16041431": {
+    "name": "Tuna",
+    "chedTypes": ["P"],
+    "names": [
+      {
+        "value": "PREPARATIONS OF MEAT, OF FISH, OF CRUSTACEANS, MOLLUSCS OR OTHER AQUATIC INVERTEBRATES, OR OF INSECTS",
+        "languageId": "en"
+      },
+      {
+        "value": "Prepared or preserved fish; caviar and caviar substitutes prepared from fish eggs",
+        "languageId": "en"
+      },
+      {
+        "value": "Fish, whole or in pieces, but not minced",
+        "languageId": "en"
+      },
+      {
+        "value": "Tunas, skipjack tuna and bonito (Sarda spp.)",
+        "languageId": "en"
+      },
+      {
+        "value": "Tuna",
+        "languageId": "en"
+      }
+    ]
+  },
+  "03019110": {
+    "name": "Trout",
+    "chedTypes": ["A"],
+    "names": [
+      {
+        "value": "FISH AND CRUSTACEANS, MOLLUSCS AND OTHER AQUATIC INVERTEBRATES",
+        "languageId": "en"
+      },
+      {
+        "value": "Live fish",
+        "languageId": "en"
+      },
+      {
+        "value": "Other live fish",
+        "languageId": "en"
+      },
+      {
+        "value": "Trout",
+        "languageId": "en"
+      }
+    ]
+  },
+  "0601103010": {
+    "name": "Tulip bulbs",
+    "chedTypes": ["PP"],
+    "names": [
+      {
+        "value": "LIVE TREES AND OTHER PLANTS; BULBS, ROOTS AND THE LIKE; CUT FLOWERS AND ORNAMENTAL FOLIAGE",
+        "languageId": "en"
+      },
+      {
+        "value": "Bulbs, tubers, tuberous roots, corms, crowns and rhizomes, dormant",
+        "languageId": "en"
+      },
+      {
+        "value": "Tulips",
+        "languageId": "en"
+      },
+      {
+        "value": "Tulip bulbs",
+        "languageId": "en"
+      }
+    ]
+  },
+  "0603110000": {
+    "name": "Roses",
+    "chedTypes": ["PP"],
+    "names": [
+      {
+        "value": "LIVE TREES AND OTHER PLANTS; BULBS, ROOTS AND THE LIKE; CUT FLOWERS AND ORNAMENTAL FOLIAGE",
+        "languageId": "en"
+      },
+      {
+        "value": "Cut flowers and flower buds of a kind suitable for bouquets or for ornamental purposes",
+        "languageId": "en"
+      },
+      {
+        "value": "Fresh",
+        "languageId": "en"
+      },
+      {
+        "value": "Roses",
+        "languageId": "en"
+      }
+    ]
+  },
+  "08105000": {
+    "name": "Kiwifruit",
+    "chedTypes": ["PP"],
+    "names": [
+      {
+        "value": "EDIBLE FRUIT AND NUTS; PEEL OF CITRUS FRUIT OR MELONS",
+        "languageId": "en"
+      },
+      {
+        "value": "Other fruit, fresh",
+        "languageId": "en"
+      },
+      {
+        "value": "Kiwifruit",
+        "languageId": "en"
+      }
+    ]
+  },
+  "0803901900": {
+    "name": "Bananas",
+    "chedTypes": ["PP"],
+    "names": [
+      {
+        "value": "EDIBLE FRUIT AND NUTS; PEEL OF CITRUS FRUIT OR MELONS",
+        "languageId": "en"
+      },
+      {
+        "value": "Bananas, including plantains, fresh or dried",
+        "languageId": "en"
+      },
+      {
+        "value": "Other",
+        "languageId": "en"
+      },
+      {
+        "value": "Bananas",
+        "languageId": "en"
+      }
+    ]
+  },
+  "0810100000": {
+    "name": "Strawberries",
+    "chedTypes": ["PP"],
+    "names": [
+      {
+        "value": "EDIBLE FRUIT AND NUTS; PEEL OF CITRUS FRUIT OR MELONS",
+        "languageId": "en"
+      },
+      {
+        "value": "Other fruit, fresh",
+        "languageId": "en"
+      },
+      {
+        "value": "Strawberries",
+        "languageId": "en"
+      }
+    ]
+  },
+  "0806101000": {
+    "name": "Table grapes",
+    "chedTypes": ["PP"],
+    "names": [
+      {
+        "value": "EDIBLE FRUIT AND NUTS; PEEL OF CITRUS FRUIT OR MELONS",
+        "languageId": "en"
+      },
+      {
+        "value": "Grapes, fresh or dried",
+        "languageId": "en"
+      },
+      {
+        "value": "Fresh",
+        "languageId": "en"
+      },
+      {
+        "value": "Table grapes",
+        "languageId": "en"
+      }
+    ]
+  },
+  "0709601000": {
+    "name": "Sweet peppers",
+    "chedTypes": ["PP", "D"],
+    "names": [
+      {
+        "value": "EDIBLE VEGETABLES AND CERTAIN ROOTS AND TUBERS",
+        "languageId": "en"
+      },
+      {
+        "value": "Other vegetables, fresh or chilled",
+        "languageId": "en"
+      },
+      {
+        "value": "Fruits of the genus Capsicum or of the genus Pimenta",
+        "languageId": "en"
+      },
+      {
+        "value": "Sweet peppers",
         "languageId": "en"
       }
     ]

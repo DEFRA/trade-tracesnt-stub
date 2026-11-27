@@ -181,7 +181,7 @@ public static class ControlEndpoints
                 "/lookups/{list}",
                 (string list, CodeLists codeLists) =>
                     codeLists.TryGetList(list, out var entries)
-                        ? Results.Ok(entries.Select(entry => new LookupEntry(entry.Key, entry.Value.Name, entry.Value.Alias)))
+                        ? Results.Ok(entries.Select(entry => new LookupEntry(entry.Key, entry.Value.Name, entry.Value.Alias, entry.Value.ChedTypes)))
                         : Results.Problem($"No code list '{list}' is seeded.", statusCode: StatusCodes.Status404NotFound)
             )
             .WithSummary("Get a seeded code list")
@@ -353,7 +353,10 @@ public record CertificatePage(int Page, int PageSize, bool HasMore, IReadOnlyLis
 /// <summary>A stored certificate as a listing shows it: its model, and when it last changed, in UTC.</summary>
 public record ListedCertificate(string Id, bool Accessible, DateTime Updated, CertificateControlModel Certificate);
 
-/// <summary>One code a list accepts. The alias, where there is one, is accepted in place of the code.</summary>
-public record LookupEntry(string Code, string Name, string? Alias);
+/// <summary>
+/// One code a list accepts. The alias, where there is one, is accepted in place of the code. CHED types,
+/// on CN codes, name the types the code is offered for; absent means every type.
+/// </summary>
+public record LookupEntry(string Code, string Name, string? Alias, IReadOnlyList<string>? ChedTypes = null);
 
 public record ResetResponse(int CertificateCount);

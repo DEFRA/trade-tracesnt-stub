@@ -132,6 +132,12 @@ public record CodeEntry
     public string? ContentCodeList { get; init; }
 
     /// <summary>
+    /// CN codes only. The CHED types a code is offered for while that type has no commodity tree, so a
+    /// picker can narrow the seeded list. Absent means every type.
+    /// </summary>
+    public IReadOnlyList<string>? ChedTypes { get; init; }
+
+    /// <summary>
     /// For codes that expand to several — a CN code's hierarchy, a border post's six positional
     /// names. Order is significant.
     /// </summary>

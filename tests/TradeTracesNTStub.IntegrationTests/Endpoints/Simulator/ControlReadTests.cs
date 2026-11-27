@@ -112,6 +112,21 @@ public class ControlReadTests : IntegrationTestBase
     }
 
     [Fact]
+    public async Task CnCodesNameTheChedTypesTheyAreOfferedFor()
+    {
+        var token = TestContext.Current.CancellationToken;
+
+        var cnCodes = await s_simulator.GetLookup("cn_code", token);
+        var statuses = await s_simulator.GetLookup("status_code", token);
+
+        cnCodes.Should().Contain(entry => entry.Code == "0101" && entry.ChedTypes!.SequenceEqual(new[] { "A" }));
+        cnCodes
+            .Should()
+            .Contain(entry => entry.Code == "0709601000" && entry.ChedTypes!.SequenceEqual(new[] { "PP", "D" }));
+        statuses.Should().OnlyContain(entry => entry.ChedTypes == null);
+    }
+
+    [Fact]
     public async Task TheRegistriesAreListsToo()
     {
         var operators = await s_simulator.GetLookup("operators", TestContext.Current.CancellationToken);
